@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -x
+
+source /common.sh
+install_chroot_fail_on_error_trap
+
+# upgrade pip
+sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
+
+# install necessary dependencies
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip
+
+# install Mr Beam Plugin
+pushd /home/pi
+  gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
+
+  pushd MrBeamPlugin
+    sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
+
+# activate ssh
+pushd /boot
+  touch ssh
+popd
+
+# install netconnectd
+sudo systemctl disable hostapd.service
+sudo systemctl disable dnsmasq.service
+sed -i -e "s@#timeout 60;@timeout 60;@g" /etc/dhcp/dhclient.conf
+pushd /home/pi
+  git clone https://github.com/foosel/netconnectd
+  pushd netconnectd
+    sudo python setup.py install
+    sudo python setup.py install_extras
+  popd
+popd
+sed -i -e "s@free: true@free: false@g" /etc/netconnectd.yaml
+sudo systemctl enable netconnectd.service
+
+#cleanup
+apt-get clean
