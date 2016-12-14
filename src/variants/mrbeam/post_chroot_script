@@ -65,5 +65,14 @@ sed -i -e "s@ANotVerySecurePassphraseYouReallyShouldChangeRightNow!!1!@mrbeamrox
 sed -i -e "s@free: true@free: false@g" /etc/netconnectd.yaml
 sudo systemctl enable netconnectd.service
 
+# activate i2c
+echo "i2c-dev" >> /etc/modules
+sed -i -e "s@#dtparam=i2c_arm=on@dtparam=i2c_arm=on@g" /boot/config.txt
+
+# enable hardware serial
+echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
+echo "enable_uart=1" >> /boot/config.txt
+sed -i -e "s@console=serial0,115200 @@g" /boot/cmdline.txt
+
 #cleanup
 apt-get clean
