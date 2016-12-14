@@ -4,11 +4,24 @@ set -x
 source /common.sh
 install_chroot_fail_on_error_trap
 
-# upgrade pip
-sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
+# unpack wheels directory
+unpack /filesystem/root /
 
 # install necessary dependencies
-apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools
+
+# upgrade pip and install wheel in venv
+sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
+sudo -u pi /home/pi/oprint/bin/pip install wheel
+
+# upgrade pip and install wheel system wide
+sudo pip install --upgrade pip
+sudo pip install wheel
+
+# install and use wheels of precached heavy duty packages
+sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ numpy
+sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ lxml
+sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pillow
 
 # install Mr Beam Plugin
 pushd /home/pi
@@ -16,6 +29,15 @@ pushd /home/pi
 
   pushd MrBeamPlugin
     sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
+
+# install Mr Beam shield software
+pushd /home/pi
+  gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575
+  pushd pcf8575
+    sudo cp pcf8575.service /etc/systemd/system/
+    sudo systemctl enable pcf8575.service
   popd
 popd
 
@@ -29,12 +51,17 @@ sudo systemctl disable hostapd.service
 sudo systemctl disable dnsmasq.service
 sed -i -e "s@#timeout 60;@timeout 60;@g" /etc/dhcp/dhclient.conf
 pushd /home/pi
-  git clone https://github.com/foosel/netconnectd
+  gitclone OCTOPI_NETCONNECTD_REPO netconnectd
   pushd netconnectd
     sudo python setup.py install
     sudo python setup.py install_extras
   popd
 popd
+sed -i -e "s@allow-hotplug wlan0@#allow-hotplug wlan0@g" /etc/network/interfaces
+sed -i -e "s@iface wlan0-raspbian inet manual@#iface wlan0-raspbian inet manual@g" /etc/network/interfaces
+sed -i -e "s@    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf@#    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf@g" /etc/network/interfaces
+sed -i -e "s@netconnectdAP@MrBeam2@g" /etc/netconnectd.yaml
+sed -i -e "s@ANotVerySecurePassphraseYouReallyShouldChangeRightNow!!1!@mrbeamroxxx@g" /etc/netconnectd.yaml
 sed -i -e "s@free: true@free: false@g" /etc/netconnectd.yaml
 sudo systemctl enable netconnectd.service
 
