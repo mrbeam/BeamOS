@@ -1,0 +1,31 @@
+webcam:
+  stream: plugin/mrbeam/static/img/test.jpg
+plugins:
+  discovery:
+    publicPort: 80
+  softwareupdate:
+    checks:
+      octoprint:
+        update_folder: /home/pi/OctoPrint
+      pcf8575:
+        checkout_folder: /home/pi/pcf8575
+        type: git_commit
+        update_script: '{folder}/update.sh'
+        restart: octoprint # TODO ask Gina for update on the restart problem/bug
+      netconnectd:
+        checkout_folder: /home/pi/netconnectd
+        type: git_commit
+        update_script: '{folder}/update.sh'
+        restart: octoprint # TODO ask Gina for update on the restart problem/bug
+      mrbeam-ledstrips:
+        checkout_folder: /home/pi/mrbeamledstrips
+        type: git_commit
+        update_script: '{folder}/update.sh'
+        restart: octoprint # TODO ask Gina for update on the restart problem/bug
+    octoprint_restart_command: sudo systemctl restart octoprint.service
+    environment_restart_command: sudo shutdown -r now
+server:
+  commands:
+    serverRestartCommand: sudo systemctl restart octoprint.service
+    systemRestartCommand: sudo shutdown -r now
+    systemShutdownCommand: sudo shutdown -h now
