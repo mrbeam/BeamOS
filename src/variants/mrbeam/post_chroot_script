@@ -41,11 +41,6 @@ pushd /home/pi
   popd
 popd
 
-# activate ssh
-pushd /boot
-  touch ssh
-popd
-
 # install netconnectd
 sudo systemctl disable hostapd.service
 sudo systemctl disable dnsmasq.service
@@ -64,6 +59,11 @@ sed -i -e "s@netconnectdAP@MrBeam2@g" /etc/netconnectd.yaml
 sed -i -e "s@ANotVerySecurePassphraseYouReallyShouldChangeRightNow!!1!@mrbeamroxxx@g" /etc/netconnectd.yaml
 sed -i -e "s@free: true@free: false@g" /etc/netconnectd.yaml
 sudo systemctl enable netconnectd.service
+
+# activate ssh
+pushd /boot
+  touch ssh
+popd
 
 # activate i2c
 echo "i2c-dev" >> /etc/modules
