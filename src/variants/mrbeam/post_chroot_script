@@ -8,7 +8,7 @@ install_chroot_fail_on_error_trap
 unpack /filesystem/root /
 
 # install necessary dependencies
-apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude
 
 # upgrade pip and install wheel in venv
 sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
