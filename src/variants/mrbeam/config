@@ -13,7 +13,7 @@ OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=develop
 OCTOPI_MRBEAMSHIELD_REPO_BUILD=https://bitbucket.org/mrbeam/pcf8575.git
 OCTOPI_MRBEAMSHIELD_REPO_BRANCH=master
 
-OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd.git
+OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
 OCTOPI_NETCONNECTD_REPO_BRANCH=master
 
 # disable unnecessary stuff
