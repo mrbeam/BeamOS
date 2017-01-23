@@ -9,7 +9,7 @@ unpack /filesystem/root /
 unpack /filesystem/home/pi /home/pi pi
 
 # install necessary dependencies
-apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude scons swig
 
 # upgrade pip and install wheel in venv
 sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
@@ -71,9 +71,17 @@ popd
 
 # install Mr Beam LED software
 pushd /home/pi
+  gitclone OCTOPI_MRBEAMLED_WS281X_REPO rpi_ws281x
+  pushd rpi_ws281x
+    scons
+    pushd python
+      sudo python setup.py install
+    popd
+  popd
   gitclone OCTOPI_MRBEAMLED_REPO mrbeamledstrips
   pushd mrbeamledstrips
     sudo python setup.py install
+    sudo python setup.py install_extras
   popd
 popd
 
