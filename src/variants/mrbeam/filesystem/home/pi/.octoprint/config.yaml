@@ -3,6 +3,8 @@ webcam:
 plugins:
   discovery:
     publicPort: 80
+  netconnectd:
+    socket: /var/run/netconnectd.sock
   softwareupdate:
     checks:
       octoprint:
@@ -11,7 +13,7 @@ plugins:
         checkout_folder: /home/pi/pcf8575
         type: git_commit
         update_script: '{folder}/update.sh'
-      netconnectd:
+      netconnectd-daemon:
         checkout_folder: /home/pi/netconnectd
         type: git_commit
         update_script: '{folder}/update.sh'
@@ -19,8 +21,6 @@ plugins:
         checkout_folder: /home/pi/mrbeamledstrips
         type: git_commit
         update_script: '{folder}/update.sh'
-    octoprint_restart_command: sudo systemctl restart octoprint.service
-    environment_restart_command: sudo shutdown -r now
 server:
   commands:
     serverRestartCommand: sudo systemctl restart octoprint.service

@@ -33,15 +33,6 @@ pushd /home/pi
   popd
 popd
 
-# install Mr Beam shield software
-pushd /home/pi
-  gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575
-  pushd pcf8575
-    sudo cp pcf8575.service /etc/systemd/system/
-    sudo systemctl enable pcf8575.service
-  popd
-popd
-
 # install netconnectd
 sudo systemctl disable hostapd.service
 sudo systemctl disable dnsmasq.service
@@ -60,6 +51,31 @@ sed -i -e "s@netconnectdAP@MrBeam2AP@g" /etc/netconnectd.yaml
 sed -i -e "s@ANotVerySecurePassphraseYouReallyShouldChangeRightNow!!1!@mrbeamroxxx@g" /etc/netconnectd.yaml
 sed -i -e "s@free: true@free: false@g" /etc/netconnectd.yaml
 sudo systemctl enable netconnectd.service
+
+# install netconnectd-plugin
+pushd /home/pi
+  gitclone OCTOPI_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
+  pushd OctoPrint-Netconnectd
+    sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
+
+# install Mr Beam shield software
+pushd /home/pi
+  gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575
+  pushd pcf8575
+    sudo cp pcf8575.service /etc/systemd/system/
+    sudo systemctl enable pcf8575.service
+  popd
+popd
+
+# install Mr Beam LED software
+pushd /home/pi
+  gitclone OCTOPI_MRBEAMLED_REPO mrbeamledstrips
+  pushd mrbeamledstrips
+    sudo python setup.py install
+  popd
+popd
 
 # activate ssh
 pushd /boot

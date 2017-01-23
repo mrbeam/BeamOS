@@ -5,16 +5,27 @@ OCTOPI_EXAMPLE_CUSTOM="Hello there"
 
 OCTOPI_IMAGE_ENLARGEROOT=800
 
-OCTOPI_OCTOPRINT_REPO_BRANCH=master
+OCTOPI_OCTOPRINT_REPO_BRANCH=maintenance
 
 OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
+OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=develop
 
 OCTOPI_MRBEAMSHIELD_REPO_BUILD=https://bitbucket.org/mrbeam/pcf8575.git
+OCTOPI_MRBEAMSHIELD_REPO_SHIP=https://bitbucket.org/mrbeam/pcf8575.git
 OCTOPI_MRBEAMSHIELD_REPO_BRANCH=master
 
+OCTOPI_MRBEAMLED_REPO_BUILD=https://bitbucket.org/mrbeam/mrbeamledstrips.git
+OCTOPI_MRBEAMLED_REPO_SHIP=https://bitbucket.org/mrbeam/mrbeamledstrips.git
+OCTOPI_MRBEAMLED_REPO_BRANCH=master
+
 OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
+OCTOPI_NETCONNECTD_REPO_SHIP=https://github.com/mrbeam/netconnectd_mrbeam.git
 OCTOPI_NETCONNECTD_REPO_BRANCH=master
+
+OCTOPI_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/OctoPrint/OctoPrint-Netconnectd.git
+OCTOPI_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/OctoPrint/OctoPrint-Netconnectd.git
+OCTOPI_NETCONNECTD_PLUGIN_REPO_BRANCH=master
 
 # disable unnecessary stuff
 OCTOPI_INCLUDE_OCTOPIPANEL=no
