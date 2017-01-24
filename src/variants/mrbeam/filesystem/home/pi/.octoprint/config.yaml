@@ -25,6 +25,7 @@ plugins:
         checkoutfolder: /home/pi/OctoPrint-Netconnectd
         type: git_commit
         update_script: '{folder}/update.sh'
+        restart: octoprint
 server:
   commands:
     serverRestartCommand: sudo systemctl restart octoprint.service
