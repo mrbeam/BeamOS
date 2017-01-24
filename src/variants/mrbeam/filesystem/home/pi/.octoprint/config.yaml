@@ -22,7 +22,7 @@ plugins:
         type: git_commit
         update_script: '{folder}/update.sh'
       netconnectd:
-        checkoutfolder: /home/pi/OctoPrint-Netconnectd
+        checkout_folder: /home/pi/OctoPrint-Netconnectd
         type: git_commit
         update_script: '{folder}/update.sh'
         restart: octoprint
