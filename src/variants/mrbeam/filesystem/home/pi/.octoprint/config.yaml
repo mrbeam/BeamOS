@@ -21,6 +21,10 @@ plugins:
         checkout_folder: /home/pi/mrbeamledstrips
         type: git_commit
         update_script: '{folder}/update.sh'
+      netconnectd:
+        checkoutfolder: /home/pi/OctoPrint-Netconnectd
+        type: git_commit
+        update_script: '{folder}/update.sh'
 server:
   commands:
     serverRestartCommand: sudo systemctl restart octoprint.service
