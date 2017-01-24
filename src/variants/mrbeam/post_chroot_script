@@ -82,6 +82,7 @@ pushd /home/pi
   pushd mrbeamledstrips
     sudo python setup.py install
     sudo python setup.py install_extras
+    sudo systemctl enable mrbeam_ledstrips.service
   popd
 popd
 
