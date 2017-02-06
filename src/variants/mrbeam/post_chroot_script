@@ -47,9 +47,6 @@ popd
 sed -i -e "s@allow-hotplug wlan0@#allow-hotplug wlan0@g" /etc/network/interfaces
 sed -i -e "s@iface wlan0-raspbian inet manual@#iface wlan0-raspbian inet manual@g" /etc/network/interfaces
 sed -i -e "s@    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf@#    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf@g" /etc/network/interfaces
-sed -i -e "s@netconnectdAP@MrBeam2AP@g" /etc/netconnectd.yaml
-sed -i -e "s@ANotVerySecurePassphraseYouReallyShouldChangeRightNow!!1!@mrbeamroxxx@g" /etc/netconnectd.yaml
-sed -i -e "s@free: true@free: false@g" /etc/netconnectd.yaml
 sudo systemctl enable netconnectd.service
 
 # install netconnectd-plugin
