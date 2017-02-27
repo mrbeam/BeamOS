@@ -1,3 +1,15 @@
+# delete this if development is finished
+# start
+devel:
+ mrbeam:
+   cloud_env: dev
+ cache:
+   enabled: false
+ webassets:
+   bundle: false
+   clean_on_startup: true
+   minify: false
+# end
 webcam:
   stream: plugin/mrbeam/static/img/test.jpg
 plugins:

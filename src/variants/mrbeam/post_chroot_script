@@ -57,6 +57,14 @@ pushd /home/pi
   popd
 popd
 
+# install findmymrbeam-plugin
+pushd /home/pi
+  gitclone OCTOPI_FINDMYMRBEAM_PLUGIN_REPO OctoPrint-FindMyOctoPrint
+  pushd OctoPrint-FindMyOctoPrint
+    sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
+
 # install Mr Beam shield software
 pushd /home/pi
   gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575

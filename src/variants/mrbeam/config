@@ -9,7 +9,7 @@ OCTOPI_OCTOPRINT_REPO_BRANCH=maintenance
 
 OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
-OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=develop
+OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=develop     # check config.yaml if changed to master for development stuff
 
 OCTOPI_MRBEAMSHIELD_REPO_BUILD=https://bitbucket.org/mrbeam/pcf8575.git
 OCTOPI_MRBEAMSHIELD_REPO_SHIP=https://bitbucket.org/mrbeam/pcf8575.git
@@ -30,6 +30,10 @@ OCTOPI_NETCONNECTD_REPO_BRANCH=master
 OCTOPI_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 OCTOPI_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 OCTOPI_NETCONNECTD_PLUGIN_REPO_BRANCH=master
+
+OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMyOctoPrint.git
+OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyOctoPrint.git
+OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=master
 
 # disable unnecessary stuff
 OCTOPI_INCLUDE_OCTOPIPANEL=no
