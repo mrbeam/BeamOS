@@ -1,0 +1,44 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          octopi_first_boot
+# Required-Start:    $local_fs
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Things to do on first startup of OctoPi
+# Description:
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+do_start () {
+    touch /var/log/octopi_first_boot.log
+
+    echo "Running change_hostname" >> /var/log/octopi_first_boot.log
+    [ -x /root/scripts/change_hostname ] && /root/scripts/change_hostname >> /var/log/octopi_first_boot.log
+
+    echo "Running change_apname" >> /var/log/octopi_first_boot.log
+    [ -x /root/scripts/change_apname ] && /root/scripts/change_apname >> /var/log/octopi_first_boot.log
+
+    # remove ourselves
+    /usr/sbin/update-rc.d -f octopi_first_boot remove
+
+    /sbin/reboot
+}
+
+case "$1" in
+  start|"")
+        do_start
+        ;;
+  restart|reload|force-reload)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+  stop)
+        # No-op
+        ;;
+  *)
+        echo "Usage: octopi_first_boot [start|stop]" >&2
+        exit 3
+        ;;
+esac

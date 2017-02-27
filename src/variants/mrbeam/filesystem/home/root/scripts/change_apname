@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+if [ ! -a '/etc/netconnectd.yaml' ]
+then
+  exit 1
+fi
+
+PI_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d" " -f2 | awk '{print toupper($0)}'`
+HASH=`echo $PI_SERIAL | openssl dgst -sha1 | awk '{print toupper($NF)}'`
+
+if [ ! -n "$HASH" ]
+then
+  exit 1
+fi
+
+old_apname='MrBeam2-AP'
+new_apname=`MrBeam2-$HASH`
+
+sed -i -e "s@$old_apname@$new_apname@g" /etc/netconnectd.yaml
