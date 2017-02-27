@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ ! -a '/etc/netconnectd.yaml' ]
+if [ ! -e '/etc/netconnectd.yaml' ]
 then
   exit 1
 fi
@@ -13,7 +13,7 @@ then
   exit 1
 fi
 
-old_apname='MrBeam2-AP'
+old_apname=MrBeam2-AP
 new_apname=MrBeam2-${HASH:(-4)}
 
 sed -i -e "s@$old_apname@$new_apname@g" /etc/netconnectd.yaml

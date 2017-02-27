@@ -9,6 +9,9 @@ unpack /filesystem/root /
 unpack /filesystem/home/pi /home/pi pi
 unpack /filesystem/home/root /root root
 
+# enable first_boot_script
+update-rc.d first_boot_script defaults
+
 # install necessary dependencies
 apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude scons swig
 
