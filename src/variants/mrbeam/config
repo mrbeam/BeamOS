@@ -5,7 +5,7 @@ OCTOPI_EXAMPLE_CUSTOM="Hello there"
 
 OCTOPI_IMAGE_ENLARGEROOT=800
 
-OCTOPI_OCTOPRINT_REPO_BRANCH=maintenance
+OCTOPI_OCTOPRINT_REPO_BRANCH=master
 
 OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
@@ -29,7 +29,7 @@ OCTOPI_NETCONNECTD_REPO_BRANCH=master
 
 OCTOPI_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 OCTOPI_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
-OCTOPI_NETCONNECTD_PLUGIN_REPO_BRANCH=master
+OCTOPI_NETCONNECTD_PLUGIN_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMyOctoPrint.git
 OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyOctoPrint.git
