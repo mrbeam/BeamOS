@@ -43,3 +43,63 @@ server:
     serverRestartCommand: sudo systemctl restart octoprint.service
     systemRestartCommand: sudo shutdown -r now
     systemShutdownCommand: sudo shutdown -h now
+events:
+  enabled: true
+  subscriptions:
+  - command: mrbeam_ledstrips_cli Startup
+    event: Startup
+    type: system
+  - command: mrbeam_ledstrips_cli ClientOpened
+    event: ClientOpened
+    type: system
+  - command: mrbeam_ledstrips_cli ClientClosed
+    event: ClientClosed
+    type: system
+  - command: mrbeam_ledstrips_cli Connected
+    event: Connected
+    type: system
+  - command: mrbeam_ledstrips_cli Disconnected
+    event: Disconnected
+    type: system
+  - command: mrbeam_ledstrips_cli Error
+    event: Error
+    type: system
+  - command: mrbeam_ledstrips_cli Upload
+    event: Upload
+    type: system
+  - command: mrbeam_ledstrips_cli PrintStarted
+    event: PrintStarted
+    type: system
+  - command: mrbeam_ledstrips_cli PrintDone
+    event: PrintDone
+    type: system
+  - command: mrbeam_ledstrips_cli PrintCancelled
+    event: PrintCancelled
+    type: system
+  - command: mrbeam_ledstrips_cli PrintPaused
+    event: PrintPaused
+    type: system
+  - command: mrbeam_ledstrips_cli PrintResumed
+    event: PrintResumed
+    type: system
+  - command: mrbeam_ledstrips_cli SlicingStarted
+    event: SlicingStarted
+    type: system
+  - command: mrbeam_ledstrips_cli SlicingDone
+    event: SlicingDone
+    type: system
+  - command: mrbeam_ledstrips_cli SlicingCancelled
+    event: SlicingCancelled
+    type: system
+  - command: mrbeam_ledstrips_cli SlicingFailed
+    event: SlicingFailed
+    type: system
+  - command: mrbeam_ledstrips_cli SlicingProgress:{__data}
+    event: SlicingProgress
+    type: system
+  - command: mrbeam_ledstrips_cli SettingsUpdated
+    event: SettingsUpdated
+    type: system
+  - command: mrbeam_ledstrips_cli progress:{__data}
+    event: PrintProgress
+    type: system
