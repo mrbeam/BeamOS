@@ -48,20 +48,10 @@ sed -i -e "s@    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf@#    wpa-conf 
 sudo systemctl enable netconnectd.service
 
 # install netconnectd-plugin
-pushd /home/pi
-  gitclone OCTOPI_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
-  pushd OctoPrint-Netconnectd
-    sudo -u pi /home/pi/oprint/bin/python setup.py install
-  popd
-popd
+sudo -u pi /home/pi/oprint/bin/pip install https://github.com/mrbeam/OctoPrint-Netconnectd/archive/mrbeam2-stable.zip
 
 # install findmymrbeam-plugin
-pushd /home/pi
-  gitclone OCTOPI_FINDMYMRBEAM_PLUGIN_REPO OctoPrint-FindMyOctoPrint
-  pushd OctoPrint-FindMyOctoPrint
-    sudo -u pi /home/pi/oprint/bin/python setup.py install
-  popd
-popd
+sudo -u pi /home/pi/oprint/bin/pip install https://github.com/mrbeam/OctoPrint-FindMyMrBeam/archive/master.zip
 
 # install Mr Beam shield software
 pushd /home/pi
