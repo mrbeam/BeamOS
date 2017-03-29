@@ -1,8 +1,6 @@
 # delete this if development is finished
 # start
 devel:
- mrbeam:
-   cloud_env: dev
  cache:
    enabled: false
  webassets:
@@ -17,6 +15,9 @@ plugins:
     publicPort: 80
   mrbeam:
    current_profile_id: MrBeam2B
+   dev:
+     software_tier: DEV
+     cloud_env: DEV
   netconnectd:
     socket: /var/run/netconnectd.sock
   softwareupdate:
