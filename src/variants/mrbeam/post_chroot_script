@@ -29,13 +29,7 @@ sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ lxml
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pillow
 
 # install Mr Beam Plugin
-pushd /home/pi
-  gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
-
-  pushd MrBeamPlugin
-    sudo -u pi /home/pi/oprint/bin/python setup.py install
-  popd
-popd
+sudo -u pi /home/pi/oprint/bin/pip install https://github.com/mrbeam/MrBeamPlugin/archive/develop.zip
 
 # install netconnectd
 sudo systemctl disable hostapd.service
