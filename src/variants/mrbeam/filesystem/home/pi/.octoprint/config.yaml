@@ -15,6 +15,8 @@ webcam:
 plugins:
   discovery:
     publicPort: 80
+  mrbeam:
+   current_profile_id: MrBeam2B
   netconnectd:
     socket: /var/run/netconnectd.sock
   softwareupdate:
