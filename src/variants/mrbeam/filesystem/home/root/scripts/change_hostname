@@ -9,7 +9,7 @@ then
 fi
 
 old_hostname=`hostname`
-new_hostname=mrbeam2-${HASH:(-4)}
+new_hostname=MrBeam2-${HASH:(-4)}
 
 echo "$new_hostname" > /etc/hostname
 sed -i -e "s@$old_hostname@$new_hostname@g" /etc/hosts
