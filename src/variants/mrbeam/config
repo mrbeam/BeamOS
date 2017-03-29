@@ -31,8 +31,8 @@ OCTOPI_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconn
 OCTOPI_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 OCTOPI_NETCONNECTD_PLUGIN_REPO_BRANCH=mrbeam2-stable
 
-OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMyOctoPrint.git
-OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyOctoPrint.git
+OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
+OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
 OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=master
 
 # disable unnecessary stuff
