@@ -29,7 +29,13 @@ sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ lxml
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pillow
 
 # install Mr Beam Plugin
-sudo -u pi /home/pi/oprint/bin/pip install https://github.com/mrbeam/MrBeamPlugin/archive/develop.zip
+pushd /home/pi
+  gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
+
+  pushd MrBeamPlugin
+    sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
 
 # install netconnectd
 sudo systemctl disable hostapd.service
@@ -48,10 +54,20 @@ sed -i -e "s@    wpa-conf /etc/wpa_supplicant/wpa_supplicant.conf@#    wpa-conf 
 sudo systemctl enable netconnectd.service
 
 # install netconnectd-plugin
-sudo -u pi /home/pi/oprint/bin/pip install https://github.com/mrbeam/OctoPrint-Netconnectd/archive/mrbeam2-stable.zip
+pushd /home/pi
+  gitclone OCTOPI_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
+  pushd OctoPrint-Netconnectd
+    sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
 
 # install findmymrbeam-plugin
-sudo -u pi /home/pi/oprint/bin/pip install https://github.com/mrbeam/OctoPrint-FindMyMrBeam/archive/master.zip
+pushd /home/pi
+  gitclone OCTOPI_FINDMYMRBEAM_PLUGIN_REPO OctoPrint-FindMyOctoPrint
+  pushd OctoPrint-FindMyOctoPrint
+    sudo -u pi /home/pi/oprint/bin/python setup.py install
+  popd
+popd
 
 # install Mr Beam shield software
 pushd /home/pi
