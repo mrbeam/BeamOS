@@ -35,7 +35,7 @@ pushd /home/pi
   pushd MrBeamPlugin
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
-  rm MrBeamPlugin
+  rm -rf MrBeamPlugin
 popd
 
 # install netconnectd
@@ -48,7 +48,7 @@ pushd /home/pi
     sudo -u pi /home/pi/oprint/bin/python setup.py install
     sudo /home/pi/oprint/bin/python setup.py install_extras
   popd
-  rm netconnectd
+  rm -rf netconnectd
 popd
 sed -i -e "s@allow-hotplug wlan0@#allow-hotplug wlan0@g" /etc/network/interfaces
 sed -i -e "s@iface wlan0-raspbian inet manual@#iface wlan0-raspbian inet manual@g" /etc/network/interfaces
@@ -61,7 +61,7 @@ pushd /home/pi
   pushd OctoPrint-Netconnectd
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
-  rm OctoPrint-Netconnectd
+  rm -rf OctoPrint-Netconnectd
 popd
 
 # install findmymrbeam-plugin
@@ -70,7 +70,7 @@ pushd /home/pi
   pushd OctoPrint-FindMyOctoPrint
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
-  rm OctoPrint-FindMyOctoPrint
+  rm -rf OctoPrint-FindMyOctoPrint
 popd
 
 # install Mr Beam shield software
@@ -90,7 +90,7 @@ pushd /home/pi
     sudo /home/pi/oprint/bin/python setup.py install_extras
     sudo systemctl enable mrbeam_ledstrips.service
   popd
-  rm mrbeamledstrips
+  rm -rf mrbeamledstrips
 popd
 
 # activate ssh
