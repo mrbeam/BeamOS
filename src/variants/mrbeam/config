@@ -21,10 +21,6 @@ OCTOPI_MRBEAMLED_REPO_BUILD=https://bitbucket.org/mrbeam/mrbeamledstrips.git
 OCTOPI_MRBEAMLED_REPO_SHIP=https://bitbucket.org/mrbeam/mrbeamledstrips.git
 OCTOPI_MRBEAMLED_REPO_BRANCH=master
 
-OCTOPI_MRBEAMLED_WS281X_REPO_BUILD=https://github.com/mrbeam/rpi_ws281x.git
-OCTOPI_MRBEAMLED_WS281X_REPO_SHIP=https://github.com/mrbeam/rpi_ws281x.git
-OCTOPI_MRBEAMLED_WS281X_REPO_BRANCH=master
-
 OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
 OCTOPI_NETCONNECTD_REPO_SHIP=https://github.com/mrbeam/netconnectd_mrbeam.git
 OCTOPI_NETCONNECTD_REPO_BRANCH=master

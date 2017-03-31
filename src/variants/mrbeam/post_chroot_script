@@ -79,13 +79,6 @@ popd
 
 # install Mr Beam LED software
 pushd /home/pi
-  gitclone OCTOPI_MRBEAMLED_WS281X_REPO rpi_ws281x
-  pushd rpi_ws281x
-    scons
-    pushd python
-      sudo python setup.py install
-    popd
-  popd
   gitclone OCTOPI_MRBEAMLED_REPO mrbeamledstrips
   pushd mrbeamledstrips
     sudo python setup.py install
