@@ -13,7 +13,7 @@ unpack /filesystem/home/root /root root
 update-rc.d first_boot_script defaults
 
 # install necessary dependencies
-apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude scons swig
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude
 
 # upgrade pip and install wheel in venv
 sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
