@@ -31,7 +31,6 @@ sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pill
 # install Mr Beam Plugin
 pushd /home/pi
   gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
-
   pushd MrBeamPlugin
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
