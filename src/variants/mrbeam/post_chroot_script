@@ -45,8 +45,8 @@ sed -i -e "s@#timeout 60;@timeout 60;@g" /etc/dhcp/dhclient.conf
 pushd /home/pi
   gitclone OCTOPI_NETCONNECTD_REPO netconnectd
   pushd netconnectd
-    sudo -u pi /home/pi/oprint/bin/python setup.py install
-    sudo /home/pi/oprint/bin/python setup.py install_extras
+    sudo python setup.py install
+    sudo python setup.py install_extras
   popd
   rm -rf netconnectd
 popd
@@ -86,8 +86,8 @@ popd
 pushd /home/pi
   gitclone OCTOPI_MRBEAMLED_REPO mrbeamledstrips
   pushd mrbeamledstrips
-    sudo -u pi /home/pi/oprint/bin/python setup.py install
-    sudo /home/pi/oprint/bin/python setup.py install_extras
+    sudo python setup.py install
+    sudo python setup.py install_extras
     sudo systemctl enable mrbeam_ledstrips.service
   popd
   rm -rf mrbeamledstrips
