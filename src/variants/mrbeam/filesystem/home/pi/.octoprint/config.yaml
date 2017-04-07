@@ -46,5 +46,3 @@ server:
     serverRestartCommand: sudo systemctl restart octoprint.service
     systemRestartCommand: sudo shutdown -r now
     systemShutdownCommand: sudo shutdown -h now
-events:
-  enabled: true
