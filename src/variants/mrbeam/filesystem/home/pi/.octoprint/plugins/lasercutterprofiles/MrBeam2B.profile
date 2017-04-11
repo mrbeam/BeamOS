@@ -9,7 +9,8 @@ axes:
     inverted: false
     speed: 1000
 focus: false
-glasses: true
+glasses: false
+start_method: onebutton
 id: MrBeam2B
 model: B
 name: MrBeam2
