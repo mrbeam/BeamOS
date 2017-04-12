@@ -24,6 +24,8 @@ plugins:
     checks:
       octoprint:
         checkout_folder: /home/pi/OctoPrint
+        stable_branch:
+          branch: mrbeam2-stable
       mrbeam:
         current: <mrbeamhash>
       netconnectd:
