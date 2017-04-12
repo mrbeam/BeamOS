@@ -1,4 +1,14 @@
 #!/usr/bin/env bash
+
+###############################################################################################
+# NOTES:
+#
+# - Installation still via git clone and python setup and not via pip because I (Florian) was
+#   not able to apply the install_extras stuff to the pip process. Afterwards the repos get
+#   removed and the update should be possible via the pip update.
+#
+###############################################################################################
+
 set -x
 
 source /common.sh
