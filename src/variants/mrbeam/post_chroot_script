@@ -49,8 +49,8 @@ sudo rm -rf /wheels
 # install Mr Beam Plugin
 pushd /home/pi
   gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
-  addGitHashToConfig "mrbeamhash"
   pushd MrBeamPlugin
+    addGitHashToConfig "mrbeamhash"
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
   rm -rf MrBeamPlugin
@@ -62,8 +62,8 @@ sudo systemctl disable dnsmasq.service
 sed -i -e "s@#timeout 60;@timeout 60;@g" /etc/dhcp/dhclient.conf
 pushd /home/pi
   gitclone OCTOPI_NETCONNECTD_REPO netconnectd
-  addGitHashToConfig "netconnectddaemonhash"
   pushd netconnectd
+    addGitHashToConfig "netconnectddaemonhash"
     sudo python setup.py install
     sudo python setup.py install_extras
   popd
@@ -77,8 +77,8 @@ sudo systemctl enable netconnectd.service
 # install netconnectd-plugin
 pushd /home/pi
   gitclone OCTOPI_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
-  addGitHashToConfig "netconnectdpluginhash"
   pushd OctoPrint-Netconnectd
+    addGitHashToConfig "netconnectdpluginhash"
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
   rm -rf OctoPrint-Netconnectd
@@ -87,8 +87,8 @@ popd
 # install findmymrbeam-plugin
 pushd /home/pi
   gitclone OCTOPI_FINDMYMRBEAM_PLUGIN_REPO OctoPrint-FindMyOctoPrint
-  addGitHashToConfig "findmymrbeamhash"
   pushd OctoPrint-FindMyOctoPrint
+    addGitHashToConfig "findmymrbeamhash"
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
   rm -rf OctoPrint-FindMyOctoPrint
@@ -97,8 +97,8 @@ popd
 # install Mr Beam shield software
 pushd /home/pi
   gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575
-  addGitHashToConfig "pcf8575hash"
   pushd pcf8575
+    addGitHashToConfig "pcf8575hash"
     sudo cp pcf8575.service /etc/systemd/system/
     sudo systemctl enable pcf8575.service
   popd
@@ -107,8 +107,8 @@ popd
 # install Mr Beam LED software
 pushd /home/pi
   gitclone OCTOPI_MRBEAMLED_REPO mrbeamledstrips
-  addGitHashToConfig "mrbeamledstripshash"
   pushd mrbeamledstrips
+    addGitHashToConfig "mrbeamledstripshash"
     sudo python setup.py install
     sudo python setup.py install_extras
     sudo systemctl enable mrbeam_ledstrips.service
