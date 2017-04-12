@@ -11,7 +11,7 @@ OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
-OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=develop     # check config.yaml if changed to master for development stuff
+OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=master
 
 OCTOPI_MRBEAMSHIELD_REPO_BUILD=https://bitbucket.org/mrbeam/pcf8575.git
 OCTOPI_MRBEAMSHIELD_REPO_SHIP=https://bitbucket.org/mrbeam/pcf8575.git

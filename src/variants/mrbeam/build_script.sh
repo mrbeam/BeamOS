@@ -25,9 +25,9 @@ pushd ${OCTOPIPATH}
     #export OCTOPI_MJPGSTREAMER_REPO_BUILD='http://localhost/git/mjpg-streamer.git/'
     #export OCTOPI_WIRINGPI_REPO_BUILD='http://localhost/git/wiringPi.git/'
 
-    ${OCTOPIPATH}/src/build $1
+    ${OCTOPIPATH}/src/build $1 $2
     pushd src
-    ${OCTOPIPATH}/src/release $1
+    ${OCTOPIPATH}/src/release $1 $2
     popd
     chmod 777 ${OCTOPIPATH}/src/*
 popd

@@ -130,6 +130,18 @@ echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
 echo "enable_uart=1" >> /boot/config.txt
 sed -i -e "s@console=serial0,115200 @@g" /boot/cmdline.txt
 
+# develop stuff
+if [ $BUILD_FLAVOR == 'develop' ]
+then
+    echo "devel:" >> /home/pi/.octprint/config.yaml
+    echo "  cache:" >> /home/pi/.octprint/config.yaml
+    echo "    enabled: false" >> /home/pi/.octprint/config.yaml
+    echo "  webassets:" >> /home/pi/.octprint/config.yaml
+    echo "    bundle: false" >> /home/pi/.octprint/config.yaml
+    echo "    clean_on_startup: true" >> /home/pi/.octprint/config.yaml
+    echo "    minify: false" >> /home/pi/.octprint/config.yaml
+fi
+
 #cleanup
 apt-get clean
 sudo rm /common.sh
