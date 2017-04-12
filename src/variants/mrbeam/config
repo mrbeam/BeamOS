@@ -17,8 +17,8 @@ OCTOPI_MRBEAMSHIELD_REPO_BUILD=https://bitbucket.org/mrbeam/pcf8575.git
 OCTOPI_MRBEAMSHIELD_REPO_SHIP=https://bitbucket.org/mrbeam/pcf8575.git
 OCTOPI_MRBEAMSHIELD_REPO_BRANCH=master
 
-OCTOPI_MRBEAMLED_REPO_BUILD=https://bitbucket.org/mrbeam/mrbeamledstrips.git
-OCTOPI_MRBEAMLED_REPO_SHIP=https://bitbucket.org/mrbeam/mrbeamledstrips.git
+OCTOPI_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
+OCTOPI_MRBEAMLED_REPO_SHIP=https://github.com/mrbeam/MrBeamLedStrips.git
 OCTOPI_MRBEAMLED_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
