@@ -12,6 +12,13 @@
 set -x
 
 source /common.sh
+
+function addGitHashToConfig () {
+    name=$1
+    hash=$(git rev-parse HEAD)
+    sed -i -e "s@<$name>@$hash@g" /home/pi/.octoprint/config.yaml
+}
+
 install_chroot_fail_on_error_trap
 
 # unpack filesystem directory
@@ -42,6 +49,7 @@ sudo rm -rf /wheels
 # install Mr Beam Plugin
 pushd /home/pi
   gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
+  addGitHashToConfig "mrbeamhash"
   pushd MrBeamPlugin
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
@@ -54,6 +62,7 @@ sudo systemctl disable dnsmasq.service
 sed -i -e "s@#timeout 60;@timeout 60;@g" /etc/dhcp/dhclient.conf
 pushd /home/pi
   gitclone OCTOPI_NETCONNECTD_REPO netconnectd
+  addGitHashToConfig "netconnectddaemonhash"
   pushd netconnectd
     sudo python setup.py install
     sudo python setup.py install_extras
@@ -68,6 +77,7 @@ sudo systemctl enable netconnectd.service
 # install netconnectd-plugin
 pushd /home/pi
   gitclone OCTOPI_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
+  addGitHashToConfig "netconnectdpluginhash"
   pushd OctoPrint-Netconnectd
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
@@ -77,6 +87,7 @@ popd
 # install findmymrbeam-plugin
 pushd /home/pi
   gitclone OCTOPI_FINDMYMRBEAM_PLUGIN_REPO OctoPrint-FindMyOctoPrint
+  addGitHashToConfig "findmymrbeamhash"
   pushd OctoPrint-FindMyOctoPrint
     sudo -u pi /home/pi/oprint/bin/python setup.py install
   popd
@@ -86,6 +97,7 @@ popd
 # install Mr Beam shield software
 pushd /home/pi
   gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575
+  addGitHashToConfig "pcf8575hash"
   pushd pcf8575
     sudo cp pcf8575.service /etc/systemd/system/
     sudo systemctl enable pcf8575.service
@@ -95,6 +107,7 @@ popd
 # install Mr Beam LED software
 pushd /home/pi
   gitclone OCTOPI_MRBEAMLED_REPO mrbeamledstrips
+  addGitHashToConfig "mrbeamledstripshash"
   pushd mrbeamledstrips
     sudo python setup.py install
     sudo python setup.py install_extras
