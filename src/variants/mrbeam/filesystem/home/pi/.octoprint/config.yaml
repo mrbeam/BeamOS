@@ -24,6 +24,18 @@ plugins:
     checks:
       octoprint:
         checkout_folder: /home/pi/OctoPrint
+      mrbeam:
+        current: <mrbeamhash>
+      netconnectd:
+        current: <netconnectdpluginhash>
+      netconnectd-daemon:
+        current: <netconnectddaemonhash>
+      mrbeam-ledstrips:
+        current: <mrbeamledstripshash>
+      findmymrbeam:
+        current: <findmymrbeamhash>
+      pcf8575:
+        current: <pcf8575hash>
 server:
   commands:
     serverRestartCommand: sudo systemctl restart octoprint.service
