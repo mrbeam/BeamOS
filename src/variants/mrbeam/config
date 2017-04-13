@@ -23,7 +23,7 @@ OCTOPI_MRBEAMLED_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
 OCTOPI_NETCONNECTD_REPO_SHIP=https://github.com/mrbeam/netconnectd_mrbeam.git
-OCTOPI_NETCONNECTD_REPO_BRANCH=master
+OCTOPI_NETCONNECTD_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 OCTOPI_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
