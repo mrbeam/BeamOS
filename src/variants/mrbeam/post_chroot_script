@@ -157,6 +157,9 @@ then
     echo "    level: ERROR" >> /home/pi/.octprint/logging.yam
 fi
 
+# add date and time stamp to image
+echo $(date) > /etc/octopi_datetime
+
 #cleanup
 apt-get clean
 sudo rm /common.sh
