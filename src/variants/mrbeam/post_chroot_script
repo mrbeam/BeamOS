@@ -51,7 +51,7 @@ pushd /home/pi
   gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
   pushd MrBeamPlugin
     addGitHashToConfig "mrbeamhash"
-    sudo -u pi /home/pi/oprint/bin/python setup.py install
+    sudo -u pi /home/pi/oprint/bin/pip install .
   popd
   rm -rf MrBeamPlugin
 popd
