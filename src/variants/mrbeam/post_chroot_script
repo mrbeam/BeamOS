@@ -130,6 +130,9 @@ echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
 echo "enable_uart=1" >> /boot/config.txt
 sed -i -e "s@console=serial0,115200 @@g" /boot/cmdline.txt
 
+# add pi user to staff group (needed for write access to /usr/local/lib/python2.7/dist-packages)
+sudo usermod -a -G staff pi
+
 # develop stuff
 if [ $BUILD_FLAVOR == 'develop' ]
 then
