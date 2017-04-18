@@ -144,17 +144,17 @@ then
     echo "    clean_on_startup: true" >> /home/pi/.octprint/config.yaml
     echo "    minify: false" >> /home/pi/.octprint/config.yaml
 
-    echo "loggers:" >> /home/pi/.octprint/logging.yam
-    echo "  octoprint.plugins.mrbeam:" >> /home/pi/.octprint/logging.yam
-    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yam
-    echo "  mrbeam:" >> /home/pi/.octprint/logging.yam
-    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yam
-    echo "  ANDYTEST:" >> /home/pi/.octprint/logging.yam
-    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yam
-    echo "  ANDYTEST.usersettings:" >> /home/pi/.octprint/logging.yam
-    echo "    level: INFO" >> /home/pi/.octprint/logging.yam
-    echo "  octoprint.plugins.mrbeam.led_events:" >> /home/pi/.octprint/logging.yam
-    echo "    level: ERROR" >> /home/pi/.octprint/logging.yam
+    echo "loggers:" >> /home/pi/.octprint/logging.yaml
+    echo "  octoprint.plugins.mrbeam:" >> /home/pi/.octprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yaml
+    echo "  mrbeam:" >> /home/pi/.octprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yaml
+    echo "  ANDYTEST:" >> /home/pi/.octprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yaml
+    echo "  ANDYTEST.usersettings:" >> /home/pi/.octprint/logging.yaml
+    echo "    level: INFO" >> /home/pi/.octprint/logging.yaml
+    echo "  octoprint.plugins.mrbeam.led_events:" >> /home/pi/.octprint/logging.yaml
+    echo "    level: ERROR" >> /home/pi/.octprint/logging.yaml
 
     #change default password
     SALT=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
