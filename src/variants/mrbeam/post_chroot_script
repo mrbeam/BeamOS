@@ -134,27 +134,27 @@ sed -i -e "s@console=serial0,115200 @@g" /boot/cmdline.txt
 sudo usermod -a -G staff pi
 
 # develop stuff
-if [ $BUILD_FLAVOR == 'develop' ]
+if [ "$BUILD_FLAVOR" == "develop" ]
 then
-    echo "devel:" >> /home/pi/.octprint/config.yaml
-    echo "  cache:" >> /home/pi/.octprint/config.yaml
-    echo "    enabled: false" >> /home/pi/.octprint/config.yaml
-    echo "  webassets:" >> /home/pi/.octprint/config.yaml
-    echo "    bundle: false" >> /home/pi/.octprint/config.yaml
-    echo "    clean_on_startup: true" >> /home/pi/.octprint/config.yaml
-    echo "    minify: false" >> /home/pi/.octprint/config.yaml
+    echo "devel:" >> /home/pi/.octoprint/config.yaml
+    echo "  cache:" >> /home/pi/.octoprint/config.yaml
+    echo "    enabled: false" >> /home/pi/.octoprint/config.yaml
+    echo "  webassets:" >> /home/pi/.octoprint/config.yaml
+    echo "    bundle: false" >> /home/pi/.octoprint/config.yaml
+    echo "    clean_on_startup: true" >> /home/pi/.octoprint/config.yaml
+    echo "    minify: false" >> /home/pi/.octoprint/config.yaml
 
-    echo "loggers:" >> /home/pi/.octprint/logging.yaml
-    echo "  octoprint.plugins.mrbeam:" >> /home/pi/.octprint/logging.yaml
-    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yaml
-    echo "  mrbeam:" >> /home/pi/.octprint/logging.yaml
-    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yaml
-    echo "  ANDYTEST:" >> /home/pi/.octprint/logging.yaml
-    echo "    level: DEBUG" >> /home/pi/.octprint/logging.yaml
-    echo "  ANDYTEST.usersettings:" >> /home/pi/.octprint/logging.yaml
-    echo "    level: INFO" >> /home/pi/.octprint/logging.yaml
-    echo "  octoprint.plugins.mrbeam.led_events:" >> /home/pi/.octprint/logging.yaml
-    echo "    level: ERROR" >> /home/pi/.octprint/logging.yaml
+    echo "loggers:" >> /home/pi/.octoprint/logging.yaml
+    echo "  octoprint.plugins.mrbeam:" >> /home/pi/.octoprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octoprint/logging.yaml
+    echo "  mrbeam:" >> /home/pi/.octoprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octoprint/logging.yaml
+    echo "  ANDYTEST:" >> /home/pi/.octoprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octoprint/logging.yaml
+    echo "  ANDYTEST.usersettings:" >> /home/pi/.octoprint/logging.yaml
+    echo "    level: INFO" >> /home/pi/.octoprint/logging.yaml
+    echo "  octoprint.plugins.mrbeam.led_events:" >> /home/pi/.octoprint/logging.yaml
+    echo "    level: ERROR" >> /home/pi/.octoprint/logging.yaml
 
     #change default password
     SALT=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 16 | head -n 1)
