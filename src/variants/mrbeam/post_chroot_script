@@ -169,8 +169,8 @@ fi
 echo $(date) > /etc/octopi_datetime
 
 # add Variant and Flavour name to image
-echo $(BUILD_VARIANT) > /etc/octopi_variant
-echo $(BUILD_FLAVOR) > /etc/octopi_flavor
+echo $BUILD_VARIANT > /etc/octopi_variant
+echo $BUILD_FLAVOR > /etc/octopi_flavor
 
 #cleanup
 apt-get clean
