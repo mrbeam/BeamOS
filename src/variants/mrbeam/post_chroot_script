@@ -94,14 +94,15 @@ pushd /home/pi
   rm -rf OctoPrint-FindMyOctoPrint
 popd
 
-# install Mr Beam shield software
+# install Mr Beam iobeam
 pushd /home/pi
-  gitclone OCTOPI_MRBEAMSHIELD_REPO pcf8575
-  pushd pcf8575
-    addGitHashToConfig "pcf8575hash"
-    sudo cp pcf8575.service /etc/systemd/system/
-    sudo systemctl enable pcf8575.service
+  gitclone OCTOPI_MRBEAMIOBEAM_REPO iobeam
+  pushd iobeam
+    addGitHashToConfig "iobeamhash"
+    sudo pip install .
+    sudo python setup.py install_extras
   popd
+  rm -rf iobeam
 popd
 
 # install Mr Beam LED software

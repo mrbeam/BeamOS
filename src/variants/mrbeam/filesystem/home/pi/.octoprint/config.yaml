@@ -26,8 +26,8 @@ plugins:
         current: <mrbeamledstripshash>
       findmymrbeam:
         current: <findmymrbeamhash>
-      pcf8575:
-        current: <pcf8575hash>
+      iobeam:
+        current: <iobeamhash>
 server:
   commands:
     serverRestartCommand: sudo systemctl restart octoprint.service
