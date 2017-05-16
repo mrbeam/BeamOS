@@ -32,6 +32,12 @@ plugins:
         current: <findmymrbeamhash>
       iobeam:
         current: <iobeamhash>
+serial:
+  additionalPorts:
+  - /dev/ttyAMA*
+  autoconnect: true
+  baudrate: 115200
+  port: /dev/ttyAMA0
 server:
   commands:
     serverRestartCommand: sudo systemctl restart octoprint.service
