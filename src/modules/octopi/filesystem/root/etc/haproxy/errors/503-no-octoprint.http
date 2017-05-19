@@ -5,7 +5,7 @@ Content-Type: text/html
 
 <html>
     <head>
-        <title>OctoPrint is currently not running</title>
+        <title>Mr Beam OS is currently not running</title>
         <style>
             body {
                 margin: 0;
@@ -61,44 +61,21 @@ Content-Type: text/html
     </head>
     <body>
         <div class="wrapper">
-            <h1>The OctoPrint server is currently not running</h1>
+            <h1>The Mr Beam OS is currently not running</h1>
 
             <p>
-                If you just started up your Raspberry Pi, please wait a couple of seconds, then
+                If you just started up your machine, please wait a couple of seconds, then
                 try to refresh this page.
             </p>
 
             <p>
-                If the issue persists, please log into your Raspberry Pi via SSH and check the following:
+                If the issue persists, please turn the machine off then wait 10 seconds and turn it on again.
             </p>
-
-            <ul>
-                <li>
-                    Verify that the process is running:
-                    <code>ps -ef | grep -i octoprint | grep -i python</code> should show a
-                    python process:
-                    <pre>pi@octopi:~ $ ps -ef | grep -i octoprint | grep -i python<br>
-pi        1441     1  6 11:12 ?        00:00:15 /home/pi/oprint/bin/python <br>
-/home/pi/oprint/bin/octoprint --host=127.0.0.1 --port=5000</pre>
-                </li>
-                <li>
-                    If it isn't, the question is why. Take a look into
-                    <code>~/.octoprint/logs/octoprint.log</code>, there might
-                    be an error logged in there that helps to determine
-                    what's wrong.
-                </li>
-                <li>
-                    You might also want to try if you can restart the server
-                    (if no obvious error is visible):
-                    <code>sudo service octoprint restart</code>.
-                </li>
-            </ul>
 
             <p>
                 If all that doesn't help to trouble shoot the issue, you can seek
-                support on the <a href="https://discourse.octoprint.org">OctoPrint Community Forum</a>.
-                Please provide your OctoPi <strong>and</strong> OctoPrint versions as well as your <code>octoprint.log</code> 
-                and explain what you already tried and observed as detailed as possible.
+                support on via the following email address <a href="mailto:support@mr-beam.org">support@mr-beam.org</a>
+                or visit our website at <a href="https://www.mr-beam.org/">www.mr-beam.org</a>.
             </p>
         </div>
     </body>
