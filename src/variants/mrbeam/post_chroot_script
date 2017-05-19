@@ -117,6 +117,18 @@ pushd /home/pi
   rm -rf mrbeamledstrips
 popd
 
+# install special avrdude software to allow flashing via serial without DTR pin
+pushd /home/pi
+    gitclone OCTOPI_SHIELDFLASHER_REPO shield_flasher
+    pushd shield_flasher
+        sudo cp autoreset /usr/bin/autoreset
+        sudo cp avrdude-autoreset /usr/bin/avrdude-autoreset
+        sudo mv /usr/bin/avrdude /usr/bin/avrdude-original
+        sudo ln -s /usr/bin/avrdude-autoreset /usr/bin/avrdude
+    popd
+    rm -rf shield_flasher
+popd
+
 # activate ssh
 pushd /boot
   touch ssh

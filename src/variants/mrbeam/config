@@ -33,6 +33,10 @@ OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMy
 OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
 OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=mrbeam2-stable
 
+OCTOPI_SHIELDFLASHER_REPO_BUILD=https://github.com/mrbeam/shield_flasher.git
+OCTOPI_SHIELDFLASHER_REPO_SHIP=https://github.com/mrbeam/shield_flasher.git
+OCTOPI_SHIELDFLASHER_REPO_BRANCH=master
+
 # disable unnecessary stuff
 OCTOPI_INCLUDE_OCTOPIPANEL=no
 OCTOPI_INCLUDE_CURAENGINE=no
