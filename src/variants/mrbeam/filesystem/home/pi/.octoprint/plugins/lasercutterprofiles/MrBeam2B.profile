@@ -8,7 +8,7 @@ axes:
   z:
     inverted: false
     speed: 1000
-focus: false
+focus: true # false if we need to show focus tab
 glasses: false
 start_method: onebutton
 id: MrBeam2B
