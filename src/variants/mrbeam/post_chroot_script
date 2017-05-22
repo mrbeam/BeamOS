@@ -177,6 +177,9 @@ else
     passwd -l pi
 fi
 
+ln -s /home/pi/oprint/lib/python2.7/site-packages ~/
+ln -s /usr/lib/python2.7/dist-packages ~/
+
 # add date and time stamp to image
 echo $(date) > /etc/octopi_datetime
 
