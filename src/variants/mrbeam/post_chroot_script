@@ -168,6 +168,7 @@ then
     echo "    level: INFO" >> /home/pi/.octoprint/logging.yaml
     echo "  octoprint.plugins.mrbeam.led_events:" >> /home/pi/.octoprint/logging.yaml
     echo "    level: ERROR" >> /home/pi/.octoprint/logging.yaml
+    chown pi:pi /home/pi/.octoprint/logging.yaml
 
     #change default password
     PASS=$(mkpasswd -m sha-512 'MrUn!corn2')
