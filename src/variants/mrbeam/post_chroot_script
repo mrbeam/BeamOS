@@ -141,6 +141,9 @@ pushd /home/pi
     rm latest-OpenCV.deb
 popd
 
+# remove sudo git preventer
+sudo rm /root/bin/git
+
 # activate ssh
 pushd /boot
   touch ssh
