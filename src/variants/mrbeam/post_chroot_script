@@ -143,6 +143,7 @@ pushd /home/pi
             python setup.py install
         popd
     popd
+    rm -rf rpi_ws281x
 popd
 
 # install OpenCV-for-Pi from github
@@ -152,6 +153,15 @@ pushd /home/pi
     cp /usr/local/lib/python2.7/dist-packages/cv2.so /home/pi/oprint/local/lib/python2.7/site-packages/ # copy opencv into venv
     rm latest-OpenCV.deb
 popd
+
+# install usb_mount_manager
+echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager add"' >> /etc/udev/rules.d/00-mount_manager.rules
+echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager remove"' >> /etc/udev/rules.d/00-mount_manager.rules
+pushd /root/
+    gitclone OCTOPI_USBMOUNTMANAGER_REPO mount_manager
+    sudo chmod o+x mount_manager/mount_manager
+popd
+sudo gpg --import /root/pubkey.asc
 
 # remove sudo git preventer
 sudo rm /root/bin/git
