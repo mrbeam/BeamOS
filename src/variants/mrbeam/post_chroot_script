@@ -137,6 +137,7 @@ popd
 pushd /home/pi
     wget "https://github.com/jabelone/OpenCV-for-Pi/raw/master/latest-OpenCV.deb"
     sudo dpkg -i latest-OpenCV.deb
+    cp /usr/local/lib/python2.7/dist-packages/cv2.so /home/pi/oprint/local/lib/python2.7/site-packages/ # copy opencv into venv
     rm latest-OpenCV.deb
 popd
 
