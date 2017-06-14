@@ -105,7 +105,6 @@ pushd /home/pi
   pushd iobeam
     addGitHashToConfig "iobeamhash"
     sudo pip install .
-    sudo python setup.py install_extras
   popd
   rm -rf iobeam
 popd

@@ -13,8 +13,8 @@ OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=master
 
-OCTOPI_MRBEAMIOBEAM_REPO_BUILD=https://bitbucket.org/mrbeam/iobeam.git
-OCTOPI_MRBEAMIOBEAM_REPO_SHIP=https://bitbucket.org/mrbeam/iobeam.git
+OCTOPI_MRBEAMIOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
+OCTOPI_MRBEAMIOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
 OCTOPI_MRBEAMIOBEAM_REPO_BRANCH=master
 
 OCTOPI_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
