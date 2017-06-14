@@ -30,7 +30,12 @@ unpack /filesystem/home/root /root root
 update-rc.d first_boot_script defaults
 
 # install necessary dependencies
-apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip python-smbus libyaml-dev i2c-tools avrdude
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip \
+                               python-smbus libyaml-dev i2c-tools avrdude \
+
+# install OpenCV dependencies
+apt-get -y --force-yes install libtiff5-dev libjasper-dev libpng12-dev libjpeg-dev libavcodec-dev libavformat-dev\
+                               libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
 
 # upgrade pip and install wheel system wide
 sudo pip install --upgrade pip
@@ -127,6 +132,13 @@ pushd /home/pi
         sudo ln -s /usr/bin/avrdude-autoreset /usr/bin/avrdude
     popd
     rm -rf shield_flasher
+popd
+
+# install OpenCV-for-Pi from github
+pushd /home/pi
+    wget "https://github.com/jabelone/OpenCV-for-Pi/raw/master/latest-OpenCV.deb"
+    sudo dpkg -i latest-OpenCV.deb
+    rm latest-OpenCV.deb
 popd
 
 # activate ssh
