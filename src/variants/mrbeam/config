@@ -41,8 +41,8 @@ OCTOPI_RPI_WS281X_REPO_BUILD=https://github.com/mrbeam/rpi_ws281x.git
 OCTOPI_RPI_WS281X_REPO_SHIP=https://github.com/mrbeam/rpi_ws281x.git
 OCTOPI_RPI_WS281X_REPO_BRANCH=master
 
-OCTOPI_USBMOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org:mrbeam/usb_mount_manager.git
-OCTOPI_USBMOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org:mrbeam/usb_mount_manager.git
+OCTOPI_USBMOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
+OCTOPI_USBMOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 OCTOPI_USBMOUNTMANAGER_REPO_BRANCH=master
 
 # disable unnecessary stuff
