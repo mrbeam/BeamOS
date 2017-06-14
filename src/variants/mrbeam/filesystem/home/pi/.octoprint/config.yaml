@@ -20,6 +20,7 @@ plugins:
         checkout_folder: /home/pi/OctoPrint
         stable_branch:
           branch: mrbeam2-stable
+        user: mrbeam
       mrbeam:
         current: <mrbeamhash>
       netconnectd:
