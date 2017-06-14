@@ -31,7 +31,7 @@ update-rc.d first_boot_script defaults
 
 # install necessary dependencies
 apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip \
-                               python-smbus libyaml-dev i2c-tools avrdude \
+                               python-smbus libyaml-dev i2c-tools avrdude scons swig \
 
 # install OpenCV dependencies
 apt-get -y --force-yes install libtiff5-dev libjasper-dev libpng12-dev libjpeg-dev libavcodec-dev libavformat-dev\
@@ -131,6 +131,18 @@ pushd /home/pi
         sudo ln -s /usr/bin/avrdude-autoreset /usr/bin/avrdude
     popd
     rm -rf shield_flasher
+popd
+
+# install rpi_ws281x manually for Mr Beam LED software spread spectrum changes
+pushd /home/pi
+    gitclone OCTOPI_RPI_WS281X_REPO rpi_ws281x
+    pushd rpi_ws281x
+        scons
+        pushd python
+            python setup.py build
+            python setup.py install
+        popd
+    popd
 popd
 
 # install OpenCV-for-Pi from github

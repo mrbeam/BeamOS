@@ -37,6 +37,10 @@ OCTOPI_SHIELDFLASHER_REPO_BUILD=https://github.com/mrbeam/shield_flasher.git
 OCTOPI_SHIELDFLASHER_REPO_SHIP=https://github.com/mrbeam/shield_flasher.git
 OCTOPI_SHIELDFLASHER_REPO_BRANCH=master
 
+OCTOPI_RPI_WS281X_REPO_BUILD=https://github.com/mrbeam/rpi_ws281x.git
+OCTOPI_RPI_WS281X_REPO_SHIP=https://github.com/mrbeam/rpi_ws281x.git
+OCTOPI_RPI_WS281X_REPO_BRANCH=master
+
 # disable unnecessary stuff
 OCTOPI_INCLUDE_OCTOPIPANEL=no
 OCTOPI_INCLUDE_CURAENGINE=no
