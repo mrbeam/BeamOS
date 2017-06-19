@@ -46,6 +46,7 @@ sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
 sudo -u pi /home/pi/oprint/bin/pip install wheel
 
 # install and use wheels of precached heavy duty packages
+sudo pip install --no-index --find-links=/wheels/ numpy
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ numpy
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ lxml
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pillow
