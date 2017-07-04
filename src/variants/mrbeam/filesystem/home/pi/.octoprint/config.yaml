@@ -18,6 +18,7 @@ plugins:
     checks:
       octoprint:
         checkout_folder: /home/pi/OctoPrint
+        prerelease: false
         stable_branch:
           branch: mrbeam2-stable
         user: mrbeam

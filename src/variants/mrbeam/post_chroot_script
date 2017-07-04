@@ -219,6 +219,10 @@ then
     echo "    level: INFO" >> /home/pi/.octoprint/logging.yaml
     echo "  octoprint.plugins.mrbeam.led_events:" >> /home/pi/.octoprint/logging.yaml
     echo "    level: ERROR" >> /home/pi/.octoprint/logging.yaml
+    echo "  octoprint.plugins.softwareupdate.version_checks.bitbucket_commit:" >> /home/pi/.octoprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octoprint/logging.yaml
+    echo "  octoprint.plugins.softwareupdate.version_checks.github_commit:">> /home/pi/.octoprint/logging.yaml
+    echo "    level: DEBUG" >> /home/pi/.octoprint/logging.yaml
     chown pi:pi /home/pi/.octoprint/logging.yaml
 
     #change default password
