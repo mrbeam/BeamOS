@@ -15,7 +15,7 @@ id: MrBeam2B
 model: B
 name: MrBeam2
 volume:
-  depth: 400.0
+  depth: 390.0
   height: 0.0
   origin_offset_x: 1.1
   origin_offset_y: 1.1
