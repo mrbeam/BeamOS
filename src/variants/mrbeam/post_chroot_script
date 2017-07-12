@@ -37,8 +37,9 @@ apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsm
 apt-get -y --force-yes install libtiff5-dev libjasper-dev libpng12-dev libjpeg-dev libavcodec-dev libavformat-dev\
                                libswscale-dev libv4l-dev libgtk2.0-dev libatlas-base-dev gfortran
 
-# upgrade pip and install wheel system wide
+# upgrade pip, setuptools and install wheel system wide
 sudo pip install --upgrade pip
+sudo pip install --upgrade setuptools
 sudo pip install wheel
 
 # upgrade pip and install wheel in venv
@@ -143,10 +144,9 @@ pushd /home/pi
         scons
         pushd python
             python setup.py build
-            python setup.py install
+            sudo pip install .
         popd
     popd
-    rm -rf rpi_ws281x
 popd
 
 # install OpenCV-for-Pi from github
