@@ -47,7 +47,7 @@ OCTOPI_USBMOUNTMANAGER_REPO_BRANCH=master
 
 OCTOPI_MBCAMERACALIBRATION_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/mb_camera_calibration.git
 OCTOPI_MBCAMERACALIBRATION_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/mb_camera_calibration.git
-OCTOPI_MBCAMERACALIBRATION_REPO_BRANCH=master
+OCTOPI_MBCAMERACALIBRATION_REPO_BRANCH=mrbeam2-stable
 
 # disable unnecessary stuff
 OCTOPI_INCLUDE_OCTOPIPANEL=no
