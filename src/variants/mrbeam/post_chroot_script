@@ -187,7 +187,7 @@ popd
 
 # activate i2c
 echo "i2c-dev" >> /etc/modules
-sed -i -e "s@#dtparam=i2c_arm=on@dtparam=i2c_arm=on@g" /boot/config.txt
+sed -i -e "s@#dtparam=i2c_arm=on@dtparam=i2c_arm=on,i2c_arm_baudrate=64000@g" /boot/config.txt
 
 # enable hardware serial
 echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
