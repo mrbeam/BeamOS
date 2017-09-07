@@ -141,6 +141,7 @@ popd
 pushd /home/pi
     gitclone OCTOPI_RPI_WS281X_REPO rpi_ws281x
     pushd rpi_ws281x
+        addGitHashToConfig "rpiws281xhash"
         scons
         pushd python
             python setup.py build
@@ -171,6 +172,7 @@ sudo gpg --import /root/pubkey.asc
 pushd /home/pi
     gitclone OCTOPI_MBCAMERACALIBRATION_REPO mb_camera_calibration
     pushd mb_camera_calibration
+        addGitHashToConfig "mbcameracalibrationhash"
         sudo -u pi /home/pi/oprint/bin/pip install .
         sudo pip install .
     popd

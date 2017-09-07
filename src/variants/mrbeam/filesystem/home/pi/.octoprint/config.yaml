@@ -34,6 +34,10 @@ plugins:
         current: <findmymrbeamhash>
       iobeam:
         current: <iobeamhash>
+      rpi-ws281x:
+        current: <rpiws281xhash>
+      mb-camera-calibration:
+        current: <mbcameracalibrationhash>
 serial:
   additionalPorts:
   - /dev/ttyAMA*
