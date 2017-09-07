@@ -11,11 +11,11 @@ OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
-OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=master
+OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_MRBEAMIOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
 OCTOPI_MRBEAMIOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
-OCTOPI_MRBEAMIOBEAM_REPO_BRANCH=master
+OCTOPI_MRBEAMIOBEAM_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
 OCTOPI_MRBEAMLED_REPO_SHIP=https://github.com/mrbeam/MrBeamLedStrips.git
@@ -43,7 +43,7 @@ OCTOPI_RPI_WS281X_REPO_BRANCH=master
 
 OCTOPI_USBMOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 OCTOPI_USBMOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
-OCTOPI_USBMOUNTMANAGER_REPO_BRANCH=master
+OCTOPI_USBMOUNTMANAGER_REPO_BRANCH=mrbeam2-stable
 
 OCTOPI_MBCAMERACALIBRATION_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/mb_camera_calibration.git
 OCTOPI_MBCAMERACALIBRATION_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/mb_camera_calibration.git
