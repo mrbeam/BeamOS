@@ -13,7 +13,7 @@ if [ -z "$2" ];then
 else
     OCTOPI_FILENAME=${OCTOPI_FILENAME}_dev.img
 fi
-echo "Buildimage: "${OCTOPI_FILENAME}
+echo "Buildimage: "${OCTOPI_FILENAME} >> info.txt
 mv ${FILENAME} ${OCTOPI_FILENAME}
 zip ${OCTOPI_FILENAME::-4}.zip ${OCTOPI_FILENAME} info.txt
 
