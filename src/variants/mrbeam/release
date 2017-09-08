@@ -6,14 +6,15 @@ else
 fi
 
 FILENAME=$(basename `ls . |  grep -e .img -e .raw | tail -n 1`)
-echo ${FILENAME} >> baseimage.txt
+echo "Baseimage: "${FILENAME} >> info.txt
 OCTOPI_FILENAME=`date +%Y-%m-%d`-BEAM_OS
 if [ -z "$2" ];then
     OCTOPI_FILENAME=${OCTOPI_FILENAME}_prod.img
 else
     OCTOPI_FILENAME=${OCTOPI_FILENAME}_dev.img
 fi
+echo "Buildimage: "${OCTOPI_FILENAME}
 mv ${FILENAME} ${OCTOPI_FILENAME}
-zip ${OCTOPI_FILENAME::-4}.zip ${OCTOPI_FILENAME} baseimage.txt
+zip ${OCTOPI_FILENAME::-4}.zip ${OCTOPI_FILENAME} info.txt
 
 popd
