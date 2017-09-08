@@ -27,7 +27,7 @@ pushd ${OCTOPIPATH}
 
     ${OCTOPIPATH}/src/build $1 $2
     pushd src
-    ${OCTOPIPATH}/src/release $1 $2
+    ${OCTOPIPATH}/src/variants/mrbeam/release $1 $2
     popd
     chmod 777 ${OCTOPIPATH}/src/*
 popd

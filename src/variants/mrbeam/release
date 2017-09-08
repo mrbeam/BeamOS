@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+if [ -z "$1" ];then
+    pushd workspace
+else
+    pushd workspace-$1
+fi
+
+FILENAME=$(basename `ls . |  grep -e .img -e .raw | tail -n 1`)
+echo ${FILENAME} >> baseimage.txt
+OCTOPI_FILENAME=`date +%Y-%m-%d`-BEAM_OS
+if [ -z "$2" ];then
+    OCTOPI_FILENAME=${OCTOPI_FILENAME}_prod.img
+else
+    OCTOPI_FILENAME=${OCTOPI_FILENAME}_dev.img
+fi
+mv ${FILENAME} ${OCTOPI_FILENAME}
+zip ${OCTOPI_FILENAME::-4}.zip ${OCTOPI_FILENAME} baseimage.txt
+
+popd
