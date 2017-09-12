@@ -43,7 +43,7 @@ sudo pip install --upgrade setuptools
 sudo pip install wheel
 
 # install global stuff
-sudo pip install blinker
+sudo pip install blinker argparse
 
 # upgrade pip and install wheel in venv
 sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
