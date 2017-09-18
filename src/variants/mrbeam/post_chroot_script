@@ -31,7 +31,8 @@ update-rc.d first_boot_script defaults
 
 # install necessary dependencies
 apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip \
-                               python-smbus libyaml-dev i2c-tools avrdude scons swig vim whois htop iotop zip sysstat at
+                               python-smbus libyaml-dev i2c-tools avrdude scons swig vim whois htop iotop zip sysstat \
+                               at rlpr
 
 # install OpenCV dependencies
 apt-get -y --force-yes install libtiff5-dev libjasper-dev libpng12-dev libjpeg-dev libavcodec-dev libavformat-dev\
