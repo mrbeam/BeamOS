@@ -6,7 +6,7 @@ else
 fi
 
 FILENAME=$(basename `ls . |  grep -e .img -e .raw | tail -n 1`)
-echo "Baseimage: "${FILENAME} >> info.txt
+echo "Baseimage: "${FILENAME} > info.txt
 OCTOPI_FILENAME=`date +%Y-%m-%d`-BEAM_OS
 if [ -z "$2" ];then
     OCTOPI_FILENAME=${OCTOPI_FILENAME}_prod.img
