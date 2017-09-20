@@ -14,6 +14,6 @@ then
 fi
 
 old_apname=MrBeam2-AP
-new_apname=MrBeam2-${HASH:(-4)}
+new_apname="MrBeam-${HASH:(-4)}"
 
 sed -i -e "s@$old_apname@$new_apname@g" /etc/netconnectd.yaml
