@@ -247,8 +247,8 @@ ln -s /usr/local/lib/python2.7/dist-packages /home/pi/
 # add fake-hwclock cron job
 sudo crontab -u root /root/scripts/fake-hwclock_cron_job
 
-# add date and time stamp to image
-echo $(date) > /etc/octopi_datetime
+# add flavour and datetime to image
+echo "$BUILD_FLAVOR $(date)" > /etc/mrbeam
 
 # add Variant and Flavour name to image
 echo $BUILD_VARIANT > /etc/octopi_variant
