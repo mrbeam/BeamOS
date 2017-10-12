@@ -55,6 +55,7 @@ sudo pip install --no-index --find-links=/wheels/ numpy
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ numpy
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ lxml
 sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pillow
+sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pandas
 sudo rm -rf /wheels
 
 # install Mr Beam Plugin
