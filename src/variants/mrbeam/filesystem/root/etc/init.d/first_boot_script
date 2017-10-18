@@ -23,6 +23,9 @@ do_start () {
     # remove ourselves
     /usr/sbin/update-rc.d -f first_boot_script remove
 
+    # enable the usb mount manager udev rules
+    rm /etc/udev/rules.d/00-mount_manager.rules
+
     /sbin/reboot
 }
 

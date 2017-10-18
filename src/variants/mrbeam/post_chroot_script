@@ -30,9 +30,9 @@ unpack /filesystem/home/root /root root
 update-rc.d first_boot_script defaults
 
 # install necessary dependencies
-apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev hostapd dnsmasq logrotate rfkill python-pip \
-                               python-smbus libyaml-dev i2c-tools avrdude scons swig vim whois htop iotop zip sysstat \
-                               at rlpr
+apt-get -y --force-yes install libxml2-dev libxslt-dev libjpeg8-dev libyaml-dev
+apt-get -y --force-yes install hostapd dnsmasq logrotate rfkill python-pip python-smbus i2c-tools
+apt-get -y --force-yes install avrdude scons swig vim whois htop iotop zip rlpr sysstat
 
 # install OpenCV dependencies
 apt-get -y --force-yes install libtiff5-dev libjasper-dev libpng12-dev libjpeg-dev libavcodec-dev libavformat-dev\
@@ -164,12 +164,14 @@ pushd /home/pi
 popd
 
 # install usb_mount_manager
-echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager add"' >> /etc/udev/rules.d/00-mount_manager.rules
-echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager remove"' >> /etc/udev/rules.d/00-mount_manager.rules
+echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
+echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
+sudo ln -s /dev/null /etc/udev/rules.d/00-mount_manager.rules # This disables the udev rules for first boot and will be enabled in th first_boot_script again
 pushd /home/pi
     gitclone OCTOPI_USBMOUNTMANAGER_REPO usb_mount_manager
     sudo mv usb_mount_manager/mount_manager /root/
     sudo chmod o+x /root/mount_manager/mount_manager
+    rm -rf usb_mount_manager
 popd
 sudo gpg --import /root/pubkey.asc
 
