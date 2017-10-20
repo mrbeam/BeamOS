@@ -19,3 +19,8 @@ source ~/oprint/bin/activate
 cd /usr/local/lib/python2.7/dist-packages/
 cd ~/oprint/lib/python2.7/site-packages/
 cd ~/oprint/lib/python2.7/site-packages/octoprint_mrbeam/
+iobeam_info
+iobeam_info fan:off
+iobeam_debug
+tail -f -n200 /var/log/mrb_check.log
+tail -f -n200 /var/log/mount_manager.log

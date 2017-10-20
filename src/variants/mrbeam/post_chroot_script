@@ -181,7 +181,6 @@ pushd /home/pi
     pushd mb_camera_calibration
         addGitHashToConfig "mbcameracalibrationhash"
         sudo -u pi /home/pi/oprint/bin/pip install .
-        sudo pip install .
     popd
     rm -rf mb_camera_calibration
 popd
@@ -244,6 +243,8 @@ else
     passwd -l pi
 fi
 
+sudo chown pi:pi /home/pi/.octoprint/logging.yaml
+
 ln -s /home/pi/oprint/lib/python2.7/site-packages /home/pi/
 ln -s /usr/local/lib/python2.7/dist-packages /home/pi/
 
@@ -251,7 +252,7 @@ ln -s /usr/local/lib/python2.7/dist-packages /home/pi/
 sudo crontab -u root /root/scripts/fake-hwclock_cron_job
 
 # add flavour and datetime to image
-echo "$BUILD_FLAVOR $(date)" > /etc/mrbeam
+echo "octopi=$BUILD_FLAVOR $(date)" > /etc/mrbeam
 
 # add Variant and Flavour name to image
 echo $BUILD_VARIANT > /etc/octopi_variant
