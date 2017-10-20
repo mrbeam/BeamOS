@@ -252,7 +252,11 @@ ln -s /usr/local/lib/python2.7/dist-packages /home/pi/
 sudo crontab -u root /root/scripts/fake-hwclock_cron_job
 
 # add flavour and datetime to image
-echo "octopi=$BUILD_FLAVOR $(date)" > /etc/mrbeam
+if [ $BUILD_FLAVOR = "default" ]; then
+    echo "octopi=production $(date)" > /etc/mrbeam
+else
+    echo "octopi=$BUILD_FLAVOR $(date)" > /etc/mrbeam
+fi
 
 # add Variant and Flavour name to image
 echo $BUILD_VARIANT > /etc/octopi_variant

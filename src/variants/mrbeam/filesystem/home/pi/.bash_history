@@ -24,3 +24,4 @@ iobeam_info fan:off
 iobeam_debug
 tail -f -n200 /var/log/mrb_check.log
 tail -f -n200 /var/log/mount_manager.log
+cat /etc/mrbeam
