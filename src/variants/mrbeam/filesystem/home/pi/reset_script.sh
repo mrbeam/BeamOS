@@ -32,6 +32,8 @@ pushd /etc/network/
   sed -i '/wlan0-netconnectd_wifi/,+3d' interfaces
 popd
 
+systemctl restart octoprint.service
+
 # Cleanup history
 rm /home/pi/.bash_history
 history -c
