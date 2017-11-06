@@ -33,7 +33,3 @@ pushd /etc/network/
 popd
 
 systemctl restart octoprint.service
-
-# Cleanup history
-rm /home/pi/.bash_history
-history -c
