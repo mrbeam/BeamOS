@@ -10,13 +10,14 @@ pushd /home/pi/.octoprint
   sed -i '/api:/,+1d' config.yaml
   sed -i '/accessControl:/,+1d' config.yaml
 
+
   # Delete users.yaml
   rm users.yaml
 
   pushd uploads
     # Cleanup the uploads dir (delete all files but the listed)
     find . -maxdepth 1 -type f \
-      -not -name 'Focus_Lehre.svg' \
+      -not -name 'Focus_Lehre*' \
       -not -name 'MrBeam.svg' \
       -not -name 'MrBeam_Logo.svg' \
       -not -name 'Schlusselanhanger.svg' \
