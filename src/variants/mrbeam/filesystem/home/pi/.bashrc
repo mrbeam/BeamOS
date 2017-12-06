@@ -134,3 +134,10 @@ GREEN="\[\033[0;32m\]"
 NO_COLOUR="\[\033[0m\]"
 
 PS1="$GREEN\u@\h$NO_COLOUR:\w$YELLOW\$(parse_git_branch)$NO_COLOUR\> "
+
+# mrbeam
+alias restart_octoprint='sudo systemctl restart octoprint.service'
+alias restart_iobeam='sudo systemctl restart iobeam.service'
+alias restart_mrbeam_ledstrips='sudo systemctl restart mrbeam_ledstrips.service'
+alias restart_netconnectd='sudo systemctl restart netconnectd.service'
+
