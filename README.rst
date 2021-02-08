@@ -1,21 +1,22 @@
-OctoPi
+BeamOs
 ======
 
 .. image:: https://raw.githubusercontent.com/guysoft/OctoPi/devel/media/OctoPi.png
 .. :scale: 50 %
-.. :alt: OctoPi logo
+.. :alt: Mr Beam logo
 
-A `Raspberry Pi <http://www.raspberrypi.org/>`_ distribution for 3d printers. It includes the `OctoPrint <http://octoprint.org>`_ host software for 3d printers out of the box and `mjpg-streamer with RaspiCam support <https://github.com/jacksonliam/mjpg-streamer>`_ for live viewing of prints and timelapse video creation.
+A `Raspberry Pi <http://www.raspberrypi.org/>`_ distribution for the Mr Beam Laser Cutters. It includes the `OctoPrint <http://octoprint.org>`_ host software for 3d printers out of the box and the MrBeamPlugin that extends OctoPrint to be used with the Mr Beam Laser Cutters.
 
 This repository contains the source script to generate the distribution out of an existing `Raspbian <http://www.raspbian.org/>`_ distro image.
 
-Where to get it?
-----------------
+TODO
+----
 
-Download the latest stable build via this button:
+#. Add possibility to switch between tags, branches and python versions.
+#. Netconnectd needs to becompatible with Raspbian Buster
 
-.. image:: https://i.imgur.com/NvUOGfS.png
-   :target: https://octopi.octoprint.org/latest
+NOTE
+~~~~
 
 Official mirror is `here <https://github.com/guysoft/OctoPi/releases>`_
 
@@ -85,7 +86,9 @@ You can build it by issuing the following commands::
     cd ..
     ../../CustomPiOS/src/update-custompios-paths
     sudo modprobe loop
-    sudo bash -x ./build_dist
+    sudo bash -x ./build_dist [--ssh <.ssh>] [--gpg <.gnupg>]
+
+ The ssh folder and gpg folder were omitted from the build script for security reasons. If you wish to add them, use the `--ssh` and `--gpg` flags.
     
 Building OctoPi Variants
 ~~~~~~~~~~~~~~~~~~~~~~~~
