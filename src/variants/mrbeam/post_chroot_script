@@ -208,7 +208,6 @@ then
     echo "    level: ERROR" >> /home/pi/.octoprint/logging.yaml
     chown pi:pi /home/pi/.octoprint/logging.yaml
 
-    sed -i -e "" /home/pi/.octoprint/config.yaml
     #change default password
     PASS=$(mkpasswd -m sha-512 'MrUn!corn2')
     usermod -p $PASS pi
