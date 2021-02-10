@@ -157,9 +157,10 @@ popd
 # install usb_mount_manager
 echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager add"' >> /etc/udev/rules.d/00-mount_manager.rules
 echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/root/mount_manager/mount_manager remove"' >> /etc/udev/rules.d/00-mount_manager.rules
-pushd /root/
+pushd /home/pi
     gitclone OCTOPI_USBMOUNTMANAGER_REPO mount_manager
-    sudo chmod o+x mount_manager/mount_manager
+    sudo mv mount_manager /root/
+    sudo chmod o+x /root/mount_manager/mount_manager
 popd
 sudo gpg --import /root/pubkey.asc
 
@@ -207,6 +208,7 @@ then
     echo "    level: ERROR" >> /home/pi/.octoprint/logging.yaml
     chown pi:pi /home/pi/.octoprint/logging.yaml
 
+    sed -i -e "" /home/pi/.octoprint/config.yaml
     #change default password
     PASS=$(mkpasswd -m sha-512 'MrUn!corn2')
     usermod -p $PASS pi
