@@ -5,7 +5,7 @@ export DIST_NAME=BeamOS
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
 export BASE_IMAGE_ENLARGEROOT=1200
 # Add the beamos module
-export MODULES="base(raspicam, network, disable-services(octopi beamos), password-for-sudo)"
+export MODULES="base(raspicam, network, disable-services(octopi, beamos), password-for-sudo)"
 
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
