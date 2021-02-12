@@ -106,6 +106,7 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then
     echo "--- Installing usb_mount_manager"
+    unpack /filesystem/mount_manager/ / root
     echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     # Disable the udev rules for first boot and will be enabled again by the first_boot_script
@@ -119,11 +120,8 @@ pushd /home/pi
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
   then
-    add_mrb3
-    echo "--- Installing IOBEAM for python 3 (venv mrb3)"
-    sudo apt -y install i2c-tools
-    enable_i2c
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/mrb3/bin/pip install "$BEAMOS_IOBEAM_ARCHIVE"
+    echo "--- Installing Find my MrBeam ..."
+    # TODO
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]; then
     sudo apt -y install openssh-server
@@ -139,42 +137,6 @@ popd
 # store beamos commit used to build this image
 # (will be the same as the octopi commit version
 echo "$BEAMOS_COMMIT" > /etc/beamos_commit
-
-#unpack root in the end, so etc file are not overwritten, might need to add two roots int he future
-# Already done in octopi
-# unpack /filesystem/root /
-
-#####################################################################
-### setup services
-
-### Disable GUI at start
-# systemctl_if_exists disable lightdm.service || true
-
-# update-rc.d change_password defaults
-# update-rc.d change_hostname defaults
-
-
-### Mr Beam Plugin
-
-if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" == "yes" ]
-then
-  echo "Plugin - Nothing to do here"
-else
-  # let's remove the configs for system services we don't need
-  # TODO rm everything from the migration scripts or the superfluous stuff from the beamos/filesystem
-  echo "Still nothing to do"
-fi
-
-
-
-if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
-then
-  echo "IOBeam - Nothing to do here"
-  # TODO set the service files from here?
-else
-  # let's remove the configs for system services we don't need
-  echo "Still nothing to do"
-fi
 
 #cleanup
 apt-get clean

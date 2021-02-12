@@ -1,3 +1,0 @@
-[Service]
-Type=simple
-ExecStart=/root/mount_manager/mount_manager remove
