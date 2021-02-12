@@ -31,15 +31,15 @@ TRUE_USER=pi
 [ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
 # This uses the latest release as an archive
 # [ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || export BEAMOS_MRBEAMPLUGIN_ARCHIVE=$(wget -q -O - https://api.github.com/repos/mrbeam/MrBeamPlugin/releases/latest | grep "zipball_url" | cut -d : -f 2,3 | tr -d \" | tr -d ,)
-[ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || BEAMOS_IOBEAM_ARCHIVE=https://github.com/mrbeam/MrBeamPlugin/archive/$IOBEAM_IOBEAM_REPO_BRANCH.zip
+[ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || BEAMOS_MRBEAMPLUGIN_ARCHIVE=https://github.com/mrbeam/MrBeamPlugin/archive/$IOBEAM_IOBEAM_REPO_BRANCH.zip
 [ -n "$BEAMOS_MRBEAMPLUGIN_REPO_SHIP" ] || export BEAMOS_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
 [ -n "$BEAMOS_MRBEAMPLUGIN_REPO_BUILD" ] || BEAMOS_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 
 # IOBeam
 [ -n "$BEAMOS_INCLUDE_IOBEAM" ] || BEAMOS_INCLUDE_IOBEAM=yes
 [ -n "$BEAMOS_IOBEAM_ARCHIVE" ] || BEAMOS_IOBEAM_ARCHIVE=https://github.com/mrbeam/iobeam/archive/$BEAMOS_IOBEAM_REPO_BRANCH.zip
-[ -n "$BEAMOS_MRBEAMIOBEAM_REPO_BUILD" ] || BEAMOS_MRBEAMIOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
-[ -n "$BEAMOS_MRBEAMIOBEAM_REPO_SHIP" ] || BEAMOS_MRBEAMIOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
+[ -n "$BEAMOS_IOBEAM_REPO_BUILD" ] || BEAMOS_IOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
+[ -n "$BEAMOS_IOBEAM_REPO_SHIP" ] || BEAMOS_IOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
 
 [ -n "$BEAMOS_INCLUDE_MRBLED" ] || BEAMOS_INCLUDE_MRBLED=yes
 [ -n "$BEAMOS_MRBEAMLED_ARCHIVE" ] || BEAMOS_MRBEAMLED_ARCHIVE=https://github.com/mrbeam/FF/archive/$BEAMOS_MRBEAMLED_REPO_BRANCH.zip
