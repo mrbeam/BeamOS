@@ -40,7 +40,8 @@ add_mrb3() {
   sudo -u pi python3.7 -m venv /home/pi/mrb3
 }
 
-DEV_LIBS=
+OPRINT=/home/pi/oprint/bin
+
 pushd /home/pi
 
   if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
@@ -55,10 +56,7 @@ pushd /home/pi
     
   else
     echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
-    # TODO create custom opencv build
-    sudo apt -y --force-yes install python-opencv
-    # link the global library to the oprint environment
-    ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so 
+    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python
     # Install the opencv wheel available for raspberry
     # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
   fi
@@ -69,14 +67,14 @@ pushd /home/pi
     sudo apt -y --force-yes install libxml2 libxml2-dev libxslt1-dev libjpeg9 libjpeg9-dev
     # TODO rm install of numpy here
     # pip install raspicam that doesn't check cpu arch stuff
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install "$BEAMOS_MRBEAMPLUGIN_ARCHIVE"
+    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_MRBEAMPLUGIN_ARCHIVE"
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
   then
     echo "--- Installing IOBEAM"
     sudo apt -y install i2c-tools
     enable_i2c
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install "$BEAMOS_IOBEAM_ARCHIVE"
+    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_IOBEAM_ARCHIVE"
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM_3" == "yes" ]
   then
@@ -100,7 +98,7 @@ pushd /home/pi
     update-rc.d -f hostapd remove
     update-rc.d -f dnsmasq remove
     update-rc.d netconnectd defaults 98
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install "$BEAMOS_OCTO_NETCONNECTD_ARCHIVE"
+    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_OCTO_NETCONNECTD_ARCHIVE"
   fi
   [ "$BEAMOS_INCLUDE_GPG" == "yes" ] && sudo apt -y install gnupg
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
