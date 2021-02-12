@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+new_apname=$(hostname)
+
+if [ -f '/etc/netconnectd.yaml' ]
+then
+  sed -i -e "s/ssid: .*$/ssid: $new_apname/" /etc/netconnectd.yaml
+else
+  echo "ap:\n  ssid: $new_apname" > /etc/netconnectd.yaml
+fi

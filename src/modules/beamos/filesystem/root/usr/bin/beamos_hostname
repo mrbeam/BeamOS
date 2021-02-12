@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+HASH=$(
+  grep Serial /proc/cpuinfo | \
+  awk '{print $3}' | \
+  sha1sum | \
+  awk '{print toupper($0)}' | \
+  cut -c -4
+)
+
+[ -z "$HASH" ] && exit 1
+
+hostname "MrBeam-$HASH"
