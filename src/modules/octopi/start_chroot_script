@@ -33,9 +33,17 @@ echo "removing:" $remove_extra
 apt-get remove -y --purge  $remove_extra
 apt-get autoremove -y
 
-# MrBeam - require python2
-apt-get -y --force-yes install python2
-apt-get -y --force-yes install python3 python3-virtualenv python3-dev git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libffi-dev libssl-dev libatlas3-base
+if [ "$OCTOPI_PYTHON_VERSION" = python2 ]; then
+  # MrBeam - require python2
+  PYTHON=python2
+  PY2DEV="python2-dev"
+  apt-get -y --force-yes install python2 $PY2DEV
+else
+  PY2DEV=""
+  PYTHON=python3
+fi
+APT_DEV="python3-dev libffi-dev libssl-dev"
+apt-get -y --force-yes install python3 python3-virtualenv $APT_DEV $PY2DEV git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
 
 echo " - Reinstall iputils-ping"
 apt-get install --reinstall iputils-ping
@@ -43,11 +51,6 @@ apt-get install --reinstall iputils-ping
 pushd /home/"${BASE_USER}"
 
   # build virtualenv
-  if [ "$OCTOPI_PYTHON_VERSION" = python2 ]; then
-    PYTHON=python2
-  else
-    PYTHON=python3
-  fi
   sudo -u "${BASE_USER}" python3 -m virtualenv --python=$PYTHON oprint
   sudo -u "${BASE_USER}" /home/"${BASE_USER}"/oprint/bin/pip install --upgrade pip
 
@@ -266,6 +269,7 @@ fi
 systemctl_if_exists enable ffmpeg_hls.service
 
 #cleanup
+apt-get remove -y $APT_DEV $PY2DEV
 apt-get clean
 apt-get autoremove -y
 
