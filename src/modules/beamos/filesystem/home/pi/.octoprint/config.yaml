@@ -1,0 +1,51 @@
+webcam:
+  stream: plugin/mrbeam/static/img/test.jpg
+plugins:
+  discovery:
+    publicPort: 80
+  mrbeam:
+    current_profile_id: MrBeam2B
+    dev:
+      env: PROD
+      #env_overrides:
+        #local: DEV
+        #laser_safety: DEV
+        #analytics: DEV
+      software_tier: PROD
+  netconnectd:
+    socket: /var/run/netconnectd.sock
+  softwareupdate:
+    checks:
+      octoprint:
+        checkout_folder: /home/pi/OctoPrint
+        prerelease: false
+        stable_branch:
+          branch: mrbeam2-stable
+        user: mrbeam
+      mrbeam:
+        current: <mrbeamhash>
+      netconnectd:
+        current: <netconnectdpluginhash>
+      netconnectd-daemon:
+        current: <netconnectddaemonhash>
+      mrbeam-ledstrips:
+        current: <mrbeamledstripshash>
+      findmymrbeam:
+        current: <findmymrbeamhash>
+      iobeam:
+        current: <iobeamhash>
+      rpi-ws281x:
+        current: <rpiws281xhash>
+      mb-camera-calibration:
+        current: <mbcameracalibrationhash>
+serial:
+  additionalPorts:
+  - /dev/ttyAMA*
+  autoconnect: true
+  baudrate: 115200
+  port: /dev/ttyAMA0
+server:
+  commands:
+    serverRestartCommand: sudo systemctl restart octoprint.service
+    systemRestartCommand: sudo shutdown -r now
+    systemShutdownCommand: sudo shutdown -h now

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+PI_SERIAL=`cat /proc/cpuinfo | grep Serial | cut -d" " -f2 | awk '{print toupper($0)}'`
+HASH=`echo $PI_SERIAL | openssl dgst -sha1 | awk '{print toupper($NF)}'`
+
+if [ ! -n "$HASH" ]
+then
+  exit 1
+fi
+
+old_hostname=`hostname`
+new_hostname=MrBeam-${HASH:(-4)}
+
+echo "$new_hostname" > /etc/hostname
+sed -i -e "s@$old_hostname@$new_hostname@g" /etc/hosts

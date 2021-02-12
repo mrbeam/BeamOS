@@ -1,0 +1,1 @@
+*/5 * * * * /sbin/fake-hwclock save
