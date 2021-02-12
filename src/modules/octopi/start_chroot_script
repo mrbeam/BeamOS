@@ -34,8 +34,7 @@ apt-get remove -y --purge  $remove_extra
 apt-get autoremove -y
 
 # MrBeam - require python2
-apt-get -y --force-yes install python2 python2-pip python2-dev
-python2 -m pip install virtualenv
+apt-get -y --force-yes install python2
 apt-get -y --force-yes install python3 python3-virtualenv python3-dev git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libffi-dev libssl-dev libatlas3-base
 
 echo " - Reinstall iputils-ping"
@@ -49,7 +48,7 @@ pushd /home/"${BASE_USER}"
   else
     PYTHON=python3
   fi
-  sudo -u "${BASE_USER}" $PYTHON -m virtualenv --python=$PYTHON oprint
+  sudo -u "${BASE_USER}" python3 -m virtualenv --python=$PYTHON oprint
   sudo -u "${BASE_USER}" /home/"${BASE_USER}"/oprint/bin/pip install --upgrade pip
 
   # OctoPrint
