@@ -11,13 +11,6 @@ export LC_ALL=C
 
 source /common.sh
 
-if [ -n "$OCTOPI_APTMIRROR" ]; 
-then
-    echo "Switching apt mirror in /etc/apt/sources.list to $OCTOPI_APTMIRROR"
-    cp /etc/apt/sources.list /etc/apt/sources.list.backup
-    sed -i "s@http://raspbian.raspberrypi.org/raspbian/@$OCTOPI_APTMIRROR@g" /etc/apt/sources.list
-fi
-
 WEBCAM_USER=webcam
 
 ### Script ####
@@ -25,7 +18,6 @@ WEBCAM_USER=webcam
 unpack /filesystem/home/pi /home/"${BASE_USER}" "${BASE_USER}"
 unpack /filesystem/home/root /root root
 unpack /filesystem/boot /boot
-apt-get update
 
 # in case we are building from a regular raspbian image instead of the lite one...
 remove_extra=$(remove_if_installed scratch squeak-plugins-scratch squeak-vm wolfram-engine python-minecraftpi minecraft-pi sonic-pi oracle-java8-jdk bluej libreoffice-common libreoffice-core freepats greenfoot nodered)
@@ -36,14 +28,11 @@ apt-get autoremove -y
 if [ "$OCTOPI_PYTHON_VERSION" = python2 ]; then
   # MrBeam - require python2
   PYTHON=python2
-  PY2DEV="python2-dev"
-  apt-get -y --force-yes install python2 $PY2DEV
+  apt-get -y install python2
 else
-  PY2DEV=""
   PYTHON=python3
 fi
-APT_DEV="python3-dev libffi-dev libssl-dev"
-apt-get -y --force-yes install python3 python3-virtualenv $APT_DEV $PY2DEV git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
+apt-get -y --force-yes install python3 python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
 
 echo " - Reinstall iputils-ping"
 apt-get install --reinstall iputils-ping
@@ -268,13 +257,3 @@ fi
 
 systemctl_if_exists enable ffmpeg_hls.service
 
-#cleanup
-apt-get remove -y $APT_DEV $PY2DEV
-apt-get clean
-apt-get autoremove -y
-
-if [ -n "$OCTOPI_APTMIRROR" ]; 
-then
-    echo "Reverting /etc/apt/sources.list"
-    mv /etc/apt/sources.list.backup /etc/apt/sources.list
-fi

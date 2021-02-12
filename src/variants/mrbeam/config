@@ -5,7 +5,7 @@ export DIST_NAME=BeamOS
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
 export BASE_IMAGE_ENLARGEROOT=1200
 # Add the beamos module
-export MODULES="base(raspicam, network, disable-services(octopi, beamos), password-for-sudo)"
+export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)), password-for-sudo)"
 
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
@@ -32,6 +32,8 @@ export OCTOPI_INCLUDE_FFMPEG_HLS=no
 
 # Fix - only python2 compatible for now:
 export OCTOPI_PYTHON_VERSION=python2
+# Add dev repos to build up the MrBeam dependencies - Will not be kept in the image.
+export DEV_LIBS_EXTRA="python2-dev"
 # dev - enable repos little by little
 export BEAMOS_INCLUDE_MOUNTMANAGER=no
 export BEAMOS_INCLUDE_NETCONNECTD=no

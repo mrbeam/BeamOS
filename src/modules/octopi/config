@@ -32,9 +32,6 @@
 
 [ -n "$OCTOPI_COMMIT" ] || OCTOPI_COMMIT=`pushd "${DIST_PATH}" > /dev/null ; git rev-parse HEAD ; popd > /dev/null`
 
-# Fixed apt mirror
-[ -n "$OCTOPI_APTMIRROR" ] || OCTOPI_APTMIRROR=
-
 # Python version
 
 [ -n "$OCTOPI_PYTHON_VERSION" ] || OCTOPI_PYTHON_VERSION=python3

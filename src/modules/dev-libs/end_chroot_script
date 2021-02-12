@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# OctoPI generation script
+# Helper script that runs in a Raspbian chroot to create the OctoPI distro
+# Written by Axel Soll <axel@soll.xyz>
+# GPL V3
+########
+set -x
+set -e
+
+
+# cleanup the apt repos
+apt-get remove -y $DEV_LIBS_BASE $DEV_LIBS_EXTRA
+apt-get clean
+apt-get autoremove -y
+
+
+if [ -n "$DEV_LIBS_APTMIRROR" ];
+then
+    echo "Reverting /etc/apt/sources.list"
+    mv /etc/apt/sources.list.backup /etc/apt/sources.list
+fi

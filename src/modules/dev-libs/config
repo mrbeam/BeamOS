@@ -1,0 +1,8 @@
+#!/usr/bin/env sh
+
+[ -n "$DEV_LIBS_BASE" ] || DEV_LIBS_BASE="python3-dev libffi-dev libssl-dev"
+
+[ -n "$DEV_LIBS_EXTRA" ] || DEV_LIBS_EXTRA=
+
+# Fixed apt mirror
+[ -n "$DEV_LIBS_APTMIRROR" ] || DEV_LIBS_APTMIRROR=
