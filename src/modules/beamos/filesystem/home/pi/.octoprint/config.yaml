@@ -4,7 +4,6 @@ plugins:
   discovery:
     publicPort: 80
   mrbeam:
-    current_profile_id: MrBeam2B
     dev:
       env: PROD
       #env_overrides:

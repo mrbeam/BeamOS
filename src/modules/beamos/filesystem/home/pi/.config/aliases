@@ -1,0 +1,11 @@
+
+# mrbeam
+alias restart_octoprint='sudo systemctl restart octoprint.service'
+alias restart_iobeam='sudo systemctl restart iobeam.service'
+alias restart_mrbeam_ledstrips='sudo systemctl restart mrbeam_ledstrips.service'
+alias restart_netconnectd='sudo systemctl restart netconnectd.service'
+
+alias stop_octoprint='sudo systemctl stop octoprint.service'
+alias stop_iobeam='sudo systemctl stop iobeam.service'
+alias stop_mrbeam_ledstrips='sudo systemctl stop mrbeam_ledstrips.service'
+alias stop_netconnectd='sudo systemctl stop netconnectd.service'

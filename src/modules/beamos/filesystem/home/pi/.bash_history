@@ -20,8 +20,10 @@ restart_netconnectd
 cd /usr/local/lib/python2.7/dist-packages/
 cd ~/oprint/lib/python2.7/site-packages/
 cd ~/oprint/lib/python2.7/site-packages/octoprint_mrbeam/
-iobeam_debug
-iobeam_info fan:off
-iobeam_info
-cat /etc/mrbeam
-cat ~/.octoprint/config.yaml
+iobeamcli info
+iobeamcli fan -c off
+iobeamcli
+nano /etc/mrbeam
+vim /etc/mrbeam
+nano ~/.octoprint/config.yaml
+vim ~/.octoprint/config.yaml
