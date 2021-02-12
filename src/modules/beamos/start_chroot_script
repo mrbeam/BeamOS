@@ -64,7 +64,7 @@ pushd /home/pi
   then
     echo "--- Installing MrBeamPlugin"
     # Library dependencies for PIL
-    sudo apt -y --force-yes install libxml2 libxml2-dev libxslt1-dev libjpeg9 libjpeg9-dev
+    # sudo apt -y --force-yes install libxml2 libxml2-dev libxslt1-dev libjpeg9 libjpeg9-dev
     # TODO rm install of numpy here
     # pip install raspicam that doesn't check cpu arch stuff
     PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_MRBEAMPLUGIN_ARCHIVE"
