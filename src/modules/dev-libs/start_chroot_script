@@ -1,9 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 # OctoPI generation script
 # Helper script that runs in a Raspbian chroot to create the OctoPI distro
 # Written by Axel Soll <axel@soll.xyz>
 # GPL V3
 ########
+set -x
+set -e
 
 if [ -n "$DEV_LIBS_APTMIRROR" ];
 then
@@ -14,4 +16,4 @@ fi
 
 apt-get update
 
-apt-get -y $DEV_LIBS_BASE $DEV_LIBS_EXTRA
+apt-get -y ${DEV_LIBS_BASE} ${DEV_LIBS_EXTRA}
