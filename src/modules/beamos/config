@@ -28,11 +28,11 @@ TRUE_USER=pi
 [ -n "$BEAMOS_RPI_WS281X_REPO_BRANCH" ] || BEAMOS_RPI_WS281X_REPO_BRANCH=master
 
 # # MrBeamPlugin
-[ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
+[ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
 # This uses the latest release as an archive
 # [ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || export BEAMOS_MRBEAMPLUGIN_ARCHIVE=$(wget -q -O - https://api.github.com/repos/mrbeam/MrBeamPlugin/releases/latest | grep "zipball_url" | cut -d : -f 2,3 | tr -d \" | tr -d ,)
-[ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || BEAMOS_MRBEAMPLUGIN_ARCHIVE=https://github.com/mrbeam/MrBeamPlugin/archive/$IOBEAM_MRBEAMPLUGIN_REPO_BRANCH.zip
-[ -n "$BEAMOS_MRBEAMPLUGIN_REPO_SHIP" ] || export BEAMOS_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
+[ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || BEAMOS_MRBEAMPLUGIN_ARCHIVE=https://github.com/mrbeam/MrBeamPlugin/archive/$BEAMOS_MRBEAMPLUGIN_REPO_BRANCH.zip
+[ -n "$BEAMOS_MRBEAMPLUGIN_REPO_SHIP" ] || BEAMOS_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
 [ -n "$BEAMOS_MRBEAMPLUGIN_REPO_BUILD" ] || BEAMOS_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
 
 # IOBeam
