@@ -35,3 +35,6 @@
 # Fixed apt mirror
 [ -n "$OCTOPI_APTMIRROR" ] || OCTOPI_APTMIRROR=
 
+# Python version
+
+[ -n "$OCTOPI_PYTHON_VERSION" ] || OCTOPI_PYTHON_VERSION=python3

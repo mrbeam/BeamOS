@@ -1,55 +1,34 @@
+#!/bin/sh
 # variant mrbeam, flavor default: override hostname & custom config setting
 
-OCTOPI_OVERRIDE_HOSTNAME=mrbeam2
-OCTOPI_EXAMPLE_CUSTOM="Hello there"
+export DIST_NAME=BeamOS
+export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
+export BASE_IMAGE_ENLARGEROOT=1200
+# Add the beamos module
+export MODULES="base(raspicam, network, disable-services(octopi beamos), password-for-sudo)"
 
-OCTOPI_IMAGE_ENLARGEROOT=1200
+export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
+export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
+export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
 
-OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
-OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
-OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
-OCTOPI_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/MrBeamPlugin.git
-OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_MRBEAMIOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
-OCTOPI_MRBEAMIOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
-OCTOPI_MRBEAMIOBEAM_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
-OCTOPI_MRBEAMLED_REPO_SHIP=https://github.com/mrbeam/MrBeamLedStrips.git
-OCTOPI_MRBEAMLED_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
-OCTOPI_NETCONNECTD_REPO_SHIP=https://github.com/mrbeam/netconnectd_mrbeam.git
-OCTOPI_NETCONNECTD_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
-OCTOPI_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
-OCTOPI_NETCONNECTD_PLUGIN_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
-OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
-OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_SHIELDFLASHER_REPO_BUILD=https://github.com/mrbeam/shield_flasher.git
-OCTOPI_SHIELDFLASHER_REPO_SHIP=https://github.com/mrbeam/shield_flasher.git
-OCTOPI_SHIELDFLASHER_REPO_BRANCH=master
-
-OCTOPI_RPI_WS281X_REPO_BUILD=https://github.com/mrbeam/rpi_ws281x.git
-OCTOPI_RPI_WS281X_REPO_SHIP=https://github.com/mrbeam/rpi_ws281x.git
-OCTOPI_RPI_WS281X_REPO_BRANCH=master
-
-OCTOPI_USBMOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
-OCTOPI_USBMOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
-OCTOPI_USBMOUNTMANAGER_REPO_BRANCH=mrbeam2-stable
-
-OCTOPI_MBCAMERACALIBRATION_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/mb_camera_calibration.git
-OCTOPI_MBCAMERACALIBRATION_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/mb_camera_calibration.git
-OCTOPI_MBCAMERACALIBRATION_REPO_BRANCH=mrbeam2-stable
+if [ "$1" = "dev" -o "$1" = "develop" ]; then
+    echo "BUILDING DEV FLAVOR"
+    export OCTOPI_OCTOPRINT_REPO_BRANCH=develop
+    export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=develop
+    export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=develop
+    export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
+    export BEAMOS_USBMOUNTMANAGER_REPO_BRANCH=develop
+    export BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=develop
+else
+    echo "BUILDING STABLE FLAVOR"
+fi
 
 # disable unnecessary stuff
-OCTOPI_INCLUDE_OCTOPIPANEL=no
-OCTOPI_INCLUDE_CURAENGINE=no
-OCTOPI_INCLUDE_MJPGSTREAMER=no
+export OCTOPI_INCLUDE_OCTOPIPANEL=no
+export OCTOPI_INCLUDE_CURAENGINE=no
+export OCTOPI_INCLUDE_MJPGSTREAMER=no
+
+# dev - enable repos little by little
+BEAMOS_INCLUDE_MOUNTMANAGER=no
+BEAMOS_INCLUDE_NETCONNECTD=no
+BEAMOS_INCLUDE_IOBEAM=no
