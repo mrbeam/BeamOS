@@ -13,10 +13,7 @@ source /common.sh
 
 ### Script ####
 
-# octopi already updated the image to the latest version and rm'ed bloat packages
-
-# Upgrade pip
-sudo -u pi /home/pi/oprint/bin/pip install --upgrade pip
+# octopi already updated the image to the latest version, rm'ed bloat packages and updated pip
 
 enable_i2c() {
   # uncomment i2c_arm option
@@ -56,7 +53,7 @@ pushd /home/pi
     
   else
     echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python
+    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
     # Install the opencv wheel available for raspberry
     # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
   fi

@@ -16,4 +16,4 @@ fi
 
 apt-get update
 
-apt-get -y install $(echo $DEV_LIBS_BASE $DEV_LIBS_EXTRA)
+apt-get install -y $(echo $DEV_LIBS_BASE $DEV_LIBS_EXTRA)
