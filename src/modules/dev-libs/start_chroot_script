@@ -16,4 +16,6 @@ fi
 
 apt-get update
 
-apt-get -y $(echo $DEV_LIBS_BASE $DEV_LIBS_EXTRA)
+apt-get -y python3-dev libffi-dev libssl-dev python2-dev
+
+# $(echo $DEV_LIBS_BASE $DEV_LIBS_EXTRA)
