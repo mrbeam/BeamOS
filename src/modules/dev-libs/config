@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-[ -n "$DEV_LIBS_BASE" ] || DEV_LIBS_BASE="python3-dev libffi-dev libssl-dev"
+[ -n "$DEV_LIBS_BASE" ] || DEV_LIBS_BASE="python3-dev libffi-dev libssl-dev libjpeg9-dev"
 
 [ -n "$DEV_LIBS_EXTRA" ] || DEV_LIBS_EXTRA=
 
