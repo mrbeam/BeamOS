@@ -33,7 +33,7 @@ export OCTOPI_INCLUDE_FFMPEG_HLS=no
 # Fix - only python2 compatible for now:
 export OCTOPI_PYTHON_VERSION=python2
 # Add dev repos to build up the MrBeam dependencies - Will not be kept in the image.
-export DEV_LIBS_EXTRA="python2-dev"
+export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 # dev - enable repos little by little
 export BEAMOS_INCLUDE_MOUNTMANAGER=no
 export BEAMOS_INCLUDE_NETCONNECTD=no
