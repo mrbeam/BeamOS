@@ -58,7 +58,7 @@ pushd /home/pi
     ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so
     # Headless install (which fails)
     # PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
-    # Install the opencv wheel available for raspberry
+    # Install the opencv wheel available for raspberry (also fails)
     # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
   fi
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" == "yes" ]
