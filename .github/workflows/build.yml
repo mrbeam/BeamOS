@@ -17,7 +17,7 @@ jobs:
     - name: Checkout CustomPiOS
       uses: actions/checkout@v2
       with:
-        repository: 'guysoft/CustomPiOS'
+        repository: 'mrbeam/CustomPiOS'
         path: CustomPiOS
 
     - name: Checkout Project Repository
@@ -35,16 +35,26 @@ jobs:
       run: |
         cd repository/src
         ../../CustomPiOS/src/update-custompios-paths
-    
+
+    - name: Create relevant SSH key
+      env:
+        SSH_KEY: ${{secrets.AXEL_BITBUCK_SSH_KEY}}
+      run: |
+        echo "$SSH_KEY" > ~/repository/src/modules/beamos/filesystem/bitbucket_rsa
+
     - name: Force apt mirror to work around intermittent mirror hiccups
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
+
+    - name: Select variant to build (if any):
+      run: |
+        export VARIANT=mrbeam
 
     - name: Build Image (MrBeam Variant)
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x ./build_dist mrbeam
+        sudo bash -x ./build_dist $VARIANT
 
     - name: Copy output
       id: copy
@@ -52,8 +62,12 @@ jobs:
         source repository/src/config
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=$NOW-octopi-$DIST_VERSION
-        # When building a variant, it is bouilt in workspace-$VARIANT
-        cp repository/src/workspace-mrbeam/*.img $IMAGE.img
+        # When building a variant, it is built in workspace-$VARIANT
+        if [ -n $VARIANT ]; then
+          cp repository/src/workspace-$VARIANT/*.img $IMAGE.img
+        else
+          cp repository/src/workspace/*.img $IMAGE.img
+        fi
 
         echo "::set-output name=image::$IMAGE"
 

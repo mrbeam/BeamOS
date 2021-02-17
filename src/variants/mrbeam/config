@@ -13,6 +13,9 @@ export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
 # export OCTOPI_OCTOPRINT_ARCHIVE=/filesystem/OctoPrint
 export OCTOPI_OCTOPRINT_ARCHIVE=https://github.com/mrbeam/OctoPrint/archive/$OCTOPI_OCTOPRINT_REPO_BRANCH.zip
 
+# Where to find the ssh key to pull private repos
+export BEAMOS_IOBEAM_REPO_SSH_KEY=/filesystem/bitbucket_rsa
+export BEAMOS_MOUNTMANAGER_REPO_SSH_KEY=/filesystem/bitbucket_rsa
 if [ "$1" = "dev" -o "$1" = "develop" ]; then
     echo "BUILDING DEV FLAVOR"
     export OCTOPI_OCTOPRINT_REPO_BRANCH=develop
@@ -39,7 +42,8 @@ export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 # dev - enable repos little by little
 # export BASE_IMAGE_RESIZEROOT=1000
 export OCTOPI_INCLUDE_HAPROXY=no
-export BEAMOS_INCLUDE_MOUNTMANAGER=no
+export BEAMOS_INCLUDE_MOUNTMANAGER=yes
 export BEAMOS_INCLUDE_NETCONNECTD=no
-export BEAMOS_INCLUDE_IOBEAM=no
+export BEAMOS_INCLUDE_IOBEAM=yes
+export BEAMOS_INCLUDE_FINDMYMRBEAM=no
 export BEAMOS_DEV=no
