@@ -52,8 +52,8 @@ jobs:
         source repository/src/config
         NOW=$(date +"%Y-%m-%d-%H%M")
         IMAGE=$NOW-octopi-$DIST_VERSION
-
-        cp repository/src/workspace/*.img $IMAGE.img
+        # When building a variant, it is bouilt in workspace-$VARIANT
+        cp repository/src/workspace-mrbeam/*.img $IMAGE.img
 
         echo "::set-output name=image::$IMAGE"
 
