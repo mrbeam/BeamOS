@@ -76,6 +76,9 @@ TRUE_USER=pi
 [ -n "$BEAMOS_MOUNTMANAGER_REPO_BUILD" ] || BEAMOS_MOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 [ -n "$BEAMOS_MOUNTMANAGER_REPO_SHIP" ] || BEAMOS_MOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 
+### Misc
+
+# I2C Baudrate
 [ -n "$BEAMOS_I2C_BAUDRATE" ] || BEAMOS_I2C_BAUDRATE=64000
 
 # [ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes

@@ -39,6 +39,11 @@ add_mrb3() {
 
 OPRINT=/home/pi/oprint/bin
 
+pip_install() {
+  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install $@
+  # --install-option="--jobs=$BEAMOS_JOBS"
+}
+
 pushd /home/pi
 
   if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
@@ -53,7 +58,7 @@ pushd /home/pi
     
   else
     echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
-    sudo apt -y --force-yes install python-opencv
+    sudo apt -y install python-opencv
     # link the global library to the oprint environment
     ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so
     # Headless install (which fails)
@@ -67,15 +72,19 @@ pushd /home/pi
     # Library dependencies for PIL
     sudo apt -y install libxml2  libjpeg9
     # TODO rm install of numpy here
+    # picamera needs to check /proc/cpuinfo at install time to figure out which model it's used with.
+    cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+
     # pip install raspicam that doesn't check cpu arch stuff
     PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_MRBEAMPLUGIN_ARCHIVE"
+    rm /proc/cpuinfo
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
   then
     echo "--- Installing IOBEAM"
     sudo apt -y install i2c-tools
     enable_i2c
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_IOBEAM_ARCHIVE"
+    pip_install "$BEAMOS_IOBEAM_ARCHIVE"
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM_3" == "yes" ]
   then
@@ -83,7 +92,7 @@ pushd /home/pi
     echo "--- Installing IOBEAM for python 3 (venv mrb3)"
     sudo apt -y install i2c-tools
     enable_i2c
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/mrb3/bin/pip install "$BEAMOS_IOBEAM_ARCHIVE"
+    pip_install "$BEAMOS_IOBEAM_ARCHIVE"
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
     # TODO
@@ -99,7 +108,7 @@ pushd /home/pi
     update-rc.d -f hostapd remove
     update-rc.d -f dnsmasq remove
     update-rc.d netconnectd defaults 98
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install "$BEAMOS_OCTO_NETCONNECTD_ARCHIVE"
+    pip_install "$BEAMOS_OCTO_NETCONNECTD_ARCHIVE"
   fi
   [ "$BEAMOS_INCLUDE_GPG" == "yes" ] && sudo apt -y install gnupg
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
@@ -115,7 +124,7 @@ pushd /home/pi
     sudo chmod o+x /root/mount_manager/mount_manager
     rm -rf usb_mount_manager
     sudo gpg --import /root/pubkey.asc
-    PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/mrb3/bin/pip install "$BEAMOS_IOBEAM_ARCHIVE"
+    pip_install "$BEAMOS_IOBEAM_ARCHIVE"
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
   then
@@ -149,9 +158,9 @@ apt-get autoremove -y
 if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
 then
   systemctl_if_exists enable iobeam.service
-else
+# else
   # let's remove the configs for system services we don't need
-  rm /etc/systemd/system/iobeam.service
+  # rm /etc/systemd/system/iobeam.service
 fi
 
 ### Netconnectd
@@ -159,7 +168,7 @@ fi
 if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]
 then
   systemctl_if_exists enable netconnectd.service
-else
+# else
   # let's remove the configs for system services we don't need
-  rm /etc/systemd/system/netconnectd.service
+  # rm /etc/systemd/system/netconnectd.service
 fi
