@@ -46,7 +46,7 @@ jobs:
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
-    - name: Select variant to build (if any):
+    - name: Select variant to build (if any)
       run: |
         export VARIANT=mrbeam
 
