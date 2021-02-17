@@ -10,6 +10,8 @@ export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
+# export OCTOPI_OCTOPRINT_ARCHIVE=/filesystem/OctoPrint
+export OCTOPI_OCTOPRINT_ARCHIVE=https://github.com/mrbeam/OctoPrint/archive/$OCTOPI_OCTOPRINT_REPO_BRANCH.zip
 
 if [ "$1" = "dev" -o "$1" = "develop" ]; then
     echo "BUILDING DEV FLAVOR"
@@ -36,6 +38,7 @@ export OCTOPI_PYTHON_VERSION=python2
 export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 # dev - enable repos little by little
 # export BASE_IMAGE_RESIZEROOT=1000
+export OCTOPI_INCLUDE_HAPROXY=no
 export BEAMOS_INCLUDE_MOUNTMANAGER=no
 export BEAMOS_INCLUDE_NETCONNECTD=no
 export BEAMOS_INCLUDE_IOBEAM=no
