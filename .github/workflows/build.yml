@@ -40,7 +40,7 @@ jobs:
       env:
         SSH_KEY: ${{secrets.AXEL_BITBUCK_SSH_KEY}}
       run: |
-        echo "$SSH_KEY" > ~/repository/src/modules/beamos/filesystem/bitbucket_rsa
+        echo "$SSH_KEY" > repository/src/modules/beamos/filesystem/bitbucket_rsa
 
     - name: Force apt mirror to work around intermittent mirror hiccups
       run: |
