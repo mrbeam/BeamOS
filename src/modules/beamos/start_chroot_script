@@ -20,10 +20,16 @@ enable_i2c() {
   sed -i 's/^# *\(dtparam=i2c_arm\)/\1/' /boot/config.txt
   # Enable I2C and set I2C baudrate if they are present in config
   if grep "i2c_arm=" /boot/config.txt &>/dev/null; then
-    sed -i 's/\(i2c_arm=\)off/\1on/' /boot/config
+    sed -i 's/\(i2c_arm=\)off/\1on/' /boot/config.txt
+  else
+    echo "dtparam=i2c_arm=on" >> /boot/config.txt
   fi
 
-  grep "i2c_arm_baudrate" /boot/config.txt || echo "dtparam=i2c_arm_baudrate=$BEAMOS_I2C_BAUDRATE" >> /boot/config.txt
+  if grep "i2c_arm_baudrate" /boot/config.txt &>/dev/null; then
+    sed -i 's/\(i2c_arm_baudrate=\)[0-9]*/\1'"$BEAMOS_I2C_BAUDRATE"'/' /boot/config.txt
+  else
+    echo "dtparam=i2c_arm_baudrate=$BEAMOS_I2C_BAUDRATE" >> /boot/config.txt
+  fi
   # Enable UART  AAAAND Bluetooth
   #echo "enable_uart=1" >> /boot/config.txt
 }
@@ -57,6 +63,9 @@ pip_install_dev_or_rm() {
 
 pushd /home/pi
 
+  sudo -u pi mkdir -p .ssh
+  sudo -u pi cp /filesystem/known_hosts_bitbucket .ssh/known_hosts
+  chown pi:pi /filesystem/bitbucket_rsa
   if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
     echo "Pulling $BEAMOS_OPENCV_VERSION"
     echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
@@ -86,7 +95,7 @@ pushd /home/pi
     # picamera needs to check /proc/cpuinfo at install time to figure out which model it's used with.
     cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
 
-    gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-Mrbeam
+    gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
 
     rm /proc/cpuinfo
@@ -100,8 +109,8 @@ pushd /home/pi
     pip_install_dev_or_rm ./iobeam
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
-    # TODO
-    sudo apt-get -y install hostapd dnsmasq logrotate rfkill
+    # TODO change when newest version of netconnectd comes out.
+    apt-get -y install hostapd dnsmasq logrotate rfkill
     gitclone BEAMOS_NETCONNECTD_REPO netconnectd
     pip_install_dev_or_rm ./netconnectd
     sed -i 's/free: true/free: false/' /etc/netconnectd.yaml
@@ -111,19 +120,22 @@ pushd /home/pi
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then
-    sudo apt -y install gnupg
+    apt -y install gnupg
     echo "--- Installing usb_mount_manager"
-    unpack /filesystem/mount_manager/root /
+    unpack /filesystem/mount_manager/root / root
+    unpack /filesystem/mount_manager/home /home/pi pi
     echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     # Disable the udev rules for first boot and will be enabled again by the first_boot_script
     sudo ln -s /dev/null /etc/udev/rules.d/00-mount_manager.rules
     gitclone BEAMOS_MOUNTMANAGER_REPO usb_mount_manager
-    sudo mv usb_mount_manager/mount_manager /root/
-    sudo chmod o+x /root/mount_manager/mount_manager
+    mv usb_mount_manager/mount_manager /usr/bin/
+    chmod o+x /usr/bin/mount_manager
+    chown root:root /usr/bin/mount_manager
     rm -rf usb_mount_manager
-    # TODO Add gpg public key
-    # sudo gpg --import /root/pubkey.asc
+    # Add gpg public key under the pi user
+    gpg --import /usr/share/mount_manager/pubkey.asc
+    sudo -u "${BASE_USER}" gpg --import /usr/share/mount_manager/pubkey.asc
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
   then
@@ -134,10 +146,14 @@ pushd /home/pi
     sudo apt -y install openssh-server
     # TODO place the .ssh files here
     # TODO remove user password login
+  else
+    rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
   if [ "$BEAMOS_DEV" == "yes" ]; then
     sudo apt -y install vim curl pkg-config
     # Adding Rust, personal choice...
+  else
+    rm .ssh/known_hosts
   fi
 popd
 

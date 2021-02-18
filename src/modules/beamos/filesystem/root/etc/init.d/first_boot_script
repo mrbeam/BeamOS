@@ -20,7 +20,7 @@ do_start () {
     [ -x /usr/bin/beamos_hostname ] && /usr/bin/beamos_hostname >> $logfile
 
     echo "Updating the WiFi Access Point name..." >> $logfile
-    [ -x /usr/bin/reset_apname ] && /root/scripts/change_apname >> $logfile
+    [ -x /usr/bin/reset_apname ] && /usr/bin/reset_apname >> $logfile
 
     # enable the usb mount manager udev rules
     rm /etc/udev/rules.d/00-mount_manager.rules
