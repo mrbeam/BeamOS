@@ -46,17 +46,17 @@ jobs:
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
-    - name: Select variant to build (if any)
-      run: |
-        export VARIANT=mrbeam
-
     - name: Build Image (MrBeam Variant)
+      env:
+        VARIANT: mrbeam
       run: |
         sudo modprobe loop
         cd repository/src
         sudo bash -x ./build_dist $VARIANT
 
     - name: Copy output
+      env:
+        VARIANT: mrbeam
       id: copy
       run: |
         source repository/src/config
