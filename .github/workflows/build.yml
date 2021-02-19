@@ -19,6 +19,7 @@ jobs:
       with:
         repository: 'mrbeam/CustomPiOS'
         path: CustomPiOS
+        ref: 'mrbeam'
 
     - name: Checkout Project Repository
       uses: actions/checkout@v2
