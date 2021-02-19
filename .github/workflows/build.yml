@@ -23,19 +23,14 @@ jobs:
 
     - name: Checkout IoBeam
       uses: actions/checkout@v2
-      env:
-        GITHUB_SERVER_URL: https://bitbucket.org
       with:
         repository: 'mrbeam/iobeam'
-        ssh-key: "${{ secrets.AXEL_BITBUCK_SSH_KEY }}"
         path: iobeam
 
     - name: Checkout mount manager
       uses: actions/checkout@v2
-      env:
-        GITHUB_SERVER_URL: https://bitbucket.org
       with:
-        repository: 'mrbeam/usb_mount_manager'
+        repository: 'mrbeam/mount_manager'
         ssh-key: "${{ secrets.AXEL_BITBUCK_SSH_KEY }}"
         path: mount_manager
 
