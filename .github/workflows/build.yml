@@ -21,6 +21,20 @@ jobs:
         path: CustomPiOS
         ref: 'mrbeam'
 
+    - name: Checkout IoBeam
+      uses: actions/checkout@v2
+      with:
+        repository: 'git@bitbucket.org:mrbeam/iobeam.git'
+        ssh-key: "${{ secrets.AXEL_BITBUCK_SSH_KEY }}"
+        path: iobeam
+
+    - name: Checkout mount manager
+      uses: actions/checkout@v2
+      with:
+        repository: 'git@bitbucket.org:mrbeam/usb_mount_manager.git'
+        ssh-key: "${{ secrets.AXEL_BITBUCK_SSH_KEY }}"
+        path: mount_manager
+
     - name: Checkout Project Repository
       uses: actions/checkout@v2
       with:
