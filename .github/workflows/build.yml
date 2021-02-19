@@ -27,6 +27,7 @@ jobs:
         repository: 'mrbeam/iobeam'
         token: ${{ secrets.API_READ_KEY }}
         path: iobeam
+        branch: develop
 
     - name: Checkout mount manager
       uses: actions/checkout@v2
