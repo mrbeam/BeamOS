@@ -1,0 +1,3 @@
+[submodule "src/modules/beamos/filesystem/iobeam"]
+	path = src/modules/beamos/filesystem/iobeam
+	url = git@github.com:mrbeam/iobeam.git
