@@ -9,38 +9,39 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Install Dependencies
-      run: |
-        sudo apt update
-        sudo apt install coreutils p7zip-full qemu-user-static
+    # - name: Install Dependencies
+    #   run: |
+    #     sudo apt update
+    #     sudo apt install coreutils p7zip-full qemu-user-static
 
-    - name: Checkout CustomPiOS
-      uses: actions/checkout@v2
-      with:
-        repository: 'mrbeam/CustomPiOS'
-        path: CustomPiOS
-        ref: 'mrbeam'
+    # - name: Checkout CustomPiOS
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: 'mrbeam/CustomPiOS'
+    #     path: CustomPiOS
+    #     ref: 'mrbeam'
 
-    - name: Checkout IoBeam
-      uses: actions/checkout@v2
-      with:
-        repository: 'mrbeam/iobeam'
-        token: ${{ secrets.API_READ_KEY }}
-        path: iobeam
-        branch: develop
+    # - name: Checkout git submodules
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: 'mrbeam/iobeam'
+    #     token: ${{ secrets. }}
+    #     path: iobeam
+    #     ref: develop
 
-    - name: Checkout mount manager
-      uses: actions/checkout@v2
-      with:
-        repository: 'mrbeam/mount_manager'
-        ssh-key: "${{ secrets.AXEL_BITBUCK_SSH_KEY }}"
-        path: mount_manager
+    # - name: Checkout mount manager
+    #   uses: actions/checkout@v2
+    #   with:
+    #     repository: 'mrbeam/mount_manager'
+    #     ssh-key: "${{ secrets.AXEL_BITBUCK_SSH_KEY }}"
+    #     path: mount_manager
 
     - name: Checkout Project Repository
       uses: actions/checkout@v2
       with:
         path: repository
-        submodules: true
+        submodules: recursive
+        token: ${{ secrets.API_READ_KEY }}
 
     - name: Download Raspbian Image
       run: |
