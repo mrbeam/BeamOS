@@ -118,7 +118,7 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then
     apt -y install gnupg
-    echo "--- Installing usb_mount_manager"
+    echo "--- Installing mount_manager"
     unpack /filesystem/mount_manager/root / root
     unpack /filesystem/mount_manager/home /home/ pi
     echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
@@ -131,8 +131,8 @@ pushd /home/pi
     chown root:root /usr/bin/mount_manager
     rm -rf usb_mount_manager
     # Add gpg public key under the pi user
-    gpg --import /usr/share/mount_manager/pubkey.asc
-    sudo -u "${BASE_USER}" gpg --import /usr/share/mount_manager/pubkey.asc
+    gpg -u "${BASE_USER}" --import /usr/share/mount_manager/pubkey.asc
+    # sudo -u "${BASE_USER}" gpg --import /usr/share/mount_manager/pubkey.asc
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
   then
