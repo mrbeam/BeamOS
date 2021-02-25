@@ -1,3 +1,0 @@
-[Service]
-Type=simple
-ExecStart=sudo -u pi /usr/bin/mount_manager remove

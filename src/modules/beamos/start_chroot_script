@@ -105,8 +105,8 @@ pushd /home/pi
     echo "--- Installing IOBEAM"
     sudo apt -y install i2c-tools
     enable_i2c
-    gitclone BEAMOS_IOBEAM_REPO iobeam
-    pip_install_dev_or_rm ./iobeam
+    # iobeam is cloned as a submodule to /filesystem before running the script
+    pip_install_dev_or_rm /filesystem/iobeam
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
     # TODO change when newest version of netconnectd comes out.
@@ -128,8 +128,8 @@ pushd /home/pi
     echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     # Disable the udev rules for first boot and will be enabled again by the first_boot_script
     sudo ln -s /dev/null /etc/udev/rules.d/00-mount_manager.rules
-    gitclone BEAMOS_MOUNTMANAGER_REPO usb_mount_manager
-    mv usb_mount_manager/mount_manager /usr/bin/
+    # mount manager was cloned as a submodule to /filesystem before running the script
+    mv /filesystem/mount_manager/mount_manager /usr/bin/
     chmod o+x /usr/bin/mount_manager
     chown root:root /usr/bin/mount_manager
     rm -rf usb_mount_manager
