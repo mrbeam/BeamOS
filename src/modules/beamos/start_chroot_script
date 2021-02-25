@@ -154,8 +154,6 @@ pushd /home/pi
   if [ "$BEAMOS_DEV" == "yes" ]; then
     sudo apt -y install vim curl pkg-config
     # Adding Rust, personal choice...
-  else
-    rm .ssh/known_hosts
   fi
 popd
 

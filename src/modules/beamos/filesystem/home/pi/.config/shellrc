@@ -80,7 +80,7 @@ PS1="$GREEN\u@\h$NO_COLOUR:\w$YELLOW\$(parse_git_branch)$NO_COLOUR\> "
 
 # Show some fun(ctional) stuff when opening a shell
 ## Banner
-figlet -cf slant BeamOS 2>/dev/null || echo "Welcome onto BeamOS!"
-## Disclaimer
-[ -f ~/disclaimer ] && printf $RED && cat ~/disclaimer && printf $NO_COLOUR
+figlet -cf slant BeamOS 2>/dev/null || echo "Welcome to BeamOS!"
+## Disclaimer in Red
+[ -f ~/disclaimer ] && printf "\033[0;31m" && cat ~/disclaimer && printf "\033[0;0m"
 systemctl status octoprint iobeam netconnectd
