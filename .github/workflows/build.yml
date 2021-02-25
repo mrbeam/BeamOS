@@ -45,7 +45,8 @@ jobs:
     - name: Checkout Project Repository
       uses: actions/checkout@v2
       with:
-        ssh-key: ${{ secrets.GH_ACTIONS_ACCESS_TO_BITBUCKET }}
+        ssh-key: ${{ secrets.SSH_MRB }}
+        submodules: recursive
         persist-credentials: true
         path: repository
     - name: Checkout submodules
