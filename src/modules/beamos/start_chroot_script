@@ -144,7 +144,7 @@ pushd /home/pi
     # Redundant as octopi already enables sshd, but keep it to make sure.
     touch /boot/ssh
     # Add known_hosts for auto login with the mr beam credentials
-    unpack /filesystem/ssh /home/pi/
+    unpack /filesystem/ssh /home/pi/ pi
     # remove user password login
     passwd -d pi
   else
