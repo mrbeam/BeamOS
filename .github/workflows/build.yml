@@ -45,9 +45,15 @@ jobs:
     - name: Checkout Project Repository
       uses: actions/checkout@v2
       with:
+        ssh-key: ${{ secrets.GH_ACTIONS_ACCESS_TO_BITBUCKET }}
+        persist-credentials: true
         path: repository
-        submodules: recursive
-        token: ${{ secrets.PAT_READ }}
+    - name: Checkout submodules
+      run: |
+        git submodule init
+        git submodule update
+        # submodules: recursive
+        # token: ${{ secrets.PAT_READ }}
 
     - name: Download Raspbian Image
       run: |
