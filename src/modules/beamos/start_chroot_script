@@ -117,8 +117,8 @@ pushd /home/pi
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then
-    apt -y install gnupg
     echo "--- Installing mount_manager"
+    apt -y install gnupg
     unpack /filesystem/mount_manager/root / root
     unpack /filesystem/mount_manager/home /home/ pi
     echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
@@ -137,12 +137,16 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
   then
     echo "--- Installing Find my MrBeam ..."
-    pip_install $BEAMOS_NETCONNECTD_ARCHIVE
+    pip_install $BEAMOS_FINDMYMRBEAM_ARCHIVE
   fi
-  if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]; then
-    sudo apt -y install openssh-server
-    # TODO place the .ssh files here
-    # TODO remove user password login
+  if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
+  then
+    # Redundant as octopi already enables sshd, but keep it to make sure.
+    touch /boot/ssh
+    # Add known_hosts for auto login with the mr beam credentials
+    unpack /filesystem/ssh /home/pi/
+    # remove user password login
+    passwd -d pi
   else
     rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
