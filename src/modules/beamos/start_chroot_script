@@ -120,7 +120,7 @@ pushd /home/pi
     apt -y install gnupg
     echo "--- Installing usb_mount_manager"
     unpack /filesystem/mount_manager/root / root
-    unpack /filesystem/mount_manager/home /home/pi pi
+    unpack /filesystem/mount_manager/home /home/ pi
     echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     # Disable the udev rules for first boot and will be enabled again by the first_boot_script
