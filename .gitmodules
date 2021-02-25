@@ -1,0 +1,11 @@
+[submodule "src/modules/beamos/filesystem/iobeam"]
+  path = src/modules/beamos/filesystem/iobeam
+  # url = https://github.com/mrbeam/iobeam.git
+  url = git@github.com:mrbeam/iobeam.git
+  # branch = mrbeam2-stable
+
+[submodule "src/modules/beamos/filesystem/mount_manager"]
+  path = src/modules/beamos/filesystem/mount_manager
+  # url = https://github.com/mrbeam/iobeam.git
+  url = git@github.com:mrbeam/mount_manager.git
+  branch = mrbeam2-stable

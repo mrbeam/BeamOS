@@ -24,8 +24,9 @@ jobs:
     - name: Checkout Project Repository
       uses: actions/checkout@v2
       with:
+        ssh-key: ${{ secrets.SSH_MRB }}
+        submodules: recursive
         path: repository
-        submodules: true
 
     - name: Download Raspbian Image
       run: |
@@ -36,13 +37,6 @@ jobs:
       run: |
         cd repository/src
         ../../CustomPiOS/src/update-custompios-paths
-
-    - name: Create relevant SSH key
-      env:
-        SSH_KEY: ${{secrets.AXEL_BITBUCK_SSH_KEY}}
-      run: |
-        echo "$SSH_KEY" > repository/src/modules/beamos/filesystem/bitbucket_rsa
-        chmod 600 repository/src/modules/beamos/filesystem/bitbucket_rsa
 
     - name: Force apt mirror to work around intermittent mirror hiccups
       run: |
