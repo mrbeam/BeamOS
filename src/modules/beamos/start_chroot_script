@@ -63,9 +63,6 @@ pip_install_dev_or_rm() {
 
 pushd /home/pi
 
-  sudo -u pi mkdir -p .ssh
-  sudo -u pi cp /filesystem/known_hosts_bitbucket .ssh/known_hosts
-  chown pi:pi /filesystem/bitbucket_rsa
   if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
     echo "Pulling $BEAMOS_OPENCV_VERSION"
     echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
