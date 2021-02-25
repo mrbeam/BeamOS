@@ -41,7 +41,7 @@ jobs:
       with:
         path: repository
         submodules: recursive
-        token: ${{ secrets.API_READ_KEY }}
+        token: ${{ secrets.PAT_READ }}
 
     - name: Download Raspbian Image
       run: |
