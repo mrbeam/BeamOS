@@ -3,18 +3,7 @@
 #################################################################
 # Choose what to install here
 
-
-# MRBPLUGIN_PATH="${BASE_PIP_PACKAGES}/MrBeamPlugin"
-# IOBEAM_PATH="${BASE_PIP_PACKAGES}/iobeam"
-# MOUNTMANAGER_PATH="${BASE_PIP_PACKAGES}/usb_mount_manager"
 TRUE_USER=pi
-
-# Cached repos
-# [ -n "$BEAMOS_MOUNTMANAGER_ARCHIVE" ] || BEAMOS_MOUNTMANAGER_ARCHIVE="${PIP_CHROOT_LOCAL_DEST}/usb_mount_manager"
-# BEAMOS_NETCONNECTD_ARCHIVE="${PIP_CHROOT_LOCAL_DEST}/netconnectd"
-# BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE="${PIP_CHROOT_LOCAL_DEST}/OctoPrint-Netconnectd"
-# [ -n "$BEAMOS_OCTO_NETCONNECTD_ARCHIVE" ] || BEAMOS_OCTO_NETCONNECTD_ARCHIVE=https://github.com/mrbeam/OctoPrint-Netconnectd/archive/mrbeam2-stable.zip
-# [ -n "$BEAMOS_NETCONNECTD_ARCHIVE" ] || BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/mrbeam/netconnectd/archive/master.zip
 
 # Branches
 [ -n "$BEAMOS_MRBEAMPLUGIN_REPO_BRANCH" ] || BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
@@ -78,59 +67,5 @@ TRUE_USER=pi
 
 ### Misc
 
-# I2C Baudrate
+[ -n "$BEAMOS_DEV" ] || BEAMOS_DEV=yes
 [ -n "$BEAMOS_I2C_BAUDRATE" ] || BEAMOS_I2C_BAUDRATE=64000
-
-# [ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
-# if [ ! -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ]; then
-#   [ -d "$MRBPLUGIN_PATH" ] || git clone git clone git@bitbucket.org:mrbeam/usb_mount_manager.git "$MRBPLUGIN_PATH"
-#   pushd $MRBPLUGIN_PATH
-#     # Checkout latest release in the case of the beta program
-#     [ "$BEAMOS_BRANCH" == "stable" ]  && branch="mrbeam2-stable"
-#     [ "$BEAMOS_BRANCH" == "beta" ]    && branch="$(wget -q -O - https://api.github.com/repos/mrbeam/MrBeamPlugin/releases/latest | grep 'tag_name' | cut -d : -f 2,3 | tr -d \" | tr -d ,)"
-#     [ "$BEAMOS_BRANCH" == "develop" ] && branch="develop"
-#     sudo -u $TRUE_USER git checkout $branch
-#     sudo -u $TRUE_USER git pull || echo "Could not pull the remote repository, ignoring..."
-#   popd
-# fi
-# BEAMOS_MRBEAMPLUGIN_ARCHIVE="${PIP_CHROOT_LOCAL_DEST}/MrBeamPlugin"
-
-# # IoBeam
-# [ -n "$BEAMOS_INCLUDE_IOBEAM" ] || export BEAMOS_INCLUDE_IOBEAM=yes
-# if [ ! -n "$BEAMOS_INCLUDE_IOBEAM" ]; then
-#   [ -d "$IOBEAM_PATH" ] || git clone git clone git@bitbucket.org:mrbeam/usb_mount_manager.git "$IOBEAM_PATH"
-#   pushd $IOBEAM_PATH
-#     [ "$BEAMOS_BRANCH" == "stable" ]  && branch="mrbeam2-stable"
-#     [ "$BEAMOS_BRANCH" == "beta" ]    && branch="mrbeam2-beta"
-#     [ "$BEAMOS_BRANCH" == "develop" ] && branch="develop"
-#     sudo -u $TRUE_USER git checkout $branch
-#     sudo -u $TRUE_USER git pull || echo "Could not pull the remote repository, ignoring..."
-#   popd
-# fi
-# BEAMOS_IOBEAM_ARCHIVE="${PIP_CHROOT_LOCAL_DEST}/iobeam"
-
-# # OpenCV
-# [ -n "$BEAMOS_OPTIMISED_OPENCV" ] || BEAMOS_OPTIMISED_OPENCV=yes
-
-# # USB Mount Manager
-# [ -n "$BEAMOS_INCLUDE_MOUNTMANAGER" ] || BEAMOS_INCLUDE_MOUNTMANAGER=yes
-# if [ ! -n "$BEAMOS_INCLUDE_MOUNTMANAGER" ]; then
-#   [ -d "$MOUNTMANAGER_PATH" ] \
-#     || git clone git clone git@bitbucket.org:mrbeam/usb_mount_manager.git "$MOUNTMANAGER_PATH" \
-#     || (echo "ERROR - local repo not found and could not clone remote location" && exit 1)
-#   pushd $MOUNTMANAGER_PATH
-#     sudo -u $TRUE_USER git pull || echo "Could not pull the remote repository, ignoring..."
-#   popd
-# fi
-
-# # Netconnectd
-# [ -n "$BEAMOS_INCLUDE_NETCONNECTD" ] ||  BEAMOS_INCLUDE_NETCONNECTD=yes
-
-# # Save the commit version of BEAMOS
-# [ -n "$BEAMOS_COMMIT" ] || BEAMOS_COMMIT=`pushd "${DIST_PATH}" > /dev/null ; git rev-parse HEAD ; popd > /dev/null`
-
-# # Set default parameters if DEV version
-# if [ "$BEAMOS_DEV" == "yes" ]; then
-#   BEAMOS_INCLUDE_SSH=yes
-#   echo "TODO"
-# fi
