@@ -47,12 +47,12 @@ jobs:
       with:
         ssh-key: ${{ secrets.SSH_MRB }}
         submodules: recursive
-        persist-credentials: true
+        # persist-credentials: true
         path: repository
-    - name: Checkout submodules
-      run: |
-        git submodule init
-        git submodule update
+    # - name: Checkout submodules
+    #   run: |
+    #     git submodule init
+    #     git submodule update
         # submodules: recursive
         # token: ${{ secrets.PAT_READ }}
 
