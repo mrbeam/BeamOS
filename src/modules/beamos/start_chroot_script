@@ -180,10 +180,10 @@ apt-get autoremove -y
 
 ### Netconnectd
 
-if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]
-then
-  systemctl_if_exists enable netconnectd.service
+# if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]
+# then
+#   systemctl_if_exists enable netconnectd.service
 # else
   # let's remove the configs for system services we don't need
   # rm /etc/systemd/system/netconnectd.service
-fi
+# fi
