@@ -161,10 +161,6 @@ popd
 # (will be the same as the octopi commit version
 echo "$BEAMOS_COMMIT" > /etc/beamos_commit
 
-#cleanup
-apt-get clean
-apt-get autoremove -y
-
 #####################################################################
 ### setup services
 
