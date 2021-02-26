@@ -133,6 +133,8 @@ pushd /home/pi
     # Add gpg public key under the pi user
     mkdir -p /home/pi/.config
     gpg -u "${BASE_USER}" --homedir /home/pi/.gnupg --import /usr/share/mount_manager/pubkey.asc
+    # The daemon gpg-agent can make the system hang when umouting the chroot image
+    gpgconf --kill gpg-agent
     # sudo -u "${BASE_USER}" gpg --import /usr/share/mount_manager/pubkey.asc
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
