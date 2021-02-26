@@ -41,13 +41,13 @@ export OCTOPI_PYTHON_VERSION=python2
 export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 # dev - enable repos little by little
 # export BASE_IMAGE_RESIZEROOT=1000
-export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
+export BEAMOS_INCLUDE_MRBEAMPLUGIN=no
 export OCTOPI_INCLUDE_OCTOPRINT=yes
 export OCTOPI_INCLUDE_HAPROXY=yes
 export BEAMOS_INCLUDE_MOUNTMANAGER=yes
 export BEAMOS_INCLUDE_NETCONNECTD=no
 export BEAMOS_INCLUDE_IOBEAM=yes
-export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
+export BEAMOS_INCLUDE_FINDMYMRBEAM=no
 export BEAMOS_DEV=no
 
 # Dev allow ssh for now
