@@ -170,13 +170,13 @@ apt-get autoremove -y
 
 ### IObeam
 
-if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
-then
-  systemctl_if_exists enable iobeam.service
+# if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
+# then
+  # systemctl_if_exists enable iobeam.service
 # else
   # let's remove the configs for system services we don't need
   # rm /etc/systemd/system/iobeam.service
-fi
+# fi
 
 ### Netconnectd
 
