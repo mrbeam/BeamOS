@@ -54,7 +54,11 @@ pip_install_dev_or_rm() {
   # If in DEV mode, install with develop options and keep the repo
   # If not, install normally and remove the repo
   if [ "$BEAMOS_DEV" == "yes" ]; then
-    pip_install -e $@
+    mkdir -p /home/pi/sources
+    mv $@ /home/pi/sources/
+    for package in $(basename -a $@); do
+      pip_install -e /home/pi/sources/$@
+    done
   else
     pip_install $@
     rm -rf $@
