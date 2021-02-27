@@ -149,8 +149,10 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
   then
     echo "--- Installing MrBeam LED server ..."
+    # Add globaly available pip
+    apt-get install python3-pip
     # install on the sudo level as that is required to run the LEDs
-    sudo python3 -m pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
+    python3 -m pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
@@ -165,7 +167,6 @@ pushd /home/pi
   fi
   if [ "$BEAMOS_DEV" == "yes" ]; then
     sudo apt -y install vim curl pkg-config
-    # Adding Rust, personal choice...
   fi
 popd
 
