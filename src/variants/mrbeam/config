@@ -28,6 +28,10 @@ else
     echo "BUILDING STABLE FLAVOR"
 fi
 
+# uses the pypi wheel for now with python3 compatibility
+# DOES NOT allow for the "spread spectrum" feature
+BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
+
 # disable unnecessary stuff
 export OCTOPI_INCLUDE_OCTOPIPANEL=no
 export OCTOPI_INCLUDE_CURAENGINE=no
@@ -49,6 +53,7 @@ export BEAMOS_INCLUDE_NETCONNECTD=no
 export BEAMOS_INCLUDE_IOBEAM=yes
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
 export BEAMOS_DEV=no
+export BEAMOS_MRBEAMLED_BRANCH=py3
 
 # Dev allow ssh for now
 export BEAMOS_INCLUDE_SSH=yes

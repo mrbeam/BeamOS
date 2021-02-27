@@ -146,6 +146,12 @@ pushd /home/pi
     echo "--- Installing Find my MrBeam ..."
     pip_install $BEAMOS_FINDMYMRBEAM_ARCHIVE
   fi
+  if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
+  then
+    echo "--- Installing MrBeam LED server ..."
+    # install on the sudo level as that is required to run the LEDs
+    sudo python3 -m pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
+  fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
     # Redundant as octopi already enables sshd, but keep it to make sure.
