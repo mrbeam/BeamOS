@@ -46,8 +46,7 @@ add_mrb3() {
 OPRINT=/home/pi/oprint/bin
 
 pip_install() {
-  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install $@
-  # --install-option="--jobs=$BEAMOS_JOBS"
+  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip --disable-pip-version-check install $@
 }
 
 pip_install_dev_or_rm() {
