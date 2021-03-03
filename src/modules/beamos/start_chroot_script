@@ -158,6 +158,7 @@ pushd /home/pi
     apt-install python3-pip
     # install on the sudo level as that is required to run the LEDs
     python3 -m pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
+    unpack /filesystem/mrbeam_ledstrips/root / root
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
