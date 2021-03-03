@@ -1,0 +1,10 @@
+/var/log/mrbeam_ledstrips.log {
+    daily
+    rotate 3
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+    create 644 root root
+}
