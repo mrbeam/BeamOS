@@ -1,0 +1,11 @@
+[Unit]
+Description=Mr Beam II iobeam Daemon
+After=socket.target
+
+[Service]
+Type=idle
+User=pi
+ExecStart=/home/pi/oprint/bin/iobeam
+
+[Install]
+WantedBy=multi-user.target

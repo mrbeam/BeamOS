@@ -30,8 +30,8 @@ fi
 
 # uses the pypi wheel for now with python3 compatibility
 # DOES NOT allow for the "spread spectrum" feature
-BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
-BEAMOS_MRBEAMLED_REPO_BRANCH=py3
+export BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
+export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
 
 # disable unnecessary stuff
 export OCTOPI_INCLUDE_OCTOPIPANEL=no

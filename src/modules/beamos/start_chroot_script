@@ -111,6 +111,8 @@ pushd /home/pi
     enable_i2c
     # iobeam is cloned as a submodule to /filesystem before running the script
     pip_install_dev_or_rm /filesystem/repos/iobeam
+    # Copy files for the systemd service. Those are not meant to be installable with pip.
+    unpack /filesystem/iobeam/root / root
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
     # TODO change when newest version of netconnectd comes out.
