@@ -3,7 +3,7 @@
 
 export DIST_NAME=BeamOS
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
-export BASE_IMAGE_ENLARGEROOT=2200
+export BASE_IMAGE_ENLARGEROOT=1500
 # Add the beamos module
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)), password-for-sudo)"
 
