@@ -32,7 +32,6 @@ fi
 # DOES NOT allow for the "spread spectrum" feature
 export BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
 export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
-export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
 
 # disable unnecessary stuff
 export OCTOPI_INCLUDE_OCTOPIPANEL=no
@@ -48,6 +47,7 @@ export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 # dev - enable repos little by little
 # export BASE_IMAGE_RESIZEROOT=1000
 export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
 export OCTOPI_INCLUDE_OCTOPRINT=yes
 export OCTOPI_INCLUDE_HAPROXY=yes
 export BEAMOS_INCLUDE_MOUNTMANAGER=yes
@@ -55,7 +55,6 @@ export BEAMOS_INCLUDE_NETCONNECTD=no
 export BEAMOS_INCLUDE_IOBEAM=yes
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
 export BEAMOS_DEV=no
-export BEAMOS_MRBEAMLED_BRANCH=py3
 
 # Dev allow ssh for now
 export BEAMOS_INCLUDE_SSH=yes
