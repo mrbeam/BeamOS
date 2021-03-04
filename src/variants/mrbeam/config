@@ -32,6 +32,7 @@ fi
 # DOES NOT allow for the "spread spectrum" feature
 export BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
 export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
 
 # disable unnecessary stuff
 export OCTOPI_INCLUDE_OCTOPIPANEL=no

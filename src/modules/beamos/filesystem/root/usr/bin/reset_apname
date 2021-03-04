@@ -1,6 +1,18 @@
 #!/usr/bin/env sh
 
-new_apname=$(hostname)
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+  echo "Usage: $0 [new-name]"
+  echo "If the AP name is not provided, the hostname will be used. Must be run as root."
+  exit 0
+fi
+
+if [ -n "$1" ]; then
+  new_apname="$(1)"
+else
+  new_apname=$(hostname)
+fi
+
+echo "Setting Access Point name to '$new_apname'"
 
 if [ -f '/etc/netconnectd.yaml' ]
 then

@@ -1,13 +1,37 @@
 #!/usr/bin/env bash
 
-HASH=$(
-  grep Serial /proc/cpuinfo | \
-  awk '{print $3}' | \
-  sha1sum | \
-  awk '{print toupper($0)}' | \
-  cut -c -4
-)
+if [ "$1" = "-h" -o "$1" = "--help" ]; then
+  echo "Usage: $0 [new-hostname]"
+  echo "If the new hostname name is not provided, it will be auto generated as a signature of the RPi device. Must be run as root."
+  exit 0
+fi
 
-[ -z "$HASH" ] && exit 1
+. /lib/lsb/init-functions
 
-hostname "MrBeam-$HASH"
+if [ -n "$1" ]; then
+  ID="$(echo $1 | cut -c -4)"
+else
+  ID=$(
+    grep Serial /proc/cpuinfo | \
+    awk '{print $3}' | \
+    sha1sum | \
+    cut -c -4 | \
+    awk '{print toupper($0)}'
+  )
+fi
+
+[ -z "$ID" ] && log_failure_msg "No hostname ID given." && exit 1
+
+old_hostname="$(hostname)"
+new_hostname="MrBeam-$ID"
+# make sure we do have a valid hostname here (see RFC 952 and 1123, a-zA-Z0-9 only)
+sanitized_hostname=`echo "$new_hostname" | tr -cd '[[:alnum:]]-'`
+if [ "$new_hostname" = "$sanitized_hostname" ]; then
+  echo "$new_hostname" > /etc/hostname
+  sed -i -e "s/$old_hostname/$new_hostname/g" /etc/hosts
+  hostname "$new_hostname"
+  log_success_msg "Change of host name done, reboot to apply..."
+else
+  log_failure_msg "Hostname $new_hostname contains invalid characters (only a-zA-Z0-9 are allowed), refusing to change"
+  exit 2
+fi
