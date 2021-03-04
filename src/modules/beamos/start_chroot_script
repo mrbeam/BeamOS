@@ -113,6 +113,8 @@ pushd /home/pi
     pip_install_dev_or_rm /filesystem/repos/iobeam
     # Copy files for the systemd service. Those are not meant to be installable with pip.
     unpack /filesystem/iobeam/root / root
+    # Enable the iobeam.service unit that was previously copied
+    systemctl_if_exists enable iobeam.service
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
     # TODO change when newest version of netconnectd comes out.
@@ -159,6 +161,8 @@ pushd /home/pi
     # install on the sudo level as that is required to run the LEDs
     python3 -m pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
     unpack /filesystem/mrbeam_ledstrips/root / root
+    # Enable the mrbeam_ledstrips.service unit that was previously copied
+    systemctl_if_exists enable mrbeam_ledstrips.service
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
@@ -182,16 +186,6 @@ echo "$BEAMOS_COMMIT" > /etc/beamos_commit
 
 #####################################################################
 ### setup services
-
-### IObeam
-
-# if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
-# then
-  # systemctl_if_exists enable iobeam.service
-# else
-  # let's remove the configs for system services we don't need
-  # rm /etc/systemd/system/iobeam.service
-# fi
 
 ### Netconnectd
 
