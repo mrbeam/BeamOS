@@ -194,9 +194,14 @@ pushd /home/pi
   fi
 popd
 
+# Upack the remainder of the files.
+unpack /filesystem/home /home/ pi
+unpack /filesystem/root / root
+
 # store beamos commit used to build this image
 # (will be the same as the octopi commit version
 echo "$BEAMOS_COMMIT" > /etc/beamos_commit
+
 
 #####################################################################
 ### setup services
