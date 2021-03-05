@@ -55,6 +55,7 @@ export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH=wifiupdates
 export BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE=https://github.com/ManuelMcLure/OctoPrint-Netconnectd/archive/$BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH.zip
 export BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/ManuelMcLure/OctoPrint-Netconnectd.git
 export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/ManuelMcLure/OctoPrint-Netconnectd.git
+# IObeam
 export BEAMOS_INCLUDE_IOBEAM=yes
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
 export BEAMOS_DEV=no

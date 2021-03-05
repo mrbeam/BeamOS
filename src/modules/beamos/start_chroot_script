@@ -111,8 +111,12 @@ pushd /home/pi
     echo "--- Installing IOBEAM"
     apt-install i2c-tools
     enable_i2c
+    # Create a python2 venv because python2-pip might not be an available package
+    BEAMOS_NETCONNECTD_VENV=/usr/local/iobeam/venv
+    mkdir -p $(dirname $BEAMOS_NETCONNECTD_VENV)
+    python3 -m virtualenv -p python2 $BEAMOS_NETCONNECTD_VENV
     # iobeam is cloned as a submodule to /filesystem before running the script
-    pip_install_dev_or_rm /filesystem/repos/iobeam
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_NETCONNECTD_VENV/bin/python -m pip /filesystem/repos/iobeam
     # Copy files for the systemd service. Those are not meant to be installable with pip.
     unpack /filesystem/iobeam/root / root
     # Enable the iobeam.service unit that was previously copied
@@ -122,10 +126,11 @@ pushd /home/pi
     # Install the Netconnectd daemon
     apt-install hostapd dnsmasq logrotate rfkill
     gitclone BEAMOS_NETCONNECTD_REPO netconnectd
+    # Create venv
     python3 -m virtualenv -p python3 $BEAMOS_NETCONNECTD_VENV
     sudo $BEAMOS_NETCONNECTD_VENV/bin/python -m pip install $BEAMOS_NETCONNECTD_WIFI_ARCHIVE ./netconnectd
     pushd netconnectd
-      mkdir -p /etc/netconnectd.conf.d/ /etc/network/interfaces.d/
+      mkdir -p /etc/netconnectd.conf.d/{hostapd,dnsmasq} /etc/network/interfaces.d/
       cp extras/netconnectd.yaml /etc/netconnectd.conf.d/
       cp extras/netconnectd.service /etc/systemd/system/
       cp extras/eth0 /etc/network/interfaces.d/

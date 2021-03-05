@@ -4,8 +4,8 @@ After=socket.target
 
 [Service]
 Type=idle
-User=pi
-ExecStart=/home/pi/oprint/bin/iobeam
+ExecStart=/usr/local/iobeam/venv/bin/iobeam
+PIDFile=/var/run/iobeam.pid
 
 [Install]
 WantedBy=multi-user.target

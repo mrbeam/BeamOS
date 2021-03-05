@@ -83,4 +83,4 @@ PS1="$GREEN\u@\h$NO_COLOUR:\w$YELLOW\$(parse_git_branch)$NO_COLOUR\> "
 figlet -cf slant BeamOS 2>/dev/null || echo "Welcome to BeamOS!"
 ## Disclaimer in Red
 [ -f ~/disclaimer ] && printf "\033[0;31m" && cat ~/disclaimer && printf "\033[0;0m"
-systemctl status octoprint iobeam netconnectd
+systemctl --no-pager status octoprint iobeam netconnectd
