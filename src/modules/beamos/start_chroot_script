@@ -119,14 +119,26 @@ pushd /home/pi
     systemctl_if_exists enable iobeam.service
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
-    # TODO change when newest version of netconnectd comes out.
+    # Install the Netconnectd daemon
     apt-install hostapd dnsmasq logrotate rfkill
     gitclone BEAMOS_NETCONNECTD_REPO netconnectd
-    pip_install_dev_or_rm ./netconnectd
-    sed -i 's/free: true/free: false/' /etc/netconnectd.yaml
-    update-rc.d -f hostapd remove
-    update-rc.d -f dnsmasq remove
-    update-rc.d netconnectd defaults 98
+    python3 -m virtualenv -p python3 $BEAMOS_NETCONNECTD_VENV
+    sudo $BEAMOS_NETCONNECTD_VENV/bin/python -m pip install $BEAMOS_NETCONNECTD_WIFI_ARCHIVE ./netconnectd
+    pushd netconnectd
+      mkdir -p /etc/netconnectd.conf.d/ /etc/network/interfaces.d/
+      cp extras/netconnectd.yaml /etc/netconnectd.conf.d/
+      cp extras/netconnectd.service /etc/systemd/system/
+      cp extras/eth0 /etc/network/interfaces.d/
+    popd
+    # update-rc.d -f hostapd remove
+    # update-rc.d -f dnsmasq remove
+    # update-rc.d netconnectd defaults 98
+    systemctl enable netconnectd.service
+    systemctl disable dnsmasq.service
+    systemctl disable wpa_supplicant
+    # Install the OctoPrint plugin for communicating with Netconnectd
+    gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
+    pip_install_dev_or_rm ./OctoPrint-Netconnectd
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then

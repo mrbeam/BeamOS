@@ -40,6 +40,7 @@ TRUE_USER=pi
 [ -n "$BEAMOS_NETCONNECTD_ARCHIVE" ] || BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/mrbeam/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
 [ -n "$BEAMOS_NETCONNECTD_REPO_BUILD" ] || BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
 [ -n "$BEAMOS_NETCONNECTD_REPO_SHIP" ] || BEAMOS_NETCONNECTD_REPO_SHIP=https://github.com/mrbeam/netconnectd_mrbeam.git
+[ -n "$BEAMOS_NETCONNECTD_VENV" ] || BEAMOS_NETCONNECTD_VENV=/usr/local/netconnectd/venv
 
 [ -n "$BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE" ] || BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE=https://github.com/mrbeam/OctoPrint-Netconnectd/archive/$BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH.zip
 [ -n "$BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD" ] || BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
