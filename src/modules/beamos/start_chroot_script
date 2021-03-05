@@ -70,28 +70,30 @@ apt-install() {
 
 pushd /home/pi
 
-  if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
-    echo "Pulling $BEAMOS_OPENCV_VERSION"
-    echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
-    # Following the pyimagesearch tutorial
-    # https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/
-    DEV_LIBS_OPENCV="libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev"
-    apt-install $DEV_LIBS_OPENCV libhdf5-103
-    # TODO finish up
-    sudo apt -y remove $DEV_LIBS_OPENCV # save space
-    
-  else
-    echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
-    apt-install python-opencv
-    # link the global library to the oprint environment
-    ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so
-    # Headless install (which fails)
-    # PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
-    # Install the opencv wheel available for raspberry (also fails)
-    # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
-  fi
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" == "yes" ]
   then
+    # Only the MrBeamPlugin requires OpenCV
+    if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
+      echo "Pulling $BEAMOS_OPENCV_VERSION"
+      echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
+      # Following the pyimagesearch tutorial
+      # https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/
+      DEV_LIBS_OPENCV="libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev"
+      apt-install $DEV_LIBS_OPENCV libhdf5-103
+      # TODO finish up
+      sudo apt -y remove $DEV_LIBS_OPENCV # save space
+
+    else
+      echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
+      # After this operation, 1085 MB of additional disk space will be used.
+      apt-install python-opencv
+      # link the global library to the oprint environment
+      ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so
+      # Headless install (which fails)
+      # PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
+      # Install the opencv wheel available for raspberry (also fails)
+      # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
+    fi
     echo "--- Installing MrBeamPlugin"
     # Library dependencies for PIL
     apt-install libxml2  libjpeg9
