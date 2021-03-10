@@ -11,27 +11,44 @@ export LC_ALL=C
 
 source /common.sh
 
-### Script ####
-
-# octopi already updated the image to the latest version, rm'ed bloat packages and updated pip
-
 enable_i2c() {
-  # uncomment i2c_arm option
-  sed -i 's/^# *\(dtparam=i2c_arm\)/\1/' /boot/config.txt
-  # Enable I2C and set I2C baudrate if they are present in config
-  if grep "i2c_arm=" /boot/config.txt &>/dev/null; then
-    sed -i 's/\(i2c_arm=\)off/\1on/' /boot/config.txt
-  else
-    echo "dtparam=i2c_arm=on" >> /boot/config.txt
-  fi
+  # install i2c-tools to e.g. scan the i2c bus using the cli
+  apt-install i2c-tools
 
-  if grep "i2c_arm_baudrate" /boot/config.txt &>/dev/null; then
-    sed -i 's/\(i2c_arm_baudrate=\)[0-9]*/\1'"$BEAMOS_I2C_BAUDRATE"'/' /boot/config.txt
-  else
-    echo "dtparam=i2c_arm_baudrate=$BEAMOS_I2C_BAUDRATE" >> /boot/config.txt
+  # # enable i2c bus using entirely raspi-config (doesn't seem to work)
+  # # See https://github.com/RPi-Distro/raspi-config/blob/master/raspi-config#L899
+  # raspi-config nonint do_i2c 1
+
+  # manual raspi-config copy-pasta, doesn't seem to have proper env in the chroot to use raspi-config
+  set_config_var dtparam=i2c_arm on
+  BLACKLIST=/etc/modprobe.d/raspi-blacklist.conf
+  if ! [ -e $BLACKLIST ]; then
+    touch $BLACKLIST
   fi
-  # Enable UART  AAAAND Bluetooth
-  #echo "enable_uart=1" >> /boot/config.txt
+  sed $BLACKLIST -i -e "s/^\(blacklist[[:space:]]*i2c[-_]bcm2708\)/#\1/"
+  sed /etc/modules -i -e "s/^#[[:space:]]*\(i2c[-_]dev\)/\1/"
+  if ! grep -q "^i2c[-_]dev" /etc/modules; then
+    printf "i2c-dev\n" >> /etc/modules
+  fi
+  # dtparam i2c_arm=on # fail - only used for enabling i2c at runtime?
+  modprobe i2c-dev
+  # end of manual copy pasta
+
+  # Set the i2c_arm baudrate
+  set_config_var dtparam=i2c_arm_baudrate $BEAMOS_I2C_BAUDRATE
+}
+
+enable_hw_serial() {
+  # Enable the hardware serial port uart 1
+  # Do NOT enable login shell over serial
+  # # See https://github.com/RPi-Distro/raspi-config/blob/master/raspi-config#L957
+  # sudo raspi-config nonint do_serial 2
+
+  # Same here as for the i2c - copy pasta
+  CMDLINE=/boot/cmdline.txt
+  sed -i $CMDLINE -e "s/console=ttyAMA0,[0-9]\+ //"
+  sed -i $CMDLINE -e "s/console=serial0,[0-9]\+ //"
+  set_config_var enable_uart 1
 }
 
 add_mrb3() {
@@ -109,14 +126,25 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
   then
     echo "--- Installing IOBEAM"
-    apt-install i2c-tools
+    # enable the i2c bus before first boot + i2c tools.
+    # Could also be enabled with raspi-config on 1st boot.
+    # See init.d/beamos_first_boot
     enable_i2c
+    # Enable the HW serial before the first boot.
+    # Otherwise the PCF shield will shut down the device before it
+    # has a chance to enable it using raspi-config
+    enable_hw_serial
     # Create a python2 venv because python2-pip might not be an available package
-    BEAMOS_NETCONNECTD_VENV=/usr/local/iobeam/venv
-    mkdir -p $(dirname $BEAMOS_NETCONNECTD_VENV)
-    python3 -m virtualenv -p python2 $BEAMOS_NETCONNECTD_VENV
+    BEAMOS_IOBEAM_VENV=/usr/local/iobeam/venv
+    mkdir -p $(dirname $BEAMOS_IOBEAM_VENV)
+    python3 -m virtualenv -p python2 $BEAMOS_IOBEAM_VENV
+    # numpy and mrb_hw_info AND requests are not listed as a dependency in iobeam or mrb_hw_info, install them manually before iobeam
+    # They are installed on the root level because they use root files from time to time. See iobeam#69 (nice)
     # iobeam is cloned as a submodule to /filesystem before running the script
-    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_NETCONNECTD_VENV/bin/python -m pip /filesystem/repos/iobeam
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests /filesystem/repos/mrb_hw_info numpy /filesystem/repos/iobeam
+    # Link the executables to have iobeam(cli) in the $PATH
+    ln -s $BEAMOS_IOBEAM_VENV/bin/iobeam /usr/bin/
+    ln -s $BEAMOS_IOBEAM_VENV/bin/iobeamcli /usr/bin/
     # Copy files for the systemd service. Those are not meant to be installable with pip.
     unpack /filesystem/iobeam/root / root
     # Enable the iobeam.service unit that was previously copied
