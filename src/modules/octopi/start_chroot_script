@@ -4,7 +4,7 @@
 # Written by Guy Sheffer <guysoft at gmail dot com> and Gina Häußge <osd@foosel.net>
 # GPL V3
 ########
-set -x
+set +x
 set -e
 
 export LC_ALL=C

@@ -181,7 +181,7 @@ pushd /home/pi
     unpack /filesystem/mount_manager/home /home/ pi
     echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
-    # Disable the udev rules for first boot and will be enabled again by the first_boot_script
+    # Disable the udev rules for first boot and will be enabled again by the beamos_first_boot
     sudo ln -s /dev/null /etc/udev/rules.d/00-mount_manager.rules
     # mount manager was cloned as a submodule to /filesystem before running the script
     mv /filesystem/repos/mount_manager/mount_manager /usr/bin/
@@ -217,13 +217,15 @@ pushd /home/pi
     touch /boot/ssh
     # Add known_hosts for auto login with the mr beam credentials
     unpack /filesystem/ssh /home/pi/ pi
-    # remove user password login
-    passwd -d pi
+    if [ "$BEAMOS_DEV" != "yes" ]; then
+      # remove user password login
+      passwd -d pi
+    fi
   else
     rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
   if [ "$BEAMOS_DEV" == "yes" ]; then
-    apt-install vim curl pkg-config
+    apt-install vim curl pkg-config figlet
   fi
 popd
 
@@ -235,9 +237,16 @@ unpack /filesystem/root / root
 # (will be the same as the octopi commit version
 echo "$BEAMOS_COMMIT" > /etc/beamos_commit
 
+# Set the date of the image creation.
+[ "$BEAMOS_DEV" == "yes" ] && VERSION="DEV" || VERSION="PROD"
+sed -i "s/octopi=/\0$VERSION $(date)/" /etc/mrbeam
+
 
 #####################################################################
 ### setup services
+
+# Enable systemd units
+update-rc.d beamos_first_boot defaults
 
 ### Netconnectd
 
