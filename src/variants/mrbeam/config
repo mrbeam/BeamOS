@@ -63,7 +63,6 @@ export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/ManuelMcLure/Octo
 # IObeam
 export BEAMOS_INCLUDE_IOBEAM=yes
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
-export BEAMOS_DEV=no
 # uses the pypi wheel for now with python3 compatibility
 # DOES NOT allow for the "spread spectrum" feature
 export BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x

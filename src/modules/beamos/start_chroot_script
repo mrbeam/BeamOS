@@ -163,6 +163,9 @@ pushd /home/pi
       cp extras/netconnectd.service /etc/systemd/system/
       cp extras/eth0 /etc/network/interfaces.d/
     popd
+    # Link the executables to have netconnectd(cli) in the $PATH
+    ln -s $BEAMOS_NETCONNECTD_VENV/bin/netconnectd /usr/bin/
+    ln -s $BEAMOS_NETCONNECTD_VENV/bin/netconnectcli /usr/bin/
     # update-rc.d -f hostapd remove
     # update-rc.d -f dnsmasq remove
     # update-rc.d netconnectd defaults 98
@@ -203,10 +206,18 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
   then
     echo "--- Installing MrBeam LED server ..."
-    # Add globaly available pip
-    apt-install python3-pip
-    # install on the sudo level as that is required to run the LEDs
-    python3 -m pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
+    # # Add globaly available pip
+    # apt-install python3-pip
+    # Install in a separate venv
+    LED_VENV=/usr/local/mrbeam_ledstrips/venv
+    python3 -m virtualenv -p python3 $LED_VENV
+    $LED_VENV/bin/pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
+    # Link the executables to have mrbeam_ledstrips(_cli) in the $PATH
+    ln -s $LED_VENV/bin/mrbeam_ledstrips /usr/bin/
+    ln -s $LED_VENV/bin/mrbeam_ledstrips_cli /usr/bin/
+    # And some short names too
+    ln -s $LED_VENV/bin/mrbeam_ledstrips /usr/bin/leds
+    ln -s $LED_VENV/bin/mrbeam_ledstrips_cli /usr/bin/leds_cli
     unpack /filesystem/mrbeam_ledstrips/root / root
     # Enable the mrbeam_ledstrips.service unit that was previously copied
     systemctl_if_exists enable mrbeam_ledstrips.service
