@@ -31,7 +31,7 @@ enable_i2c() {
     printf "i2c-dev\n" >> /etc/modules
   fi
   # dtparam i2c_arm=on # fail - only used for enabling i2c at runtime?
-  modprobe i2c-dev
+  # modprobe i2c-dev # load i2c-dev module at runtime (and enable it? Is this required if rebooting?)
   # end of manual copy pasta
 
   # Set the i2c_arm baudrate
