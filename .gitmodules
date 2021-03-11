@@ -9,4 +9,4 @@
 	branch = mrbeam2-stable
 [submodule "src/modules/beamos/filesystem/repos/mrb_hw_info"]
 	path = src/modules/beamos/filesystem/repos/mrb_hw_info
-	url = git@bitbucket.org:mrbeam/mrb_hw_info.git
+	url = git@github.com:mrbeam/mrb_hw_info.git
