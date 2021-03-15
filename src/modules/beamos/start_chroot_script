@@ -188,6 +188,16 @@ pushd /home/pi
       # git rev-parse HEAD returns the commit hash of current git project
       set_path "['plugins', 'softwareupdate', 'checks', 'mrb_hw_info']; {'current':'$(git rev-parse HEAD)', 'branch':'$(git branch --show-current)'}"
     popd
+
+    # Add AVRDUDE
+    apt-install avrdude
+    # Install the Shield Auto Flasher
+    AVR_DIR=$(dirname $(which avrdude))
+    mv $(which avrdude) $AVR_DIR/avrdude-original
+    wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/avrdude-autoreset -o $AVR_DIR/avrdude-autoreset
+    wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/autoreset -o $AVR_DIR/autoreset
+    ln -s $AVR_DIR/avrdude-autoreset $AVR_DIR/avrdude
+    chmod +x $AVR_DIR/avrdude-autoreset $AVR_DIR/autoreset
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
     # Install the Netconnectd daemon
