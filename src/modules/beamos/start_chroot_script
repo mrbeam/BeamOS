@@ -85,6 +85,35 @@ apt-install() {
   apt-get install -y $@
 }
 
+set_path() {
+  # Set values in a path in config.yaml
+  yq -iY 'setpath('$@')' /home/pi/.octoprint/config.yaml
+}
+
+set_plugin_update_conf() {
+  # set_plugin_update_conf iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
+  module_id=$1
+  branch=$2
+  url=$3
+  conf=""
+  [ -n $branch ] && conf='"branch":"'$branch'",'$conf
+  [ -n $url ] &&    conf='"current":"'$(get_hash $url $branch)'",'$conf
+  set_path "['plugins', 'softwareupdate', 'checks', '$module_id']; {'$conf'}"
+}
+
+get_hash() {
+  # output hash of latest commit from a branch remotely
+  # get_hash <url> <branch>
+  git ls-remote $1 $2 | head -n 1 | awk '{print $1}'
+}
+
+# Unpack the regular files
+unpack /filesystem/home /home/ pi
+unpack /filesystem/root / root
+
+apt-install jq python3-pip
+sudo -u pi /usr/bin/pip3 --disable-pip-version-check install yq
+
 pushd /home/pi
 
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" == "yes" ]
@@ -120,8 +149,12 @@ pushd /home/pi
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
-
+    set_plugin_update_conf mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
     rm /proc/cpuinfo
+
+    # Install MrBeamDocs
+    pip_install $BEAMOS_MRBEAMPLUGIN_DOC_ARCHIVE
+    set_plugin_update_conf mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOC_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOC_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
   then
@@ -149,6 +182,12 @@ pushd /home/pi
     unpack /filesystem/iobeam/root / root
     # Enable the iobeam.service unit that was previously copied
     systemctl_if_exists enable iobeam.service
+    set_plugin_update_conf iobeam $BEAMOS_IOBEAM_REPO_SHIP $BEAMOS_IOBEAM_REPO_BRANCH
+    pushd /filesystem/repos/mrb_hw_info
+      # Cannot access private mrb_hw_info repo unless build server has authorised key set up
+      # git rev-parse HEAD returns the commit hash of current git project
+      set_path "['plugins', 'softwareupdate', 'checks', 'mrb_hw_info']; {'current':'$(git rev-parse HEAD)', 'branch':'$(git branch --show-current)'}"
+    popd
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
     # Install the Netconnectd daemon
@@ -172,9 +211,12 @@ pushd /home/pi
     systemctl enable netconnectd.service
     systemctl disable dnsmasq.service
     systemctl disable wpa_supplicant
+    set_plugin_update_conf netconnectd-daemon $BEAMOS_NETCONNECTD_REPO_SHIP $BEAMOS_NETCONNECTD_REPO_BRANCH
+
     # Install the OctoPrint plugin for communicating with Netconnectd
     gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
     pip_install_dev_or_rm ./OctoPrint-Netconnectd
+    set_plugin_update_conf netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then
@@ -202,6 +244,7 @@ pushd /home/pi
   then
     echo "--- Installing Find my MrBeam ..."
     pip_install $BEAMOS_FINDMYMRBEAM_ARCHIVE
+    set_plugin_update_conf findmymrbeam $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_SHIP $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
   then
@@ -221,6 +264,7 @@ pushd /home/pi
     unpack /filesystem/mrbeam_ledstrips/root / root
     # Enable the mrbeam_ledstrips.service unit that was previously copied
     systemctl_if_exists enable mrbeam_ledstrips.service
+    set_plugin_update_conf mrbeam-ledstrips $BEAMOS_MRBEAMLED_REPO_SHIP $BEAMOS_MRBEAMLED_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
@@ -237,12 +281,9 @@ pushd /home/pi
   fi
   if [ "$BEAMOS_DEV" == "yes" ]; then
     apt-install vim curl pkg-config figlet
+    cp .octoprint/config.yaml.dev .octoprint/config.yaml
   fi
 popd
-
-# Upack the remainder of the files.
-unpack /filesystem/home /home/ pi
-unpack /filesystem/root / root
 
 # store beamos commit used to build this image
 # (will be the same as the octopi commit version
