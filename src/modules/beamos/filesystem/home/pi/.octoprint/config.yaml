@@ -19,7 +19,7 @@ plugins:
         user: mrbeam
 serial:
   additionalPorts:
-  - /dev/ttyAMA*
+    - /dev/ttyAMA*
   autoconnect: true
   baudrate: 115200
   port: /dev/ttyAMA0
