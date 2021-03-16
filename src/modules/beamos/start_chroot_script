@@ -104,21 +104,33 @@ get_hash_local() {
   git rev-parse HEAD
 }
 
+get_hash_submodule() {
+  # a bit hacky... doesn't seem to simply work with get_hash_local
+  git submodule foreach "git rev-parse HEAD" | grep $1 -A 1 | tail -n 1
+}
+
+get_branch_submodule() {
+  # a bit hacky... doesn't seem to simply work with get_hash_local
+  git submodule foreach "git branch --show-current" | grep $1 -A 1 | tail -n 1
+}
+
 set_plugin_update_conf() {
   # set_plugin_update_conf iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
   module_id=$1
   branch=$2
   hash=$3
-  set_yaml ".plugins.softwareupdate.checks.$module_id.branch += \"$branch\""
-  set_yaml ".plugins.softwareupdate.checks.$module_id.current += \"$hash\""
+  set_yaml ".plugins.softwareupdate.checks.$module_id.branch = \"$branch\""
+  set_yaml ".plugins.softwareupdate.checks.$module_id.current = \"$hash\""
 }
 
-set_plugin_update_conf_local() {
-  # set_plugin_update_conf_local iobeam /filesystem/repos/iobeam
+set_plugin_update_conf_submodule() {
+  # set_plugin_update_conf_submodule iobeam /filesystem/repos/iobeam
   module_id=$1
   path=$2
+  submodule=$3
+  hash=$()
   pushd $path
-    set_plugin_update_conf $module_id $(git branch --show-current) $(get_hash_local)
+    set_plugin_update_conf $module_id $(get_branch_submodule $submodule) $(get_hash_submodule $submodule)
   popd
 }
 
@@ -211,8 +223,8 @@ pushd /home/pi
     systemctl_if_exists enable iobeam.service
     # Cannot access private mrb_hw_info repo unless build server has authorised key set up
     # git rev-parse HEAD returns the commit hash of current git project
-    set_plugin_update_conf_local iobeam      /filesystem/repos/iobeam
-    set_plugin_update_conf_local mrb_hw_info /filesystem/repos/mrb_hw_info
+    set_plugin_update_conf_submodule iobeam      iobeam
+    set_plugin_update_conf_submodule mrb_hw_info mrb_hw_info
 
     # Add AVRDUDE
     apt-install avrdude
