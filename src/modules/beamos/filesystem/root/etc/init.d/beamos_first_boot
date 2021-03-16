@@ -23,7 +23,7 @@ do_start () {
     [ -x /usr/bin/reset_apname ] && /usr/bin/reset_apname >> $logfile
 
     # enable the usb mount manager udev rules
-    rm /etc/udev/rules.d/00-mount_manager.rules
+    # rm /etc/udev/rules.d/00-mount_manager.rules
 
     # enable the i2c bus
     # Disabled for now - activated during image creation
