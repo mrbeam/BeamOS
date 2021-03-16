@@ -49,6 +49,10 @@ enable_hw_serial() {
   sed -i $CMDLINE -e "s/console=ttyAMA0,[0-9]\+ //"
   sed -i $CMDLINE -e "s/console=serial0,[0-9]\+ //"
   set_config_var enable_uart 1
+  # Enable bluetooth serial, this solves connection issues with GRBL,
+  # but I'm not quite sure why...
+  # TODO : Test with straight OctoPi
+  echo "dtoverlay=pi3-miniuart-bt" >> /boot/config.txt
 }
 
 add_mrb3() {
