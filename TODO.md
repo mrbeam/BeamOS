@@ -46,6 +46,10 @@
   - iobeam (numpy - should probs be removed, mrb_hw_info)
   - mrb_hw_info (requests)
   - mrbeam_ledstrips (rpi_ws281x)
+- Minimise image size & speed up image creation
+  - Self compiled OpenCV wheel 
+    Or migrate to python3 & install headless py3 wheel (available on Pypi)
+  - Remove numpy dependency for iobeam
 
 ## Stretch Goals
 
