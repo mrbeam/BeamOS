@@ -85,34 +85,57 @@ apt-install() {
   apt-get install -y $@
 }
 
-set_path() {
+set_yaml() {
   # Set values in a path in config.yaml
-  yq -iY 'setpath('$@')' /home/pi/.octoprint/config.yaml
+  yq -i eval "$@" /home/pi/.octoprint/config.yaml
+}
+
+get_hash_remote() {
+  # output hash of latest commit from a branch remotely
+  # get_hash <url> <branch>
+  git ls-remote $1 $2 | head -n 1 | awk '{print $1}'
+}
+
+get_hash_local() {
+  git rev-parse HEAD
 }
 
 set_plugin_update_conf() {
   # set_plugin_update_conf iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
   module_id=$1
   branch=$2
-  url=$3
-  conf=""
-  [ -n $branch ] && conf='"branch":"'$branch'",'$conf
-  [ -n $url ] &&    conf='"current":"'$(get_hash $url $branch)'",'$conf
-  set_path "['plugins', 'softwareupdate', 'checks', '$module_id']; {'$conf'}"
+  hash=$3
+  set_yaml ".plugins.softwareupdate.checks.$module_id.branch += \"$branch\""
+  set_yaml ".plugins.softwareupdate.checks.$module_id.current += \"$hash\""
 }
 
-get_hash() {
-  # output hash of latest commit from a branch remotely
-  # get_hash <url> <branch>
-  git ls-remote $1 $2 | head -n 1 | awk '{print $1}'
+set_plugin_update_conf_local() {
+  # set_plugin_update_conf_local iobeam /filesystem/repos/iobeam
+  module_id=$1
+  path=$2
+  pushd $path
+    set_plugin_update_conf $module_id $(git branch --show-current) $(get_hash_local)
+  popd
+}
+
+set_plugin_update_conf_remote() {
+  # set_plugin_update_conf_remote iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
+  module_id=$1
+  url=$2
+  branch=$3
+  set_plugin_update_conf $module_id $branch $(get_hash_remote $url $branch)
 }
 
 # Unpack the regular files
 unpack /filesystem/home /home/ pi
 unpack /filesystem/root / root
 
-apt-install jq python3-pip
-sudo -u pi /usr/bin/pip3 --disable-pip-version-check install yq
+# install yq to "easily" modify yaml files
+YQ_BINARY=yq_linux_arm64
+YQ_VERSION=v4.6.1
+wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY}.tar.gz -O - |\
+  tar xz && mv ${YQ_BINARY} /usr/bin/yq
+
 
 pushd /home/pi
 
@@ -149,12 +172,12 @@ pushd /home/pi
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
-    set_plugin_update_conf mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
+    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
     rm /proc/cpuinfo
 
     # Install MrBeamDocs
     pip_install $BEAMOS_MRBEAMPLUGIN_DOC_ARCHIVE
-    set_plugin_update_conf mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOC_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOC_REPO_BRANCH
+    set_plugin_update_conf_remote mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOC_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOC_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
   then
@@ -176,18 +199,16 @@ pushd /home/pi
     # iobeam is cloned as a submodule to /filesystem before running the script
     PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests /filesystem/repos/mrb_hw_info numpy /filesystem/repos/iobeam
     # Link the executables to have iobeam(cli) in the $PATH
-    ln -s $BEAMOS_IOBEAM_VENV/bin/iobeam /usr/bin/
+    ln -s $BEAMOS_IOBEAM_VENV/bin/iobeam    /usr/bin/
     ln -s $BEAMOS_IOBEAM_VENV/bin/iobeamcli /usr/bin/
     # Copy files for the systemd service. Those are not meant to be installable with pip.
     unpack /filesystem/iobeam/root / root
     # Enable the iobeam.service unit that was previously copied
     systemctl_if_exists enable iobeam.service
-    set_plugin_update_conf iobeam $BEAMOS_IOBEAM_REPO_SHIP $BEAMOS_IOBEAM_REPO_BRANCH
-    pushd /filesystem/repos/mrb_hw_info
-      # Cannot access private mrb_hw_info repo unless build server has authorised key set up
-      # git rev-parse HEAD returns the commit hash of current git project
-      set_path "['plugins', 'softwareupdate', 'checks', 'mrb_hw_info']; {'current':'$(git rev-parse HEAD)', 'branch':'$(git branch --show-current)'}"
-    popd
+    # Cannot access private mrb_hw_info repo unless build server has authorised key set up
+    # git rev-parse HEAD returns the commit hash of current git project
+    set_plugin_update_conf_local iobeam      /filesystem/repos/iobeam
+    set_plugin_update_conf_local mrb_hw_info /filesystem/repos/mrb_hw_info
 
     # Add AVRDUDE
     apt-install avrdude
@@ -221,12 +242,12 @@ pushd /home/pi
     systemctl enable netconnectd.service
     systemctl disable dnsmasq.service
     systemctl disable wpa_supplicant
-    set_plugin_update_conf netconnectd-daemon $BEAMOS_NETCONNECTD_REPO_SHIP $BEAMOS_NETCONNECTD_REPO_BRANCH
+    set_plugin_update_conf_remote netconnectd-daemon $BEAMOS_NETCONNECTD_REPO_SHIP $BEAMOS_NETCONNECTD_REPO_BRANCH
 
     # Install the OctoPrint plugin for communicating with Netconnectd
     gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
     pip_install_dev_or_rm ./OctoPrint-Netconnectd
-    set_plugin_update_conf netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
+    set_plugin_update_conf_remote netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
   then
@@ -254,7 +275,7 @@ pushd /home/pi
   then
     echo "--- Installing Find my MrBeam ..."
     pip_install $BEAMOS_FINDMYMRBEAM_ARCHIVE
-    set_plugin_update_conf findmymrbeam $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_SHIP $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_BRANCH
+    set_plugin_update_conf_remote findmymrbeam $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_SHIP $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
   then
@@ -274,7 +295,7 @@ pushd /home/pi
     unpack /filesystem/mrbeam_ledstrips/root / root
     # Enable the mrbeam_ledstrips.service unit that was previously copied
     systemctl_if_exists enable mrbeam_ledstrips.service
-    set_plugin_update_conf mrbeam-ledstrips $BEAMOS_MRBEAMLED_REPO_SHIP $BEAMOS_MRBEAMLED_REPO_BRANCH
+    set_plugin_update_conf_remote mrbeam-ledstrips $BEAMOS_MRBEAMLED_REPO_SHIP $BEAMOS_MRBEAMLED_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
