@@ -176,8 +176,8 @@ pushd /home/pi
     rm /proc/cpuinfo
 
     # Install MrBeamDocs
-    pip_install $BEAMOS_MRBEAMPLUGIN_DOC_ARCHIVE
-    set_plugin_update_conf_remote mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOC_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOC_REPO_BRANCH
+    pip_install $BEAMOS_MRBEAMPLUGIN_DOCS_ARCHIVE
+    set_plugin_update_conf_remote mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
   then
