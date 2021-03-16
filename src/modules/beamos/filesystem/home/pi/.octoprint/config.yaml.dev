@@ -1,5 +1,3 @@
-webcam:
-  stream: plugin/mrbeam/static/img/test.jpg
 devel:
   cache:
     enabled: false
@@ -8,30 +6,7 @@ devel:
     clean_on_startup: true
     minify: false
 plugins:
-  discovery:
-    publicPort: 80
   mrbeam:
     dev:
       env: DEV
       software_tier: DEV
-  netconnectd:
-    socket: /var/run/netconnectd.sock
-  softwareupdate:
-    checks:
-      octoprint:
-        checkout_folder: /home/pi/OctoPrint
-        prerelease: false
-        stable_branch:
-          branch: mrbeam2-stable
-        user: mrbeam
-serial:
-  additionalPorts:
-  - /dev/ttyAMA*
-  autoconnect: true
-  baudrate: 115200
-  port: /dev/ttyAMA0
-server:
-  commands:
-    serverRestartCommand: sudo systemctl restart octoprint.service
-    systemRestartCommand: sudo shutdown -r now
-    systemShutdownCommand: sudo shutdown -h now

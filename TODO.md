@@ -34,7 +34,27 @@
 - Merge the BeamOS specific branches for these packages
   - MrBeamPlugin
   - mrbeam_ledstrips (client and server)
-  - iobeam
   - netconnectd
   - netconnectd plugin
   - [wifi](https://github.com/ManuelMcLure/wifi)
+- Migrate or mirror projects to GitHub
+  - iobeam
+  - mrb_hw_info
+  - mount_manager
+- fix setup scripts to include all relevant dependencies
+  - MrBeamPlugin
+  - iobeam (numpy - should probs be removed, mrb_hw_info)
+  - mrb_hw_info (requests)
+  - mrbeam_ledstrips (rpi_ws281x)
+
+## Stretch Goals
+
+- Minimise priviledged user escalation (fewer sudo calls)
+  - iobeam can run unprivileged
+  - hostname can be set in very specific situations
+  - Update tool daemon + Update tool client plugin
+    - Fetch remote recipees
+    - User accepts the updates
+  - Remove password-less sudo (The PROD image version does that)
+  
+  
