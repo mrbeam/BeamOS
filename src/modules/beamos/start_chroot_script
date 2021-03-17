@@ -117,10 +117,9 @@ get_branch_submodule() {
 set_plugin_update_conf() {
   # set_plugin_update_conf iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
   module_id=$1
-  branch=$2
-  hash=$3
-  set_yaml ".plugins.softwareupdate.checks.$module_id.branch = \"$branch\""
-  set_yaml ".plugins.softwareupdate.checks.$module_id.current = \"$hash\""
+  key=$2
+  val=$3
+  set_yaml ".plugins.softwareupdate.checks.$module_id.$key = \"$val\""
 }
 
 set_plugin_update_conf_submodule() {
@@ -130,7 +129,8 @@ set_plugin_update_conf_submodule() {
   submodule=$2
   # hash=$()
   # pushd $path
-  set_plugin_update_conf $module_id $(get_branch_submodule $submodule) $(get_hash_submodule $submodule)
+  set_plugin_update_conf $module_id branch $(get_branch_submodule $submodule)
+  set_plugin_update_conf $module_id current $(get_hash_submodule $submodule)
   # popd
 }
 
@@ -139,14 +139,15 @@ set_plugin_update_conf_remote() {
   module_id=$1
   url=$2
   branch=$3
-  set_plugin_update_conf $module_id $branch $(get_hash_remote $url $branch)
+  set_plugin_update_conf $module_id branch $branch
+  set_plugin_update_conf $module_id current $(get_hash_remote $url $branch)
 }
 
 # Unpack the regular files
 unpack /filesystem/home /home/ pi
 unpack /filesystem/root / root
 
-# install yq to "easily" modify yaml files
+# install yq to easily modify yaml files
 YQ_BINARY=yq_linux_arm64
 YQ_VERSION=v4.6.1
 wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY}.tar.gz -O - |\
@@ -225,6 +226,9 @@ pushd /home/pi
     # git rev-parse HEAD returns the commit hash of current git project
     set_plugin_update_conf_submodule iobeam      iobeam
     set_plugin_update_conf_submodule mrb_hw_info mrb_hw_info
+    # change pip commands to match the new virtualenv
+    set_plugin_update_conf iobeam      pip_command "sudo $BEAMOS_IOBEAM_VENV/bin/pip"
+    set_plugin_update_conf mrb_hw_info pip_command "sudo $BEAMOS_IOBEAM_VENV/bin/pip"
 
     # Add AVRDUDE
     apt-install avrdude
@@ -259,6 +263,8 @@ pushd /home/pi
     systemctl disable dnsmasq.service
     systemctl disable wpa_supplicant
     set_plugin_update_conf_remote netconnectd-daemon $BEAMOS_NETCONNECTD_REPO_SHIP $BEAMOS_NETCONNECTD_REPO_BRANCH
+    # change pip commands to match the new virtualenv
+    set_plugin_update_conf netconnectd-daemon pip_command "sudo $BEAMOS_NETCONNECTD_VENV/bin/pip"
 
     # Install the OctoPrint plugin for communicating with Netconnectd
     gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
@@ -312,6 +318,8 @@ pushd /home/pi
     # Enable the mrbeam_ledstrips.service unit that was previously copied
     systemctl_if_exists enable mrbeam_ledstrips.service
     set_plugin_update_conf_remote mrbeam-ledstrips $BEAMOS_MRBEAMLED_REPO_SHIP $BEAMOS_MRBEAMLED_REPO_BRANCH
+    # change pip commands to match the new virtualenv
+    set_plugin_update_conf mrbeam-ledstrips pip_command "sudo $LED_VENV/bin/pip"
   fi
   if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
   then
