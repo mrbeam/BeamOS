@@ -126,12 +126,12 @@ set_plugin_update_conf() {
 set_plugin_update_conf_submodule() {
   # set_plugin_update_conf_submodule iobeam /filesystem/repos/iobeam
   module_id=$1
-  path=$2
-  submodule=$3
-  hash=$()
-  pushd $path
-    set_plugin_update_conf $module_id $(get_branch_submodule $submodule) $(get_hash_submodule $submodule)
-  popd
+  # path=$2
+  submodule=$2
+  # hash=$()
+  # pushd $path
+  set_plugin_update_conf $module_id $(get_branch_submodule $submodule) $(get_hash_submodule $submodule)
+  # popd
 }
 
 set_plugin_update_conf_remote() {
