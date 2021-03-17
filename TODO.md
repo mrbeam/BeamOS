@@ -28,8 +28,17 @@
   ```
   mrbeam.util.pip_util.get_version_of_pip_module ERROR `pip --disable-pip-version-check` was not found in local $PATH 
   ```
+- Hostname changes when changing the raspberry pi
 
 ## Task List
+
+### Requirement
+
+- Bash history (Basti)
+- login display
+- USB stick compat
+  - mrb check -> Auto run ? (Basti)
+  - update
 
 - Merge the BeamOS specific branches for these packages
   - MrBeamPlugin
@@ -37,20 +46,38 @@
   - netconnectd
   - netconnectd plugin
   - [wifi](https://github.com/ManuelMcLure/wifi)
-- Migrate or mirror projects to GitHub
   - iobeam
-  - mrb_hw_info
-  - mount_manager
-- fix setup scripts to include all relevant dependencies
-  - MrBeamPlugin
-  - iobeam (numpy - should probs be removed, mrb_hw_info)
-  - mrb_hw_info (requests)
-  - mrbeam_ledstrips (rpi_ws281x)
+- Test scenarios
+  - New vs Old image
+  - GRBL flash
+  - Test legacy image compatibility
+    - packages on legacy OS
+    - legacy RPi
+    - Test with mrb check / update sticks.
+    - Sticks : update, reset {user/network/all}
+  - Calibration tool
+  - mount manager
+  - iobeam
+  - Software update (permissions etc...)
+  - LEDstrips
+  - Netconnectd
 - Minimise image size & speed up image creation
   - Self compiled wheels & host/deploy wheels online
     - OpenCV (Or migrate to python3 & install headless py3 wheel (available on Pypi))
     - numpy (mostly for speed)
   - Remove numpy dependency for iobeam
+
+### Nice to have
+
+- fix `setup.py` scripts to include all relevant dependencies
+  - MrBeamPlugin
+  - iobeam (numpy - should probs be removed, mrb_hw_info)
+  - mrb_hw_info (requests)
+  - mrbeam_ledstrips (rpi_ws281x)
+- Migrate or mirror projects to GitHub
+  - iobeam
+  - mrb_hw_info
+  - mount_manager
 
 ## Stretch Goals
 
