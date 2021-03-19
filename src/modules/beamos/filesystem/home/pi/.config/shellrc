@@ -88,4 +88,5 @@ figlet -cf slant BeamOS 2>/dev/null || echo "Welcome to BeamOS!"
 #systemctl --no-pager status -n 0 mrbeam_ledstrips netconnectd iobeam octoprint
 
 # nice neofetch greeting - a bit slow though
+echo # Extra newline for stylezz
 neofetch --ascii "$(cat /home/pi/.config/logo_ascii)"
