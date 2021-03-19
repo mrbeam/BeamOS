@@ -2,8 +2,8 @@
 
 ## Bugs
 
-- Slicing : Only empty gcode files are created
-- Find.mrbeam not working (Does not receive ipv6 address)
+- Slicing : Only empty gcode files are created (Andy)
+- Find.mrbeam not working (Does not receive ipv6 address) (Andy+Axel)
   ```
   octoprint.plugins.findmymrbeam INFO FindMyMrBeam 
     registration: OK - 
@@ -16,19 +16,15 @@
     netconnectd_state: {'ap': False, 'wifi': False, 'wired': True}, 
     internal_modes: []
   ```
-- Laser safety notice : cannot send to server (Err 901)
-  ```
-  tornado.access ERROR 901 POST /api/plugin/mrbeam (127.0.0.1) 2750.35ms
-  ```
-- Analytics handler broken
+- Analytics handler broken (Khaled)
   ```
   15:17:38 octoprint.plugins.mrbeam.migrate ERROR Not able to get analytics_handler.
   ```
-- Fix pip path for the specific packages
+- Fix pip path for the specific packages (Axel)
   ```
   mrbeam.util.pip_util.get_version_of_pip_module ERROR `pip --disable-pip-version-check` was not found in local $PATH 
   ```
-- Hostname changes when changing the raspberry pi
+- Hostname changes when changing the raspberry pi (Axel)
 
 ## Task List
 

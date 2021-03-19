@@ -91,7 +91,8 @@ apt-install() {
 
 set_yaml() {
   # Set values in a path in config.yaml
-  yq -i eval "$@" /home/pi/.octoprint/config.yaml
+  # yq -i eval "$@" /home/pi/.octoprint/config.yaml
+  sudo -u pi yq -i eval "$@" .octoprint/config.yaml
 }
 
 get_hash_remote() {
