@@ -82,7 +82,10 @@ PS1="$GREEN\u@\h$NO_COLOUR:\w$YELLOW\$(parse_git_branch)$NO_COLOUR\> "
 ## Banner
 figlet -cf slant BeamOS 2>/dev/null || echo "Welcome to BeamOS!"
 ## Disclaimer in Red
-[ -f ~/disclaimer ] && printf "\033[0;31m" && cat ~/disclaimer && printf "\033[0;0m"
-systemctl --no-pager status -n 0 mrbeam_ledstrips netconnectd iobeam octoprint
+{ { [ -f ~/.disclaimer ] && disc="$HOME/.disclaimer";} || { [ -f ~/.config/disclaimer ] && disc="$HOME/.config/disclaimer";};} && \
+    printf "\033[0;31m" && cat $disc && printf "\033[0;0m"
+# Show detailed info about the systemd status of these services
+#systemctl --no-pager status -n 0 mrbeam_ledstrips netconnectd iobeam octoprint
+
 # nice neofetch greeting - a bit slow though
 neofetch --ascii "$(cat /home/pi/.config/logo_ascii)"
