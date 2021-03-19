@@ -154,6 +154,8 @@ YQ_VERSION=v4.6.1
 wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY}.tar.gz -O - |\
   tar xz && mv ${YQ_BINARY} /usr/bin/yq
 
+# Install a more feature-fool alternative to nano : micro
+apt-install micro
 
 pushd /home/pi
 

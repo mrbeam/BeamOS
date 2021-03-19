@@ -1,11 +1,27 @@
+#!/bin/sh
+# Systemd aliases
+alias restart_octoprint='systemctl restart octoprint.service'
+alias restart_iobeam='systemctl restart iobeam.service'
+alias restart_mrbeam_ledstrips='systemctl restart mrbeam_ledstrips.service'
+alias restart_netconnectd='systemctl restart netconnectd.service'
 
-# mrbeam
-alias restart_octoprint='sudo systemctl restart octoprint.service'
-alias restart_iobeam='sudo systemctl restart iobeam.service'
-alias restart_mrbeam_ledstrips='sudo systemctl restart mrbeam_ledstrips.service'
-alias restart_netconnectd='sudo systemctl restart netconnectd.service'
+alias stop_octoprint='systemctl stop octoprint.service'
+alias stop_iobeam='systemctl stop iobeam.service'
+alias stop_mrbeam_ledstrips='systemctl stop mrbeam_ledstrips.service'
+alias stop_netconnectd='systemctl stop netconnectd.service'
+alias nano="micro"
 
-alias stop_octoprint='sudo systemctl stop octoprint.service'
-alias stop_iobeam='sudo systemctl stop iobeam.service'
-alias stop_mrbeam_ledstrips='sudo systemctl stop mrbeam_ledstrips.service'
-alias stop_netconnectd='sudo systemctl stop netconnectd.service'
+# use i2c bus 1 by default
+alias i2cdetect='i2cdetect -y 1'
+alias i2cset='i2cset -y 1'
+
+workon() {
+    help() { echo "Usage: $0 [-h, --help] venv-name" && echo "Activates a Python venv located in HOME or give path"; }
+    [ -z "$1" ] && help && exit 1
+    {[ "$1" = "-h" ] || [ "$1" = "--help" ];} && help && exit 0
+    if [ -f "$1/bin/activate" ]; then
+        . "$1/bin/activate"
+    else
+        . "$HOME/$1/bin/activate"
+    fi
+}

@@ -1,5 +1,12 @@
 mrbeam_ledstrips_cli flash_white
 mrbeam_ledstrips_cli
+i2cset 0x2a 0x81 0x64 # Exhaust 100%
+i2cset 0x2a 0x81 0x00 # Exhaust off
+i2cset 0x2c 0x82 0x64 # Compressor 200 mbar
+i2cset 0x2c 0x82 0x00 # Compressor off
+i2cset 0x2c 0x87 0x64 # Ozon	100 PPM
+i2cset 0x2c 0x87 0x00 # Ozon off
+i2cdetect
 netconnectcli status
 tail -f -n200 /var/log/mount_manager.log
 tail -f -n200 /var/log/netconnectd.log
@@ -7,23 +14,21 @@ tail -f -n200 /var/log/mrbeam_ledstrips.log
 tail -f -n200 /var/log/iobeam.log
 tail -f -n200 /var/log/mrb_check.log
 tail -f -n200 ~/.octoprint/logs/octoprint.log
-source ~/oprint/bin/activate
-sudo systemctl restart netconnectd.service
-sudo systemctl restart mrbeam_ledstrips.service
-sudo systemctl restart iobeam.service
-sudo systemctl restart octoprint.service
-sudo systemctl status octoprint.service
+workon oprint
+sudo shutdown now
+sudo reboot
+systemctl restart netconnectd # pi user has permission to use systemd
+systemctl restart mrbeam_ledstrips # pi user has permission to use systemd
+systemctl restart iobeam # pi user has permission to use systemd
+systemctl restart octoprint # pi user has permission to use systemd
+systemctl status octoprint # pi user has permission to use systemd
 restart_octoprint
 restart_iobeam
 restart_mrbeam_ledstrips
 restart_netconnectd
-cd /usr/local/lib/python2.7/dist-packages/
-cd ~/oprint/lib/python2.7/site-packages/
-cd ~/oprint/lib/python2.7/site-packages/octoprint_mrbeam/
 iobeamcli info
 iobeamcli fan -c off
+iobeamcli fan -c on 100
 iobeamcli
-nano /etc/mrbeam
-vim /etc/mrbeam
-nano ~/.octoprint/config.yaml
-vim ~/.octoprint/config.yaml
+nano /etc/mrbeam # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
+nano ~/.octoprint/config.yaml # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
