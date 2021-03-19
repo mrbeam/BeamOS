@@ -353,7 +353,7 @@ echo "$BEAMOS_COMMIT" > /etc/beamos_commit
 
 # Set the date of the image creation.
 [ "$BEAMOS_DEV" == "yes" ] && VERSION="DEV" || VERSION="PROD"
-sed -i "s/octopi=/\0$VERSION $(date)/" /etc/mrbeam
+sed -i "s/octopi=/\0$VERSION-$(date +"%Y-%m-%d")/" /etc/mrbeam
 
 
 #####################################################################
