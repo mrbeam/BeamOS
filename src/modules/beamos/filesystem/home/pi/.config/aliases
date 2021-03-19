@@ -12,8 +12,14 @@ alias stop_netconnectd='systemctl stop netconnectd.service'
 alias nano="micro"
 
 # use i2c bus 1 by default
-alias i2cdetect='i2cdetect -y 1'
-alias i2cset='i2cset -y 1'
+i2cdetect() {
+    i2cdetect -y 1
+}
+i2cset() {
+    [ $1 = "-y" ] && shift
+    [ $1 = "1" ] && shift
+    i2cset -y 1 $@
+}
 
 workon() {
     help() { echo "Usage: $0 [-h, --help] venv-name" && echo "Activates a Python venv located in HOME or give path"; }
