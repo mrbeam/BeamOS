@@ -69,6 +69,9 @@ function parse_git_branch () {
       git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 
+# Extend PATH
+export PATH="$HOME/.local/bin:$PATH"
+
 # prompt
 
 RED="\[\033[0;31m\]"
