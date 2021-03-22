@@ -13,18 +13,28 @@ alias nano="micro"
 
 # use i2c bus 1 by default
 i2cdetect() {
-    i2cdetect -y 1
+    if [ $1 = "-y" ]; then
+        bus=$2
+        shift 2
+    else
+        bus=1
+    fi
+    i2cdetect -y $bus $@
 }
 i2cset() {
-    [ $1 = "-y" ] && shift
-    [ $1 = "1" ] && shift
-    i2cset -y 1 $@
+    if [ $1 = "-y" ]; then
+        bus=$2
+        shift 2
+    else
+        bus=1
+    fi
+    i2cset -y $bus $@
 }
 
 workon() {
     help() { echo "Usage: $0 [-h, --help] venv-name" && echo "Activates a Python venv located in HOME or give path"; }
     [ -z "$1" ] && help && exit 1
-    {[ "$1" = "-h" ] || [ "$1" = "--help" ];} && help && exit 0
+    { [ "$1" = "-h" ] || [ "$1" = "--help" ];} && help && exit 0
     if [ -f "$1/bin/activate" ]; then
         . "$1/bin/activate"
     else
