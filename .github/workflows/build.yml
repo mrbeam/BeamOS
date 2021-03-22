@@ -57,11 +57,12 @@ jobs:
       run: |
         source repository/src/config
         NOW=$(date +"%Y-%m-%d-%H%M")
-        IMAGE=$NOW-octopi-$DIST_VERSION
         # When building a variant, it is built in workspace-$VARIANT
         if [ -n $VARIANT ]; then
+          IMAGE=$NOW-$VARIANT-$DIST_VERSION
           cp repository/src/workspace-$VARIANT/*.img $IMAGE.img
         else
+          IMAGE=$NOW-octopi-$DIST_VERSION
           cp repository/src/workspace/*.img $IMAGE.img
         fi
 
