@@ -1,7 +1,7 @@
 name: Build Image
 
 on: 
-  # push:
+  push:
   schedule:
     - cron: '0 0 * * *'
 
