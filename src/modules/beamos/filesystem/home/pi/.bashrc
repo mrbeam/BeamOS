@@ -71,5 +71,9 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# suse style shell history browsing
+bind '"\e[A"':history-search-backward
+bind '"\e[B"':history-search-forward
+
 # Run the cross-shell behaviour
 [ -f ~/.config/shellrc ] && . ~/.config/shellrc

@@ -31,10 +31,6 @@ if [ -f ~/.config/aliases ]; then
     . ~/.config/aliases
 fi
 
-# suse style shell history browsing
-bind '"\e[A"':history-search-backward
-bind '"\e[B"':history-search-forward
-
 ## git
 parse_git_branch() {
       git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
