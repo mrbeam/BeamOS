@@ -155,7 +155,7 @@ wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY
   tar xz && mv ${YQ_BINARY} /usr/bin/yq
 
 # Install a more feature-fool alternative to nano : micro
-wget https://getmic.ro | bash
+curl https://getmic.ro | bash
 mv ./micro /usr/bin/
 
 pushd /home/pi
