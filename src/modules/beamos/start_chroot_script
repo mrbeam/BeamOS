@@ -357,7 +357,21 @@ echo "$BEAMOS_COMMIT" > /etc/beamos_commit
 
 # Set the date of the image creation.
 [ "$BEAMOS_DEV" == "yes" ] && VERSION="DEV" || VERSION="PROD"
-sed -i "s/octopi=/\0$VERSION-$(date +"%Y-%m-%d")/" /etc/mrbeam
+
+set_field() {
+  # Set the field of an INI file
+  field=$1
+  val=$2
+  file=$3
+  sed -i "s/$field=/\0$val/" $file
+
+}
+set_field octopi $VERSION-$(date +"%Y-%m-%d") /etc/mrbeam
+if [ -n "$BEAMOS_DEVICE_MODEL" ]; then
+  set_field model MRBEAM2_DC /etc/mrbeam
+  set_field device_series $BEAMOS_DEVICE_MODEL /etc/mrbeam
+  set_field device_type "MrBeam$BEAMOS_DEVICE_MODEL" /etc/mrbeam
+fi
 
 
 #####################################################################
