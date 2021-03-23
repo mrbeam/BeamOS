@@ -9,7 +9,7 @@ fi
 . /lib/lsb/init-functions
 
 if [ -n "$1" ]; then
-  ID="$(echo $1 | cut -c -4)"
+  ID="$1"
 else
   ID=$(
     grep Serial /proc/cpuinfo | \
