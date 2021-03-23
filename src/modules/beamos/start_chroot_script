@@ -363,7 +363,7 @@ set_field() {
   field=$1
   val=$2
   file=$3
-  sed -i "s/$field=/\0$val/" $file
+  sed -i "s/^\($field=\).*$/\1$val/" $file
 
 }
 set_field octopi $VERSION-$(date +"%Y-%m-%d") /etc/mrbeam
