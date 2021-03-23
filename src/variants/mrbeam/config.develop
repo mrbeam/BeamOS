@@ -1,13 +1,33 @@
+#!/bin/sh
 # variant mrbeam, flavor develop
+export BEAMOS_DEV=yes
+export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"
+export OCTOPI_OCTOPRINT_REPO_BRANCH=develop
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=develop
+export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=develop
+export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
+export BEAMOS_USBMOUNTMANAGER_REPO_BRANCH=develop
+export BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=develop
 
-OCTOPI_MRBEAMPLUGIN_REPO_BRANCH=develop
-
-OCTOPI_MRBEAMIOBEAM_REPO_BRANCH=develop
-
-OCTOPI_MRBEAMLED_REPO_BRANCH=develop
-
-OCTOPI_FINDMYMRBEAM_PLUGIN_REPO_BRANCH=develop
-
-OCTOPI_USBMOUNTMANAGER_REPO_BRANCH=develop
-
-OCTOPI_MBCAMERACALIBRATION_REPO_BRANCH=develop
+# dev - enable repos little by little
+# export BASE_IMAGE_RESIZEROOT=1000
+export BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
+export OCTOPI_INCLUDE_OCTOPRINT=yes
+export OCTOPI_INCLUDE_HAPROXY=yes
+export BEAMOS_INCLUDE_MOUNTMANAGER=yes
+# Track Netconnectd from Manuel McLure's branch fork
+export BEAMOS_INCLUDE_NETCONNECTD=yes
+export BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master
+export BEAMOS_NETCONNECTD_WIFI_ARCHIVE=https://github.com/ManuelMcLure/wifi/archive/$BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH.zip
+export BEAMOS_NETCONNECTD_REPO_BRANCH=master
+export BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/ManuelMcLure/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
+export BEAMOS_NETCONNECTD_REPO_SHIP=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
+export BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH=wifiupdates
+export BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE=https://github.com/ManuelMcLure/OctoPrint-Netconnectd/archive/$BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH.zip
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/ManuelMcLure/OctoPrint-Netconnectd.git
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/ManuelMcLure/OctoPrint-Netconnectd.git
+# IObeam
+export BEAMOS_INCLUDE_IOBEAM=yes
+export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
