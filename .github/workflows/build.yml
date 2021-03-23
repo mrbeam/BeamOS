@@ -4,6 +4,10 @@ on:
   push:
   schedule:
     - cron: '0 0 * * *'
+env:
+  VARIANT: mrbeam
+  FLAVORS: ""
+
 
 jobs:
   build:
@@ -43,23 +47,20 @@ jobs:
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
     - name: Build Image (MrBeam Variant)
-      env:
-        VARIANT: mrbeam
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x ./build_dist $VARIANT
+        sudo bash -x ./build_dist $VARIANT $FLAVORS
 
     - name: Copy output
-      env:
-        VARIANT: mrbeam
       id: copy
       run: |
         source repository/src/config
         NOW=$(date +"%Y-%m-%d-%H%M")
         # When building a variant, it is built in workspace-$VARIANT
         if [ -n $VARIANT ]; then
-          IMAGE=$NOW-$VARIANT-$DIST_VERSION
+          [ -n "FLAVORS" ] && FL="$(echo $FLAVORS | sed 's/ /-/g')-"
+          IMAGE=$NOW-$VARIANT-$FL$DIST_VERSION
           cp repository/src/workspace-$VARIANT/*.img $IMAGE.img
         else
           IMAGE=$NOW-octopi-$DIST_VERSION
