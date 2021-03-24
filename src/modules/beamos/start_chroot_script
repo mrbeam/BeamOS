@@ -162,6 +162,20 @@ pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   mkdir -p .local/bin
   ln -s /home/pi/oprint/bin/octoprint .local/bin/
+  if [ "$BEAMOS_INCLUDE_CHECK" == "yes" ]
+  then
+    # Create a python2 venv because python2-pip might not be an available package
+    BEAMOS_CHECK_VENV=/usr/local/mrb_check/venv
+    mkdir -p $(dirname $BEAMOS_CHECK_VENV)
+    python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
+    # mrb_check is cloned as a submodule to /filesystem before running the script
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
+
+    ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
+    unpack /filesystem/mrb_check/root / root
+    [ "$BEAMOS_DEV" != "yes" ] && \
+      echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
+  fi
 
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" == "yes" ]
   then

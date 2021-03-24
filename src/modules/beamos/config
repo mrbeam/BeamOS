@@ -16,6 +16,7 @@ TRUE_USER=pi
 [ -n "$BEAMOS_SHIELDFLASHER_REPO_BRANCH" ] || BEAMOS_SHIELDFLASHER_REPO_BRANCH=master
 [ -n "$BEAMOS_RPI_WS281X_REPO_BRANCH" ] || BEAMOS_RPI_WS281X_REPO_BRANCH=master
 [ -n "$BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH" ] || BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH=mrbeam2-stable
+[ -n "$BEAMOS_CHECK_REPO_BRANCH" ] || BEAMOS_CHECK_REPO_BRANCH=master
 
 # # MrBeamPlugin
 [ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
@@ -71,6 +72,10 @@ TRUE_USER=pi
 [ -n "$BEAMOS_MOUNTMANAGER_REPO_BUILD" ] || BEAMOS_MOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 [ -n "$BEAMOS_MOUNTMANAGER_REPO_SHIP" ] || BEAMOS_MOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 
+[ -n "$BEAMOS_INCLUDE_CHECK" ] || BEAMOS_INCLUDE_CHECK=yes
+[ -n "$BEAMOS_CHECK_ARCHIVE" ] || BEAMOS_CHECK_ARCHIVE=https://github.com/mrbeam/mrb_check/archive/$BEAMOS_CHECK_REPO_BRANCH.zip
+[ -n "$BEAMOS_CHECK_REPO_BUILD" ] || BEAMOS_CHECK_REPO_BUILD=git+ssh://git@github.com:mrbeam/mrb_check.git
+[ -n "$BEAMOS_CHECK_REPO_SHIP" ] || BEAMOS_CHECK_REPO_SHIP=git+ssh://git@github.com:mrbeam/mrb_check.git
 ### Misc
 
 [ -n "$BEAMOS_DEV" ] || BEAMOS_DEV=yes
