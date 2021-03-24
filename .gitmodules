@@ -10,3 +10,6 @@
 [submodule "src/modules/beamos/filesystem/repos/mrb_hw_info"]
 	path = src/modules/beamos/filesystem/repos/mrb_hw_info
 	url = git@github.com:mrbeam/mrb_hw_info.git
+[submodule "src/modules/beamos/filesystem/repos/mrb_check"]
+	path = src/modules/beamos/filesystem/repos/mrb_check
+	url = git@github.com:mrbeam/mrb_check.git
