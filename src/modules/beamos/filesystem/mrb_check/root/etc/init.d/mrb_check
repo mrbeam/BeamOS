@@ -1,0 +1,45 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          mrb_check
+# Required-Start:    beamos_first_boot
+# Required-Stop:
+# Default-Start:     3
+# Default-Stop:
+# Short-Description: Run mrb_check if the device has not been setup yet
+# Description:
+### END INIT INFO
+
+. /lib/lsb/init-functions
+
+do_start () {
+    # Debug
+    first_boot_logfile=/var/log/beamos_first_boot.log
+    # Do not run multiple times
+    [ ! -f $first_boot_logfile ] && echo "First Boot script didn't run before the mrb_check !!" && exit 1
+
+    successfile=/etc/mrb_check_success
+    # Do not run multiple times
+    [ -f $successfile ] && return 0
+
+    CHECK_BIN=/usr/bin/mrb_check
+    [ -x $CHECK_BIN ] && $CHECK_BIN
+
+    # /sbin/reboot
+}
+
+case "$1" in
+  start|"")
+        do_start
+        ;;
+  restart|reload|force-reload)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+  stop)
+        # No-op
+        ;;
+  *)
+        echo "Usage: octopi_first_boot [start|stop]" >&2
+        exit 3
+        ;;
+esac
