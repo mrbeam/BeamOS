@@ -31,3 +31,5 @@ export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/ManuelMcLure/Octo
 # IObeam
 export BEAMOS_INCLUDE_IOBEAM=yes
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
+# LED strips
+export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
