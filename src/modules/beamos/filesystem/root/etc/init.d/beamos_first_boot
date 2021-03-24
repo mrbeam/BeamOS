@@ -16,11 +16,16 @@ do_start () {
     # Do not run multiple times
     [ -f $logfile ] && return 0
 
-    echo "Refreshing the device hostname..." >> $logfile
-    [ -x /usr/bin/beamos_hostname ] && /usr/bin/beamos_hostname >> $logfile
-
-    echo "Updating the WiFi Access Point name..." >> $logfile
-    [ -x /usr/bin/reset_apname ] && /usr/bin/reset_apname >> $logfile
+    BEAMOS_HOSTNAME_BIN=/usr/bin/beamos_hostname
+    if [ -x $BEAMOS_HOSTNAME_BIN ]; then
+        echo "Updating the device hostname..." >> $logfile
+        $BEAMOS_HOSTNAME_BIN >> $logfile
+    fi
+    BEAMOS_SERIAL_BIN=/usr/bin/beamos_serial
+    if [ -x $BEAMOS_SERIAL_BIN ]; then
+        echo "Setting the Device Serial name..." >> $logfile
+        $BEAMOS_SERIAL_BIN >> $logfile
+    fi
 
     # enable the usb mount manager udev rules
     # rm /etc/udev/rules.d/00-mount_manager.rules
