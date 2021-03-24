@@ -188,10 +188,10 @@ pushd /home/pi
       # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
     fi
     echo "--- Installing MrBeamPlugin"
-    # Library dependencies for PIL
-    apt-install libxml2  libjpeg9
-    # TODO rm install of numpy here
-    # picamera needs to check /proc/cpuinfo at install time to figure out which model it's used with.
+    # Library dependencies for lxml and PIL
+    # See https://lxml.de/installation.html
+    apt-install libxml2 libxslt libjpeg9
+    # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
     cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
