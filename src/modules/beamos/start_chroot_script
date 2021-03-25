@@ -357,6 +357,8 @@ pushd /home/pi
     pushd /home/pi/.octoprint
       # Fuse the dev config file onto the normal config
       yq eval-all -i 'select(fileIndex == 0) * select(fileIndex == 1)' config.yaml config.yaml.dev
+      # Add the dev@mr-beam.org user
+      cp users-dev.yaml users.yaml
     popd
     # cp .octoprint/config.yaml.dev .octoprint/config.yaml
   fi
