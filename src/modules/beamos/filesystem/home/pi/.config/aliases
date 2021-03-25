@@ -1,4 +1,11 @@
 #!/bin/sh
+
+# Common aliases
+alias ..="cd .."
+alias ...="cd ../.."
+alias ll="ls -l"
+alias l="ls -al"
+
 # Systemd aliases
 alias restart_octoprint='systemctl restart octoprint.service'
 alias restart_iobeam='systemctl restart iobeam.service'

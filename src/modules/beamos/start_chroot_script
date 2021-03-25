@@ -173,7 +173,7 @@ pushd /home/pi
 
     ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
     unpack /filesystem/mrb_check/root / root
-    [ "$BEAMOS_DEV" != "yes" ] && \
+    [ "$BEAMOS_DEV" == "yes" ] && \
       echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
   fi
 
