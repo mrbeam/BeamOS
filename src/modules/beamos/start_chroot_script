@@ -74,7 +74,7 @@ pip_install_dev_or_rm() {
   # If in DEV mode, install with develop options and keep the repo
   # If not, install normally and remove the repo
   if [ "$BEAMOS_DEV" == "yes" ]; then
-    mkdir -p /home/pi/sources
+    sudo -u pi mkdir -p /home/pi/sources
     mv $@ /home/pi/sources/
     for package in $(basename -a $@); do
       pip_install -e /home/pi/sources/$@
@@ -305,7 +305,7 @@ pushd /home/pi
     chmod +x /usr/bin/mount_manager
     chown root:root /usr/bin/mount_manager
     # Add gpg public key under the pi user
-    mkdir -p /home/pi/.config
+    sudo -u pi mkdir -p /home/pi/.config
     gpg -u "${BASE_USER}" --homedir /home/pi/.gnupg --import /usr/share/mount_manager/pubkey.asc
     # The daemon gpg-agent can make the system hang when umouting the chroot image
     gpgconf --kill gpg-agent
