@@ -315,7 +315,7 @@ pushd /home/pi
   then
     echo "--- Installing Find my MrBeam ..."
     pip_install $BEAMOS_FINDMYMRBEAM_ARCHIVE
-    set_plugin_update_conf_remote findmymrbeam $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_SHIP $BEAMOS_FINDMYMRBEAM_PLUGIN_REPO_BRANCH
+    set_plugin_update_conf_remote findmymrbeam $BEAMOS_FINDMYMRBEAM_REPO_SHIP $BEAMOS_FINDMYMRBEAM_REPO_BRANCH
   fi
   if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
   then
