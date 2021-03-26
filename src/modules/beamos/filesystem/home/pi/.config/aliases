@@ -7,15 +7,15 @@ alias ll="ls -l"
 alias l="ls -al"
 
 # Systemd aliases
-alias restart_octoprint='systemctl restart octoprint.service'
-alias restart_iobeam='systemctl restart iobeam.service'
-alias restart_mrbeam_ledstrips='systemctl restart mrbeam_ledstrips.service'
-alias restart_netconnectd='systemctl restart netconnectd.service'
+alias restart_octoprint='sudo systemctl restart octoprint.service'
+alias restart_iobeam='sudo systemctl restart iobeam.service'
+alias restart_mrbeam_ledstrips='sudo systemctl restart mrbeam_ledstrips.service'
+alias restart_netconnectd='sudo systemctl restart netconnectd.service'
 
-alias stop_octoprint='systemctl stop octoprint.service'
-alias stop_iobeam='systemctl stop iobeam.service'
-alias stop_mrbeam_ledstrips='systemctl stop mrbeam_ledstrips.service'
-alias stop_netconnectd='systemctl stop netconnectd.service'
+alias stop_octoprint='sudo systemctl stop octoprint.service'
+alias stop_iobeam='sudo systemctl stop iobeam.service'
+alias stop_mrbeam_ledstrips='sudo systemctl stop mrbeam_ledstrips.service'
+alias stop_netconnectd='sudo systemctl stop netconnectd.service'
 alias nano="micro"
 
 # use i2c bus 1 by default
