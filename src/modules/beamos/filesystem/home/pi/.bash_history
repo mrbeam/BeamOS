@@ -30,5 +30,7 @@ iobeamcli info
 iobeamcli fan -c off
 iobeamcli fan -c on 100
 iobeamcli
+sudo nano /etc/mrbeam # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
+sudo nano ~/.octoprint/config.yaml # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
 nano /etc/mrbeam # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
 nano ~/.octoprint/config.yaml # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
