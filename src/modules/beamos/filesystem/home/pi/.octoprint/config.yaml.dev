@@ -1,6 +1,7 @@
 accessControl:
   salt: 2Ajc3zpiF780TsPGa7bElcwy41Ml0y5c
 devel:
+  analyticsEnabled: false
   cache:
     enabled: false
   webassets:
