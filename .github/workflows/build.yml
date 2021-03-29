@@ -2,8 +2,8 @@ name: Build Image
 
 on: 
   push:
-  schedule:
-    - cron: '0 0 * * *'
+  # schedule:
+  #   - cron: '0 0 * * *'
 env:
   VARIANT: mrbeam
   FLAVORS: "develop 2T"
