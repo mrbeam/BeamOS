@@ -2,7 +2,6 @@
 
 ## Bugs
 
-- Slicing : Only empty gcode files are created (Andy)
 - Find.mrbeam not working (Does not receive ipv6 address) (Andy+Axel)
   ```
   octoprint.plugins.findmymrbeam INFO FindMyMrBeam 
@@ -24,14 +23,12 @@
   ```
   mrbeam.util.pip_util.get_version_of_pip_module ERROR `pip --disable-pip-version-check` was not found in local $PATH 
   ```
-- Hostname changes when changing the raspberry pi (Axel)
+  > Some packages still don't have the correct link to the archive (all the private repos)
 
 ## Task List
 
 ### Requirement
 
-- Bash history (Basti)
-- login display
 - USB stick compat
   - mrb check -> Auto run ? (Basti)
   - update
