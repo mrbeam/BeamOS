@@ -241,6 +241,7 @@ pushd /home/pi
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install -e sources/{mrb_hw_info, iobeam}
     else
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests /filesystem/repos/mrb_hw_info numpy /filesystem/repos/iobeam
+    fi
 
     # Link the executables to have iobeam(cli) in the $PATH
     ln -s $BEAMOS_IOBEAM_VENV/bin/iobeam    /usr/bin/
