@@ -11,7 +11,7 @@ on:
   #   - cron: '0 0 * * *'
 env:
   VARIANT: mrbeam
-  FLAVORS: "develop 2T"
+  FLAVORS: "develop 2S"
 
 
 jobs:
