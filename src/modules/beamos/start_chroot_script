@@ -148,12 +148,6 @@ set_plugin_update_conf_remote() {
 unpack /filesystem/home /home/ pi
 unpack /filesystem/root / root
 
-# install yq to easily modify yaml files
-YQ_BINARY=yq_linux_arm64
-YQ_VERSION=v4.6.1
-wget https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/${YQ_BINARY}.tar.gz -O - |\
-  tar xz && mv ${YQ_BINARY} /usr/bin/yq
-
 # Install a more feature-fool alternative to nano : micro
 curl https://getmic.ro | bash
 mv ./micro /usr/bin/
