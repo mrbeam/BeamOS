@@ -2,7 +2,9 @@
 # variant mrbeam, flavor develop
 export BEAMOS_DEV=yes
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"
-export OCTOPI_OCTOPRINT_REPO_BRANCH=develop
+
+# develop branches
+# export OCTOPI_OCTOPRINT_REPO_BRANCH=develop
 export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=develop
 export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=develop
 export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
