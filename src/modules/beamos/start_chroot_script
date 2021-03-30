@@ -107,12 +107,30 @@ get_hash_local() {
 
 get_hash_submodule() {
   # a bit hacky... doesn't seem to simply work with get_hash_local
-  git submodule foreach "git rev-parse HEAD" | grep $1 -A 1 | tail -n 1
+  repo_loc=/filesystem/repos/$1
+  branch_file=$repo_loc/current_commit_hash
+  if [ -f "$branch_file" ]; then
+    # Uses files generated in build.yml!!
+    cat "$branch_file"
+  else
+    pushd $repo_loc
+      git rev-parse HEAD
+    popd
+  fi
 }
 
 get_branch_submodule() {
   # a bit hacky... doesn't seem to simply work with get_hash_local
-  git submodule foreach "git branch --show-current" | grep $1 -A 1 | tail -n 1
+  repo_loc=/filesystem/repos/$1
+  branch_file=$repo_loc/current_branch
+  if [ -f "$branch_file" ]; then
+    # Uses files generated in build.yml!!
+    cat "$branch_file"
+  else
+    pushd $repo_loc
+      git branch | tail -n 1
+    popd
+  fi
 }
 
 set_plugin_update_conf() {
