@@ -73,7 +73,7 @@ pip_install() {
 pip_install_dev_or_rm() {
   # If in DEV mode, install with develop options and keep the repo
   # If not, install normally and remove the repo
-  if [ "$BEAMOS_DEV" == "yes" ]; then
+  if [ "$BEAMOS_DEV" = "yes" ]; then
     sudo -u pi mkdir -p /home/pi/sources
     mv $@ /home/pi/sources/
     for package in $(basename -a $@); do
@@ -174,7 +174,7 @@ pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   mkdir -p .local/bin
   ln -s /home/pi/oprint/bin/octoprint .local/bin/
-  if [ "$BEAMOS_INCLUDE_CHECK" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_CHECK" = "yes" ]
   then
     # Create a python2 venv because python2-pip might not be an available package
     BEAMOS_CHECK_VENV=/usr/local/mrb_check/venv
@@ -185,14 +185,14 @@ pushd /home/pi
 
     ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
     unpack /filesystem/mrb_check/root / root
-    [ "$BEAMOS_DEV" == "yes" ] && \
+    [ "$BEAMOS_DEV" = "yes" ] && \
       echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
   fi
 
-  if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" = "yes" ]
   then
     # Only the MrBeamPlugin requires OpenCV
-    if [ "BEAMOS_COMPILE_OPENCV" == "yes" ]; then
+    if [ "BEAMOS_COMPILE_OPENCV" = "yes" ]; then
       echo "Pulling $BEAMOS_OPENCV_VERSION"
       echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
       # Following the pyimagesearch tutorial
@@ -229,7 +229,7 @@ pushd /home/pi
     pip_install $BEAMOS_MRBEAMPLUGIN_DOCS_ARCHIVE
     set_plugin_update_conf_remote mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH
   fi
-  if [ "$BEAMOS_INCLUDE_IOBEAM" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_IOBEAM" = "yes" ]
   then
     echo "--- Installing IOBEAM"
     # enable the i2c bus before first boot + i2c tools.
@@ -247,7 +247,7 @@ pushd /home/pi
     # numpy and mrb_hw_info AND requests are not listed as a dependency in iobeam or mrb_hw_info, install them manually before iobeam
     # They are installed on the root level because they use root files from time to time. See iobeam#69 (nice)
     # iobeam is cloned as a submodule to /filesystem before running the script
-    if [ "$BEAMOS_DEV" == "yes" ]; then
+    if [ "$BEAMOS_DEV" = "yes" ]; then
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
       mv /filesystem/repos/mrb_hw_info /filesystem/repos/iobeam sources/
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install -e sources/mrb_hw_info sources/iobeam
@@ -280,7 +280,7 @@ pushd /home/pi
     ln -s $AVR_DIR/avrdude-autoreset $AVR_DIR/avrdude
     chmod +x $AVR_DIR/avrdude-autoreset $AVR_DIR/autoreset
   fi
-  if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]; then
+  if [ "$BEAMOS_INCLUDE_NETCONNECTD" = "yes" ]; then
     # Install the Netconnectd daemon
     apt-install hostapd dnsmasq logrotate rfkill
     NETCONNECTD_PROJ=sources/netconnectd
@@ -313,7 +313,7 @@ pushd /home/pi
     pip_install_dev_or_rm ./OctoPrint-Netconnectd
     set_plugin_update_conf_remote netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
   fi
-  if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" = "yes" ]
   then
     echo "--- Installing mount_manager"
     apt-install gnupg
@@ -332,13 +332,13 @@ pushd /home/pi
     gpgconf --kill gpg-agent
     # sudo -u "${BASE_USER}" gpg --import /usr/share/mount_manager/pubkey.asc
   fi
-  if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" = "yes" ]
   then
     echo "--- Installing Find my MrBeam ..."
     pip_install $BEAMOS_FINDMYMRBEAM_ARCHIVE
     set_plugin_update_conf_remote findmymrbeam $BEAMOS_FINDMYMRBEAM_REPO_SHIP $BEAMOS_FINDMYMRBEAM_REPO_BRANCH
   fi
-  if [ "$BEAMOS_INCLUDE_MRBEAMLED" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_MRBEAMLED" = "yes" ]
   then
     echo "--- Installing MrBeam LED server ..."
     # # Add globaly available pip
@@ -360,7 +360,7 @@ pushd /home/pi
     # change pip commands to match the new virtualenv
     set_plugin_update_conf mrbeam-ledstrips pip_command "sudo $LED_VENV/bin/pip"
   fi
-  if [ "$BEAMOS_INCLUDE_SSH" == "yes" ]
+  if [ "$BEAMOS_INCLUDE_SSH" = "yes" ]
   then
     # Redundant as octopi already enables sshd, but keep it to make sure.
     touch /boot/ssh
@@ -373,7 +373,7 @@ pushd /home/pi
   else
     rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
-  if [ "$BEAMOS_DEV" == "yes" ]; then
+  if [ "$BEAMOS_DEV" = "yes" ]; then
     apt-install vim curl pkg-config figlet neofetch
     pushd /home/pi/.octoprint
       # Fuse the dev config file onto the normal config
@@ -390,7 +390,7 @@ popd
 echo "$BEAMOS_COMMIT" > /etc/beamos_commit
 
 # Set the date of the image creation.
-[ "$BEAMOS_DEV" == "yes" ] && VERSION="DEV" || VERSION="PROD"
+[ "$BEAMOS_DEV" = "yes" ] && VERSION="DEV" || VERSION="PROD"
 
 set_field() {
   # Set the field of an INI file
@@ -416,7 +416,7 @@ update-rc.d beamos_first_boot defaults
 
 ### Netconnectd
 
-# if [ "$BEAMOS_INCLUDE_NETCONNECTD" == "yes" ]
+# if [ "$BEAMOS_INCLUDE_NETCONNECTD" = "yes" ]
 # then
 #   systemctl_if_exists enable netconnectd.service
 # else
