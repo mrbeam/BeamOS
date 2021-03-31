@@ -173,7 +173,10 @@ mv ./micro /usr/bin/
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   mkdir -p .local/bin
-  ln -s /home/pi/oprint/bin/octoprint .local/bin/
+  sudo -u pi ln -s /home/pi/oprint/bin/octoprint .local/bin/
+  # Add symlink to preserve legacy compatibility for mrbtools
+  sudo -u pi ln -s oprint/lib/python2.7/site-packages
+
   if [ "$BEAMOS_INCLUDE_CHECK" = "yes" ]
   then
     # Create a python2 venv because python2-pip might not be an available package
