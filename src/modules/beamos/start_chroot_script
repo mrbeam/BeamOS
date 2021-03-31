@@ -278,8 +278,10 @@ pushd /home/pi
     # Install the Shield Auto Flasher
     AVR_DIR=$(dirname $(which avrdude))
     mv $(which avrdude) $AVR_DIR/avrdude-original
-    wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/avrdude-autoreset -o $AVR_DIR/avrdude-autoreset
-    wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/autoreset -o $AVR_DIR/autoreset
+    wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/avrdude-autoreset -O $AVR_DIR/avrdude-autoreset
+    chmod +x $AVR_DIR/avrdude-autoreset
+    wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/autoreset -O $AVR_DIR/autoreset
+    chmod +x $AVR_DIR/autoreset
     ln -s $AVR_DIR/avrdude-autoreset $AVR_DIR/avrdude
     chmod +x $AVR_DIR/avrdude-autoreset $AVR_DIR/autoreset
   fi
