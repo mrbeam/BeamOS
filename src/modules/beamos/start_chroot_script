@@ -134,7 +134,8 @@ get_branch_submodule() {
 }
 
 set_plugin_update_conf() {
-  # set_plugin_update_conf iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
+  # set_plugin_update_conf iobeam branch mrbeam2-stable
+  # set_plugin_update_conf iobeam url https://github.com/mrbeam/iobeam.git
   module_id=$1
   key=$2
   val=$3
@@ -183,6 +184,10 @@ pushd /home/pi
     BEAMOS_CHECK_VENV=/usr/local/mrb_check/venv
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
     python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
+    # Do this BEFORE INSTALLING as - in the develop version,
+    # it will move the source folder, in which case we couldn't access it.
+    set_plugin_update_conf_submodule mrb_check mrb_check
+    set_plugin_update_conf mrb_check pip_command "sudo $BEAMOS_CHECK_VENV/bin/pip"
     # mrb_check is cloned as a submodule to /filesystem before running the script
     PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
 
@@ -248,6 +253,15 @@ pushd /home/pi
     BEAMOS_IOBEAM_VENV=/usr/local/iobeam/venv
     mkdir -p $(dirname $BEAMOS_IOBEAM_VENV)
     python3 -m virtualenv -p python2 $BEAMOS_IOBEAM_VENV
+    # change pip commands to match the new virtualenv
+    # Do this BEFORE INSTALLING as - in the develop version,
+    # it will move the source folder, in which case we couldn't access it.
+    # Cannot access private mrb_hw_info repo unless build server has authorised key set up
+    # git rev-parse HEAD returns the commit hash of current git project
+    set_plugin_update_conf_submodule iobeam      iobeam
+    set_plugin_update_conf_submodule mrb_hw_info mrb_hw_info
+    set_plugin_update_conf iobeam      pip_command "sudo $BEAMOS_IOBEAM_VENV/bin/pip"
+    set_plugin_update_conf mrb_hw_info pip_command "sudo $BEAMOS_IOBEAM_VENV/bin/pip"
     # numpy and mrb_hw_info AND requests are not listed as a dependency in iobeam or mrb_hw_info, install them manually before iobeam
     # They are installed on the root level because they use root files from time to time. See iobeam#69 (nice)
     # iobeam is cloned as a submodule to /filesystem before running the script
@@ -266,13 +280,6 @@ pushd /home/pi
     unpack /filesystem/iobeam/root / root
     # Enable the iobeam.service unit that was previously copied
     systemctl_if_exists enable iobeam.service
-    # Cannot access private mrb_hw_info repo unless build server has authorised key set up
-    # git rev-parse HEAD returns the commit hash of current git project
-    set_plugin_update_conf_submodule iobeam      iobeam
-    set_plugin_update_conf_submodule mrb_hw_info mrb_hw_info
-    # change pip commands to match the new virtualenv
-    set_plugin_update_conf iobeam      pip_command "sudo $BEAMOS_IOBEAM_VENV/bin/pip"
-    set_plugin_update_conf mrb_hw_info pip_command "sudo $BEAMOS_IOBEAM_VENV/bin/pip"
 
     # Add AVRDUDE
     apt-install avrdude
