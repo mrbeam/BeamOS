@@ -43,7 +43,6 @@ jobs:
         git --no-pager submodule foreach 'git branch | tail -n 1 > current_branch'
         git --no-pager submodule foreach 'git  rev-parse HEAD > current_commit_hash'
 
-
     - name: Download Raspbian Image
       run: |
         cd repository/src/image
