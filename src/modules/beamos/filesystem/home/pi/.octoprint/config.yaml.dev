@@ -13,6 +13,7 @@ plugins:
     dev:
       env: DEV
       software_tier: DEV
+    terminal: true
 server:
   firstRun: false
   seenWizards:
