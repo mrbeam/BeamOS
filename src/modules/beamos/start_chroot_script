@@ -195,6 +195,7 @@ pushd /home/pi
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" = "yes" ]
   then
     # Only the MrBeamPlugin requires OpenCV
+    # TODO Optimise
     if [ "BEAMOS_COMPILE_OPENCV" = "yes" ]; then
       echo "Pulling $BEAMOS_OPENCV_VERSION"
       echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
@@ -284,6 +285,10 @@ pushd /home/pi
     chmod +x $AVR_DIR/autoreset
     ln -s $AVR_DIR/avrdude-autoreset $AVR_DIR/avrdude
     chmod +x $AVR_DIR/avrdude-autoreset $AVR_DIR/autoreset
+    # TODO Optimise
+    # The autoreset script requires smbus... => migrate that responsability to iobeam??
+    apt-install python-pip # install python2 -m pip
+    python2 -m pip install smbus2
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" = "yes" ]; then
     # Install the Netconnectd daemon
