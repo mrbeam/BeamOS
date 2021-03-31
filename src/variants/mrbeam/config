@@ -5,7 +5,8 @@ export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
 export BASE_IMAGE_ENLARGEROOT=1700
 
 export BEAMOS_DEV=no
-export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)), password-for-sudo)"
+export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"
+# export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)), password-for-sudo)"
 
 # Proxy server
 
