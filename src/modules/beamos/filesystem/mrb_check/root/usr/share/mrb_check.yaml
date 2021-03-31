@@ -1,0 +1,35 @@
+env:
+  env: PROD-S-DC-WATTEROTT
+device_info:
+  type: MrBeam2S
+  series: 2S
+  model: MRBEAM2_DC
+  model_force: MRBEAM2_DC
+  accepted_series:
+    - 2G
+    - 2U
+    - 2V
+    - 2T
+    - 2S
+modules:
+  - 0010_environment
+  - 0015_room_environment
+  - 0020_leds
+  - 0025_i2c
+  - 0030_iobeam_static
+  - 0040_gpg
+  - 0045_serial_grbl_programmer
+  - 0050_grbl
+  - 0060_config_yaml
+  - 0070_iobeam_dynamic_auto
+  - 0080_iobeam_compressor
+  - 0090_iobeam_smart_reedswitches
+  - 0110_iobeam_dynamic_manual
+  - 0120_movement
+  - 0130_laser_temp
+  - 0140_save_to_file
+  - 0250_calibration_markers
+compressor:
+  required: true
+smart_reedswitch:
+  required: true
