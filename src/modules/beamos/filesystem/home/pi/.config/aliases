@@ -18,25 +18,27 @@ alias stop_mrbeam_ledstrips='sudo systemctl stop mrbeam_ledstrips.service'
 alias stop_netconnectd='sudo systemctl stop netconnectd.service'
 alias nano="micro"
 
-# use i2c bus 1 by default
-i2cdetect() {
-    if [ $1 = "-y" ]; then
-        bus=$2
-        shift 2
-    else
-        bus=1
-    fi
-    i2cdetect -y $bus $@
-}
-i2cset() {
-    if [ $1 = "-y" ]; then
-        bus=$2
-        shift 2
-    else
-        bus=1
-    fi
-    i2cset -y $bus $@
-}
+# Seems to return bash errors.
+# # use i2c bus 1 by default
+#
+# i2cdetect() {
+#     if [ $1 = "-y" ]; then
+#         bus=$2
+#         shift 2
+#     else
+#         bus=1
+#     fi
+#     i2cdetect -y $bus $@
+# }
+# i2cset() {
+#     if [ $1 = "-y" ]; then
+#         bus=$2
+#         shift 2
+#     else
+#         bus=1
+#     fi
+#     i2cset -y $bus $@
+# }
 
 workon() {
     help() { echo "Usage: $0 [-h, --help] venv-name" && echo "Activates a Python venv located in HOME or give path"; }
