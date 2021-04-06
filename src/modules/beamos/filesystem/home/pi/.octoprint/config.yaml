@@ -1,6 +1,14 @@
 webcam:
   stream: plugin/mrbeam/static/img/test.jpg
 plugins:
+  _disabled:
+     - announcements
+     - cura
+     - pluginmanager
+     - announcements
+     - corewizard
+     - octopi_support
+     - virtual_printer
   discovery:
     publicPort: 80
   mrbeam:
