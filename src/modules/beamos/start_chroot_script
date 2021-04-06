@@ -184,10 +184,11 @@ pushd /home/pi
     BEAMOS_CHECK_VENV=/usr/local/mrb_check/venv
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
     python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
-    # Do this BEFORE INSTALLING as - in the develop version,
-    # it will move the source folder, in which case we couldn't access it.
-    set_plugin_update_conf_submodule mrb_check mrb_check
-    set_plugin_update_conf mrb_check pip_command "sudo $BEAMOS_CHECK_VENV/bin/pip"
+    # OctoPrint has no need to update mrb_check -> No need to add to config.yaml
+    # # Do this BEFORE INSTALLING as - in the develop version,
+    # # it will move the source folder, in which case we couldn't access it.
+    # set_plugin_update_conf_submodule mrb_check mrb_check
+    # set_plugin_update_conf mrb_check pip_command "sudo $BEAMOS_CHECK_VENV/bin/pip"
     # mrb_check is cloned as a submodule to /filesystem before running the script
     PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
 
