@@ -11,12 +11,14 @@ on:
   #   - cron: '0 0 * * *'
 env:
   VARIANT: mrbeam
-  FLAVORS: "develop 2S"
 
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flavors: ["2S", "develop 2S"]
     steps:
     - name: Install Dependencies
       run: |
@@ -61,7 +63,7 @@ jobs:
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x ./build_dist $VARIANT $FLAVORS
+        sudo bash -x ./build_dist $VARIANT ${{ matrix.flavors }}
 
     - name: Copy output
       id: copy
@@ -70,7 +72,7 @@ jobs:
         NOW=$(date +"%Y-%m-%d-%H%M")
         # When building a variant, it is built in workspace-$VARIANT
         if [ -n $VARIANT ]; then
-          [ -n "FLAVORS" ] && FL="$(echo $FLAVORS | sed 's/ /-/g')-"
+          [ -n "${{ matrix.flavors }}" ] && FL="$(echo ${{ matrix.flavors }} | sed 's/ /-/g')-"
           IMAGE=$NOW-$VARIANT-$FL$DIST_VERSION
           cp repository/src/workspace-$VARIANT/*.img $IMAGE.img
         else
