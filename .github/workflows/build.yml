@@ -18,7 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flavors: ["2S", "develop 2S"]
+        # flavors: ["2S", "develop 2S"]
+        flavors: ["develop 2S"]
     steps:
     - name: Install Dependencies
       run: |
