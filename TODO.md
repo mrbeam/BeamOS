@@ -15,7 +15,7 @@
     netconnectd_state: {'ap': False, 'wifi': False, 'wired': True}, 
     internal_modes: []
   ```
-- Analytics handler broken (Khaled)
+- Analytics handler broken (Khaled: solved but after merging develop, it's not showing anymore so solution wasn't committed)
   ```
   15:17:38 octoprint.plugins.mrbeam.migrate ERROR Not able to get analytics_handler.
   ```
