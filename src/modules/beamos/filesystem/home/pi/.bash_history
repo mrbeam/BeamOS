@@ -34,3 +34,4 @@ sudo nano /etc/mrbeam # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut 
 sudo nano ~/.octoprint/config.yaml # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
 nano /etc/mrbeam # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
 nano ~/.octoprint/config.yaml # uses micro, use Ctrl + q to quit, Ctrl + g for shortcut list
+yq e ~/.octoprint/config.yaml # inspect config.yaml
