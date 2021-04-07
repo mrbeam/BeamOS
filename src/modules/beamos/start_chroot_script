@@ -171,6 +171,11 @@ unpack /filesystem/root / root
 curl https://getmic.ro | bash
 mv ./micro /usr/bin/
 
+# Install a toml cli tool
+# Can be used to edit / query /etc/mrbeam `crudini --get /etc/mrbeam "" hostname`
+apt-install python3-pip
+python3 -m pip install crudini
+
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   sudo -u pi mkdir -p .local/bin

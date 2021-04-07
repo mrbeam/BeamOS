@@ -7,7 +7,7 @@ if [ "$1" = "-h" -o "$1" = "--help" ]; then
 fi
 
 if [ -n "$1" ]; then
-  new_apname="$(1)"
+  new_apname="$1"
 else
   new_apname=$(hostname)
 fi

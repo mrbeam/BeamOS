@@ -1,15 +1,24 @@
 #!/usr/bin/env bash
 
 if [ "$1" = "-h" -o "$1" = "--help" ]; then
-  echo "Usage: $0 [new-hostname]"
-  echo "If the new hostname name is not provided, it will be auto generated as a signature of the RPi device. Must be run as root."
+  echo "Usage: $0 [new-hostname-id]"
+  echo "Set the machine hostname using\n
+  1. The provided hostname ID\n
+  2. Use the hostname written in /etc/mrbeam\n
+  3. auto generate the hostname as a signature of the RPi device."
+  echo "Must be run as root."
   exit 0
 fi
 
 . /lib/lsb/init-functions
 
+# The hostname
+CONFIG_HOSTNAME="$(crudini --set /etc/mrbeam '' hostname 2>/dev/null )"
+
 if [ -n "$1" ]; then
-  ID="$1"
+  new_hostname="MrBeam-$1"
+elif [ -n "$CONFIG_HOSTNAME" ]; then
+  new_hostname="$CONFIG_HOSTNAME"
 else
   ID=$(
     grep Serial /proc/cpuinfo | \
@@ -18,18 +27,19 @@ else
     cut -c -4 | \
     awk '{print toupper($0)}'
   )
+  [ -z "$ID" ] && log_failure_msg "Failed to generate ID." && exit 1
+  new_hostname="MrBeam-$ID"
 fi
 
-[ -z "$ID" ] && log_failure_msg "No hostname ID given." && exit 1
 
 old_hostname="$(hostname)"
-new_hostname="MrBeam-$ID"
 # make sure we do have a valid hostname here (see RFC 952 and 1123, a-zA-Z0-9 only)
 sanitized_hostname=`echo "$new_hostname" | tr -cd '[[:alnum:]]-'`
 if [ "$new_hostname" = "$sanitized_hostname" ]; then
   echo "$new_hostname" > /etc/hostname
   sed -i -e "s/$old_hostname/$new_hostname/g" /etc/hosts
   hostname "$new_hostname"
+  crudini --set /etc/mrbeam "" hostname $new_hostname
   log_success_msg "Change of host name done, reboot to apply..."
 else
   log_failure_msg "Hostname $new_hostname contains invalid characters (only a-zA-Z0-9 are allowed), refusing to change"

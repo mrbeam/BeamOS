@@ -16,4 +16,4 @@ else
 fi
 echo "Setting device serial to $SERIAL"
 
-sed -i "s/^\(serial=\).*$/\1$SERIAL/" /etc/mrbeam
+crudini --set /etc/mrbeam "" serial $SERIAL
