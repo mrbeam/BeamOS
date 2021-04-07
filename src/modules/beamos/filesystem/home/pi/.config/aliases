@@ -42,8 +42,8 @@ alias nano="micro"
 
 workon() {
     help() { echo "Usage: $0 [-h, --help] venv-name" && echo "Activates a Python venv located in HOME or give path"; }
-    [ -z "$1" ] && help && exit 1
-    { [ "$1" = "-h" ] || [ "$1" = "--help" ];} && help && exit 0
+    [ -z "$1" ] && help && return 1
+    { [ "$1" = "-h" ] || [ "$1" = "--help" ];} && help && return 0
     if [ -f "$1/bin/activate" ]; then
         . "$1/bin/activate"
     else
