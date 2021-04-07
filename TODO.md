@@ -29,36 +29,36 @@
 
 ### Requirement
 
-- USB stick compat
-  - mrb check -> Auto run ? (Basti)
-  - update
+- [ ] USB stick compat
+  - [ ] mrb check -> Auto run ? (Basti)
+  - [ ] update
 
-- Merge the BeamOS specific branches for these packages
-  - MrBeamPlugin
-  - mrbeam_ledstrips (client and server)
-  - netconnectd
-  - netconnectd plugin
-  - [wifi](https://github.com/ManuelMcLure/wifi)
-  - iobeam
-- Test scenarios
-  - New vs Old image
-  - GRBL flash
-  - Test legacy image compatibility
-    - packages on legacy OS
-    - legacy RPi
-    - Test with mrb check / update sticks.
-    - Sticks : update, reset {user/network/all}
-  - Calibration tool
-  - mount manager
-  - iobeam
-  - Software update (permissions etc...)
-  - LEDstrips
-  - Netconnectd
-- Minimise image size & speed up image creation
-  - Self compiled wheels & host/deploy wheels online
-    - OpenCV (Or migrate to python3 & install headless py3 wheel (available on Pypi))
-    - numpy (mostly for speed)
-  - Remove numpy dependency for iobeam
+- [ ] Merge the BeamOS specific branches for these packages
+  - [ ] MrBeamPlugin
+  - [~] mrbeam_ledstrips (client and server) (ready to merge)
+  - [x] netconnectd
+  - [x] netconnectd plugin
+  - [x] [wifi](https://github.com/ManuelMcLure/wifi)
+  - [~] iobeam (ready to merge)
+- [ ] Test scenarios
+  - [ ] New vs Old image
+  - [ ] GRBL flash
+  - [ ] Test legacy image compatibility
+    - [ ] packages on legacy OS
+    - [ ] legacy RPi
+    - [ ] Test with mrb check / update sticks.
+    - [ ] Sticks : update, reset {user/network/all}
+  - [ ] Calibration tool
+  - [ ] mount manager
+  - [ ] iobeam
+  - [ ] Software update (permissions etc...)
+  - [ ] LEDstrips
+  - [ ] Netconnectd
+- [ ] Minimise image size & speed up image creation
+  - [ ] Self compiled wheels & host/deploy wheels online
+    - [ ] OpenCV (Or migrate to python3 & install headless py3 wheel (available on Pypi))
+    - [ ] numpy (mostly for speed)
+  - [ ] Remove numpy dependency for iobeam
 
 ### Nice to have
 
