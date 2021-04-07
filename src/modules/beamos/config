@@ -36,7 +36,7 @@ TRUE_USER=pi
 [ -n "$BEAMOS_IOBEAM_REPO_BUILD" ] || BEAMOS_IOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
 [ -n "$BEAMOS_IOBEAM_REPO_SHIP" ] || BEAMOS_IOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
 
-[ -n "$BEAMOS_INCLUDE_MRBLED" ] || BEAMOS_INCLUDE_MRBEAMLED=yes
+[ -n "$BEAMOS_INCLUDE_MRBEAMLED" ] || BEAMOS_INCLUDE_MRBEAMLED=yes
 [ -n "$BEAMOS_MRBEAMLED_ARCHIVE" ] || BEAMOS_MRBEAMLED_ARCHIVE=https://github.com/mrbeam/MrBeamLedStrips/archive/$BEAMOS_MRBEAMLED_REPO_BRANCH.zip
 [ -n "$BEAMOS_MRBEAMLED_REPO_BUILD" ] || BEAMOS_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
 [ -n "$BEAMOS_MRBEAMLED_REPO_SHIP" ] || BEAMOS_MRBEAMLED_REPO_SHIP=https://github.com/mrbeam/MrBeamLedStrips.git

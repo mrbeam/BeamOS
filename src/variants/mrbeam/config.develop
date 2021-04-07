@@ -21,15 +21,15 @@ export BEAMOS_INCLUDE_MOUNTMANAGER=yes
 # Track Netconnectd from Manuel McLure's branch fork
 export BEAMOS_INCLUDE_NETCONNECTD=yes
 export BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master
-export BEAMOS_NETCONNECTD_WIFI_ARCHIVE=https://github.com/ManuelMcLure/wifi/archive/$BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH.zip
-export BEAMOS_NETCONNECTD_REPO_BRANCH=master
-export BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/ManuelMcLure/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
-export BEAMOS_NETCONNECTD_REPO_SHIP=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
-export BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
+export BEAMOS_NETCONNECTD_WIFI_ARCHIVE=https://github.com/mrbeam/wifi/archive/$BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH.zip
+export BEAMOS_NETCONNECTD_REPO_BRANCH=py3
+export BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/mrbeam/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
+export BEAMOS_NETCONNECTD_REPO_SHIP=https://github.com/mrbeam/netconnectd_mrbeam.git
+export BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
 export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH=wifiupdates
-export BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE=https://github.com/ManuelMcLure/OctoPrint-Netconnectd/archive/$BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH.zip
-export BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/ManuelMcLure/OctoPrint-Netconnectd.git
-export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/ManuelMcLure/OctoPrint-Netconnectd.git
+export BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE=https://github.com/mrbeam/OctoPrint-Netconnectd/archive/$BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH.zip
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 # IObeam
 export BEAMOS_INCLUDE_IOBEAM=yes
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
