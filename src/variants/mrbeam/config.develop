@@ -32,6 +32,9 @@ export BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-N
 export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 # IObeam
 export BEAMOS_INCLUDE_IOBEAM=yes
+export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=f_unpriviledged
 export BEAMOS_INCLUDE_FINDMYMRBEAM=yes
 # LED strips
 export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
+# OCTOPRINT
+export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam-buster
