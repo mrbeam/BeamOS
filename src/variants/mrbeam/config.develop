@@ -8,7 +8,8 @@ export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos
 export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=develop
 export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=develop
 export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
-export BEAMOS_USBMOUNTMANAGER_REPO_BRANCH=develop
+# The Github mirror does not have a develop branch
+# export BEAMOS_MOUNTMANAGER_REPO_BRANCH=develop
 export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=develop
 
 ## DEV - enable repos little by little
