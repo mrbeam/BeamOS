@@ -3,6 +3,7 @@
 export BEAMOS_DEV=yes
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"
 
+export BASE_PYPI_INDEX="http://devpi.soll.xyz:5798/mrbeam/dev/+simple/"
 # develop branches
 # export OCTOPI_OCTOPRINT_REPO_BRANCH=develop
 export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=develop
