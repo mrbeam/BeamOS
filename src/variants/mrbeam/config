@@ -14,7 +14,7 @@ export BASE_PYPI_INDEX="http://devpi.soll.xyz:5798/mrbeam/prod/+simple/"
 
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
-export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
+export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam-buster
 # export OCTOPI_OCTOPRINT_ARCHIVE=/filesystem/OctoPrint
 export OCTOPI_OCTOPRINT_ARCHIVE=https://github.com/mrbeam/OctoPrint/archive/$OCTOPI_OCTOPRINT_REPO_BRANCH.zip
 
@@ -35,3 +35,7 @@ export BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
 
 # Dev allow ssh for now
 export BEAMOS_INCLUDE_SSH=yes
+
+# MrBeamPlugin / OctoPrint-MrBeam
+# TODO : merge into beta / stable version
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos

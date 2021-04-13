@@ -36,6 +36,3 @@ export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
 
 # LED strips
 # export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
-
-# OCTOPRINT
-export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam-buster
