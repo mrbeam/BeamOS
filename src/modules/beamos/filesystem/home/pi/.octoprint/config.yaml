@@ -12,10 +12,12 @@ plugins:
   softwareupdate:
     checks:
       octoprint:
-        checkout_folder: /home/pi/OctoPrint
+        pip: https://github.com/mrbeam/OctoPrint/archive/{target_version}.zip
         prerelease: false
+        method: github_commit
         stable_branch:
-          branch: mrbeam2-stable
+          branch: mrbeam-buster
+          commitish: mrbeam-buster
         user: mrbeam
 serial:
   additionalPorts:
