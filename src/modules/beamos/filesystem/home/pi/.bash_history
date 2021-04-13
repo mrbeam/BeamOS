@@ -22,10 +22,10 @@ systemctl restart mrbeam_ledstrips # pi user has permission to use systemd
 systemctl restart iobeam # pi user has permission to use systemd
 systemctl restart octoprint # pi user has permission to use systemd
 systemctl status octoprint # pi user has permission to use systemd
-restart_octoprint
 restart_iobeam
 restart_mrbeam_ledstrips
 restart_netconnectd
+restart_octoprint
 iobeamcli info
 iobeamcli fan -c off
 iobeamcli fan -c on 100
