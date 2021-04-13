@@ -19,6 +19,7 @@ plugins:
           branch: mrbeam-buster
           commitish: mrbeam-buster
         user: mrbeam
+        displayVersion: 1.3.6.5
 serial:
   additionalPorts:
     - /dev/ttyAMA*
