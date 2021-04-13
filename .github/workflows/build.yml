@@ -10,7 +10,7 @@ on:
   # schedule:
   #   - cron: '0 0 * * *'
 env:
-  VARIANT: mrbeam
+  VARIANT: beamos
 
 
 jobs:
