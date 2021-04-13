@@ -1,7 +1,7 @@
 BeamOs
 ======
 
-.. image:: https://raw.githubusercontent.com/guysoft/OctoPi/devel/media/OctoPi.png
+.. image:: https://raw.githubusercontent.com/mrbeam/BeamOS/mrbeam/media/BeamOS.png
 .. :scale: 50 %
 .. :alt: Mr Beam logo
 
@@ -13,7 +13,7 @@ TODO
 ----
 
 #. Add possibility to switch between tags, branches and python versions.
-#. Netconnectd needs to becompatible with Raspbian Buster
+#. OctoPrint needs to have a new release to show up with it's own version in the `softwareupdate` plugin (otherwise it shows up as `0+unknown`)
 
 NOTE
 ~~~~
