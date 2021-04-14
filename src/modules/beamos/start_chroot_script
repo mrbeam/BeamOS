@@ -201,6 +201,15 @@ pushd /home/pi
     unpack /filesystem/mrb_check/root / root
     [ "$BEAMOS_DEV" = "yes" ] && \
       echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
+
+    # The OctoPrint-Camera plugin is only required for the assembly right now
+    # NOTE Should be made an independent addition when it's ready for PROD
+    if [ "$BEAMOS_INCLUDE_CAMERA" = "yes" ]
+    then
+      echo "--- Installing OctoPrint-Camera ..."
+      pip_install $BEAMOS_CAMERA_ARCHIVE
+      set_plugin_update_conf_remote findmymrbeam $BEAMOS_CAMERA_REPO_SHIP $BEAMOS_CAMERA_REPO_BRANCH
+    fi
   fi
 
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" = "yes" ]
