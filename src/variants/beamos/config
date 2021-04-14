@@ -39,6 +39,9 @@ export BEAMOS_INCLUDE_SSH=yes
 # MrBeamPlugin / OctoPrint-MrBeam
 # TODO : merge into beta / stable version
 export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
+# OctoPrint-Camera
+# Backend not ready
+export BEAMOS_INCLUDE_CAMERA=no
 # LED Strips
 # TODO : merge into beta / stable version
 export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
