@@ -20,11 +20,15 @@ if [ -n "$1" ]; then
 elif [ -n "$CONFIG_HOSTNAME" ]; then
   new_hostname="$CONFIG_HOSTNAME"
 else
+  # rev allows to use cut for cutting out the last 4 characters.
+  # And thus making it more POSIX compliant and legacy compatible.
   ID=$(
     grep Serial /proc/cpuinfo | \
-    awk '{print $3}' | \
+    awk '{print toupper($3)}' | \
     sha1sum | \
+    rev | \
     cut -c -4 | \
+    rev | \
     awk '{print toupper($0)}'
   )
   [ -z "$ID" ] && log_failure_msg "Failed to generate ID." && exit 1
