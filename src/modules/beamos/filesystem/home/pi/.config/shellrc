@@ -59,4 +59,4 @@ figlet -cf slant BeamOS 2>/dev/null || echo "Welcome to beamOS!"
 
 # nice neofetch greeting - a bit slow though
 echo # Extra newline for stylezz
-neofetch --ascii "$(cat /home/pi/.config/logo_ascii)"
+neofetch --ascii "$(cat /home/pi/.config/logo_ascii)" 2>/dev/null
