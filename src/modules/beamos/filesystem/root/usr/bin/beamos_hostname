@@ -26,6 +26,7 @@ else
     grep Serial /proc/cpuinfo | \
     awk '{print toupper($3)}' | \
     sha1sum | \
+    cut -d ' ' -f1 | \
     rev | \
     cut -c -4 | \
     rev | \
