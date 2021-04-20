@@ -31,7 +31,6 @@ export OCTOPI_PYTHON_VERSION=python2
 export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 # uses the pypi wheel for now with python3 compatibility
 # DOES NOT allow for the "spread spectrum" feature
-export BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
 
 # Dev allow ssh for now
 export BEAMOS_INCLUDE_SSH=yes
@@ -43,5 +42,4 @@ export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
 # Backend not ready
 export BEAMOS_INCLUDE_CAMERA=no
 # LED Strips
-# TODO : merge into beta / stable version
-export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
+export BEAMOS_MRBEAMLED_REPO_BRANCH=mrbeam2-beta
