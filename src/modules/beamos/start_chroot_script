@@ -207,8 +207,11 @@ pushd /home/pi
     if [ "$BEAMOS_INCLUDE_CAMERA" = "yes" ]
     then
       echo "--- Installing OctoPrint-Camera ..."
+      # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
+      cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
       pip_install $BEAMOS_CAMERA_ARCHIVE
       set_plugin_update_conf_remote findmymrbeam $BEAMOS_CAMERA_REPO_SHIP $BEAMOS_CAMERA_REPO_BRANCH
+      rm /proc/cpuinfo
     fi
   fi
 
