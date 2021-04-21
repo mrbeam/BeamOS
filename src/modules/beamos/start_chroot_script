@@ -77,7 +77,7 @@ pip_install_dev_or_rm() {
     sudo -u pi mkdir -p /home/pi/sources
     mv $@ /home/pi/sources/
     for package in $(basename -a $@); do
-      pip_install -e /home/pi/sources/$@
+      pip_install -e /home/pi/sources/package
     done
   else
     pip_install $@
@@ -333,6 +333,7 @@ pushd /home/pi
       echo 'EXTRA_OPTS="--debug"' >> /etc/defaults/netconnectd
     else
       rm -rf $NETCONNECTD_PROJ
+    fi
     # Link the executables to have netconnectd(cli) in the $PATH
     ln -s $BEAMOS_NETCONNECTD_VENV/bin/netconnectd /usr/bin/
     ln -s $BEAMOS_NETCONNECTD_VENV/bin/netconnectcli /usr/bin/
