@@ -77,7 +77,7 @@ pip_install_dev_or_rm() {
     sudo -u pi mkdir -p /home/pi/sources
     mv $@ /home/pi/sources/
     for package in $(basename -a $@); do
-      pip_install -e /home/pi/sources/package
+      pip_install -e /home/pi/sources/$package
     done
   else
     pip_install $@
