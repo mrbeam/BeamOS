@@ -330,7 +330,8 @@ pushd /home/pi
       cp extras/eth0 /etc/network/interfaces.d/
     popd
     if [ "$BEAMOS_DEV" == "yes" ]; then
-      echo 'EXTRA_OPTS="--debug"' >> /etc/defaults/netconnectd
+      mkdir -p /etc/default
+      echo 'EXTRA_OPTS="--debug"' >> /etc/default/netconnectd
     else
       rm -rf $NETCONNECTD_PROJ
     fi
