@@ -1,3 +1,6 @@
+src/apt_cache
+src/pip_cache
+src/pip_packages
 src/config.local
 src/custompios_path
 src/image/*.zip

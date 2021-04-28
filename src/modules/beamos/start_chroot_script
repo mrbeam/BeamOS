@@ -173,6 +173,7 @@ mv ./micro /usr/bin/
 
 # Install a toml cli tool
 # Can be used to edit / query /etc/mrbeam `crudini --get /etc/mrbeam "" hostname`
+
 apt-install python3-pip
 python3 -m pip install crudini
 
@@ -214,6 +215,8 @@ pushd /home/pi
       rm /proc/cpuinfo
       set_yaml ".plugins._disabled = [camera]"
     fi
+    # rlpr : A utility for lpd printing without using /etc/printcap
+    apt-install rlpr
   fi
 
   if [ "$BEAMOS_INCLUDE_MRBEAMPLUGIN" = "yes" ]
