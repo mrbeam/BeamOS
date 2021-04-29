@@ -36,10 +36,10 @@ export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 export BEAMOS_INCLUDE_SSH=yes
 
 # DEV netconnectd DEBUG
-export BEAMOS_NETCONNECTD_REPO_BRANCH=wifidebug
-export BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/ManuelMcLure/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
-export BEAMOS_NETCONNECTD_REPO_SHIP=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
-export BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
+# export BEAMOS_NETCONNECTD_REPO_BRANCH=wifidebug
+# export BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/ManuelMcLure/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
+# export BEAMOS_NETCONNECTD_REPO_SHIP=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
+# export BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/ManuelMcLure/netconnectd_mrbeam.git
 
 # MrBeamPlugin / OctoPrint-MrBeam
 # TODO : merge into beta / stable version
