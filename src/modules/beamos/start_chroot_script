@@ -200,8 +200,9 @@ pushd /home/pi
 
     ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
     unpack /filesystem/mrb_check/root / root
-    [ "$BEAMOS_DEV" = "yes" ] && \
-      echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
+    # Remove the auto start of mrb_check -> Only trigger mrb_check pr usb stick.
+    # [ "$BEAMOS_DEV" = "yes" ] && \
+    echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
 
     # The OctoPrint-Camera plugin is only required for the assembly right now
     # NOTE Should be made an independent addition when it's ready for PROD
