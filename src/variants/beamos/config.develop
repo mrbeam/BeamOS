@@ -17,7 +17,7 @@ export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=develop
 # export BASE_IMAGE_RESIZEROOT=1000
 export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=f_packaging_beamos
 # export BEAMOS_INCLUDE_MOUNTMANAGER=yes
-export BEAMOS_INCLUDE_CAMERA=no # test backend
+export BEAMOS_INCLUDE_CAMERA=yes # test backend
 
 # Track Netconnectd from Manuel McLure's branch fork
 # export BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master
