@@ -429,6 +429,9 @@ pushd /home/pi
       cp users-dev.yaml users.yaml
     popd
     # cp .octoprint/config.yaml.dev .octoprint/config.yaml
+  else
+    # Remove all of the branch: some-branch keys in the config.yaml file
+    yq e 'del(.plugins.softwareupdate.checks.*.branch)' -i .octoprint/config.yaml
   fi
 popd
 
