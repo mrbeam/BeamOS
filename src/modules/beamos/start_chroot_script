@@ -171,10 +171,9 @@ unpack /filesystem/root / root
 curl https://getmic.ro | bash
 mv ./micro /usr/bin/
 
-# Install a toml cli tool
+# Install a toml cli tool and neofetch presentation script
 # Can be used to edit / query /etc/mrbeam `crudini --get /etc/mrbeam "" hostname`
-
-apt-install python3-pip
+apt-install python3-pip neofetch
 python3 -m pip install crudini
 
 pushd /home/pi
@@ -421,7 +420,7 @@ pushd /home/pi
     rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
   if [ "$BEAMOS_DEV" = "yes" ]; then
-    apt-install vim curl pkg-config figlet neofetch
+    apt-install vim curl pkg-config figlet
     pushd /home/pi/.octoprint
       # Fuse the dev config file onto the normal config
       yq eval-all -i 'select(fileIndex == 0) * select(fileIndex == 1)' config.yaml config.yaml.dev
