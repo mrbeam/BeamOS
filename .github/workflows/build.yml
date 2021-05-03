@@ -7,8 +7,8 @@ on:
     paths-ignore:
       - '*.rst'
       - '*.md'
-  # schedule:
-  #   - cron: '0 0 * * *'
+  schedule:
+    - cron: '0 0 * * *'
 env:
   VARIANT: beamos
 
