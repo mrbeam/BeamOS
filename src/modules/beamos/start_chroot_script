@@ -214,7 +214,7 @@ pushd /home/pi
       pip_install_dev_or_rm ./OctoPrint-Camera
       set_plugin_update_conf_remote findmymrbeam $BEAMOS_CAMERA_REPO_SHIP $BEAMOS_CAMERA_REPO_BRANCH
       rm /proc/cpuinfo
-      # set_yaml '.plugins._disabled = "[camera]"'
+      # set_yaml '.plugins._disabled = [ "camera" ]'
     fi
     # rlpr : A utility for lpd printing without using /etc/printcap
     apt-install rlpr
