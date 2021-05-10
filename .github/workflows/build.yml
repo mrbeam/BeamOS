@@ -64,7 +64,7 @@ jobs:
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x EXTRA_SSH_KEY=${{ secrets.AXEL_BITBUCK_SSH_KEY }} ./build_dist $VARIANT ${{ matrix.flavors }}
+        sudo bash -x EXTRA_SSH_KEY=${{ secrets.BeamOSenv.AXEL_BITBUCK_SSH_KEY }} ./build_dist $VARIANT ${{ matrix.flavors }}
 
     - name: Copy output
       id: copy
