@@ -18,6 +18,8 @@ alias stop_mrbeam_ledstrips='sudo systemctl stop mrbeam_ledstrips.service'
 alias stop_netconnectd='sudo systemctl stop netconnectd.service'
 alias nano="micro"
 
+alias kill_octoprint='killall -9 /home/pi/oprint/bin/python2'
+
 # Seems to return bash errors.
 # # use i2c bus 1 by default
 #
