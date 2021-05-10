@@ -64,7 +64,8 @@ jobs:
       run: |
         sudo modprobe loop
         cd repository/src
-        sudo bash -x EXTRA_SSH_KEY="${{ secrets.SSH_BEAMOS01_RSA }}" ./build_dist $VARIANT ${{ matrix.flavors }}
+        echo "export EXTRA_SSH_KEY='${{ secrets.SSH_BEAMOS01_RSA }}'" >> config
+        sudo bash -x ./build_dist $VARIANT ${{ matrix.flavors }}
 
     - name: Copy output
       id: copy
