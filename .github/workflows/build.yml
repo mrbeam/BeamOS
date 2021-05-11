@@ -90,3 +90,15 @@ jobs:
       with:
         name: ${{ steps.copy.outputs.image }}
         path: ${{ steps.copy.outputs.image }}.img
+
+    - name: Compress output
+      run: |
+        zip -r ${{ steps.copy.outputs.image }}.zip ${{ steps.copy.outputs.image }}.img
+
+    - uses: actions-hub/gcloud@master
+      env:
+        PROJECT_ID: devpi-310008
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+      with:
+        args: cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images
+        cli: gsutil
