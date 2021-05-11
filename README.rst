@@ -1,4 +1,4 @@
-BeamOs
+BeamOS
 ======
 
 .. image:: https://raw.githubusercontent.com/mrbeam/BeamOS/mrbeam/media/BeamOS.png
@@ -13,18 +13,6 @@ TODO
 ----
 
 #. Add possibility to switch between tags, branches and python versions.
-#. OctoPrint needs to have a new release to show up with it's own version in the `softwareupdate` plugin (otherwise it shows up as `0+unknown`)
-
-NOTE
-~~~~
-
-Official mirror is `here <https://github.com/guysoft/OctoPi/releases>`_
-
-Nightly builds are available `here <http://unofficialpi.org/Distros/OctoPi/nightly/>`_
-
-64bit Nightly builds are available `here <http://unofficialpi.org/Distros/OctoPi/nightly-arm64/>`_
-
-We recently had to move to building location, donations for somewhere with HTTPS would be great.
 
 How to use it?
 --------------
@@ -32,37 +20,25 @@ How to use it?
 #. Unzip the image and install it to an sd card `like any other Raspberry Pi image <https://www.raspberrypi.org/documentation/installation/installing-images/README.md>`_
 #. Configure your WiFi by editing ``octopi-wpa-supplicant.txt`` on the root of the flashed card when using it like a thumb drive
 #. Boot the Pi from the card
-#. Log into your Pi via SSH (it is located at ``octopi.local`` `if your computer supports bonjour <https://learn.adafruit.com/bonjour-zeroconf-networking-for-windows-and-linux/overview>`_ or the IP address assigned by your router), default username is "pi", default password is "raspberry". Run ``sudo raspi-config``. Once that is open:
-
-   a. Change the password via "Change User Password"
-   b. Optionally: Change the configured timezone via "Localization Options" > "Timezone".
-   c. Optionally: Change the hostname via "Network Options" > "Hostname". Your OctoPi instance will then no longer be reachable under ``octopi.local`` but rather the hostname you chose postfixed with ``.local``, so keep that in mind.
-  
-   You can navigate in the menus using the arrow keys and Enter. To switch to selecting the buttons at the bottom use Tab.
-   
-   You do not need to expand the filesystem, current versions of OctoPi do this automatically.
-
-OctoPrint is located at `http://octopi.local <http://octopi.local>`_ and also at `https://octopi.local <https://octopi.local>`_. Since the SSL certificate is self signed (and generated upon first boot), you will get a certificate warning at the latter location, please ignore it.
-
-To install plugins from the commandline instead of OctoPrint's built-in plugin manager, :code:`pip` may be found at :code:`/home/pi/oprint/bin/pip`.  Thus, an example install cmd may be:  :code:`/home/pi/oprint/bin/pip install <plugin-uri>`
-
-If a USB webcam or the Raspberry Pi camera is detected, MJPG-streamer will be started automatically as webcam server. OctoPrint on OctoPi ships with correctly configured stream and snapshot URLs pointing at it. If necessary, you can reach it under `http://octopi.local/webcam/?action=stream <http://octopi.local/webcam/?action=stream>`_ and SSL respectively, or directly on its configured port 8080: `http://octopi.local:8080/?action=stream <octopi.local:8080/?action=stream>`_.
-
+#. Access the MrBeam using it's name ``MrBeam-XXXX`` at the back of the device, the address should be `mrbeam-xxxx.local`. This name is generated using the RaspberryPi serial number
 
 Features
 --------
 
-* `OctoPrint <http://octoprint.org>`_ host software for 3d printers out of the box
+* `OctoPrint <http://octoprint.org>`_ host software for 3d printers
+* `MrBeam Plugin for OctoPrint <https://mr-beam.org>`_ Modifies host software to work on the MrBeam lasecutter specifically
 * `Raspbian <http://www.raspbian.org/>`_ tweaked for maximum performance for printing out of the box
 * `mjpg-streamer with RaspiCam support <https://github.com/jacksonliam/mjpg-streamer>`_ for live viewing of prints and timelapse video creation.
 
 Developing
 ----------
 
+# TODO
+
 Requirements
 ~~~~~~~~~~~~
 
-#. `qemu-arm-static <http://packages.debian.org/sid/qemu-user-static>`_
+#. `qemu-arm-static <http://packages.debian.org/sid/qemu-user-static>`__ If not running on an RPi
 #. `CustomPiOS <https://github.com/guysoft/CustomPiOS>`_
 #. Downloaded `Raspbian <http://www.raspbian.org/>`_ image.
 #. root privileges for chroot
@@ -70,30 +46,34 @@ Requirements
 #. git
 #. sudo (the script itself calls it, running as root without sudo won't work)
 
-Build OctoPi From within OctoPi / Raspbian / Debian / Ubuntu
+Build BeamOS From within BeamOS / Raspbian / Debian / Ubuntu
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-OctoPi can be built from Debian, Ubuntu, Raspbian, or even OctoPi.
+BeamOS can be built from Debian, Ubuntu, Raspbian, or even BeamOS.
 Build requires about 2.5 GB of free space available.
+It is recommended to use a fast storage as the script decompresses the .zip file of raspbian every time.
+
 You can build it by issuing the following commands::
 
     sudo apt-get install gawk util-linux qemu-user-static git p7zip-full python3
     
     git clone https://github.com/guysoft/CustomPiOS.git
-    git clone https://github.com/guysoft/OctoPi.git
-    cd OctoPi/src/image
+    git clone https://github.com/mrbeam/BeamOS.git
+    cd BeamOS/src/image
     wget -c --trust-server-names 'https://downloads.raspberrypi.org/raspios_lite_armhf_latest'
     cd ..
     ../../CustomPiOS/src/update-custompios-paths
     sudo modprobe loop
-    sudo bash -x ./build_dist [--ssh <.ssh>] [--gpg <.gnupg>]
+    sudo bash -x ./build_dist beamos [--ssh <.ssh>] [--gpg <.gnupg>]
 
  The ssh folder and gpg folder were omitted from the build script for security reasons. If you wish to add them, use the `--ssh` and `--gpg` flags.
     
-Building OctoPi Variants
+Building BeamOS Variants
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
-OctoPi supports building variants, which are builds with changes from the main release build. An example and other variants are available in `CustomPiOS, folder src/variants/example <https://github.com/guysoft/CustomPiOS/tree/CustomPiOS/src/variants/example>`_.
+BeamOS supports building variants, which are builds with changes from the main release build. An example and other variants are available in `CustomPiOS, folder src/variants/example <https://github.com/guysoft/CustomPiOS/tree/CustomPiOS/src/variants/example>`_.
+
+By default it only builds a slightly different version of vanilla OctoPi. Give it the ``beamos`` variant to build the normal BeamOS.
 
 docker exec -it mydistro_builder::
 
@@ -102,47 +82,26 @@ docker exec -it mydistro_builder::
 Or to build a variant inside a container::
 
     sudo bash -x ./build_dist [Variant]
-    
+
+Building BeamOS Flavors
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Flavors are simply extra config tweaking on the base variant. I the case of BeamOS, it allows to build a ``develop`` flavor and/or a pre-filled device series for the MrBeam (2S, 2T, 2U ...) 
+
+    sudo bash -x ./build_dist beamos [Flavor]
+
+Or to make a develop image that automatically takes on the 2S variant:
+
+    sudo bash -x ./build_dist beamos develop 2S
+
 Building Using Docker
 ~~~~~~~~~~~~~~~~~~~~~~
 `See Building with docker entry in wiki <https://github.com/guysoft/CustomPiOS/wiki/Building-with-Docker>`_
-    
-Building Using Vagrant
-~~~~~~~~~~~~~~~~~~~~~~
-There is a vagrant machine configuration to let build OctoPi in case your build environment behaves differently. Unless you do extra configuration, vagrant must run as root to have nfs folder sync working.
-
-Make sure you have a version of vagrant later than 1.9!
-
-If you are using older versions of Ubuntu/Debian and not using apt-get `from the download page <https://www.vagrantup.com/downloads.html>`_.
-
-To use it::
-    
-    sudo apt-get install vagrant nfs-kernel-server virtualbox
-    sudo vagrant plugin install vagrant-nfs_guest
-    sudo modprobe nfs
-    cd ../OctoPi
-    git clone https://github.com/guysoft/CustomPiOS.git    
-    cd OctoPi/src
-    ../../CustomPiOS/src/update-custompios-paths
-    cd OctoPi/src/vagrant
-    sudo vagrant up
-    run_vagrant_build.sh
-
-After provisioning the machine, its also possible to run a nightly build which updates from devel using::
-
-    cd OctoPi/src/vagrant
-    run_vagrant_build.sh
-    
-To build a variant on the machine simply run::
-
-    cd src/vagrant
-    run_vagrant_build.sh [Variant]
-    
 
 Usage
 ~~~~~
 
-#. If needed, override existing config settings by creating a new file ``src/config.local``. You can override all settings found in ``src/modules/octopi/config``. If you need to override the path to the Raspbian image to use for building OctoPi, override the path to be used in ``ZIP_IMG``. By default the most recent file matching ``*-raspbian.zip`` found in ``src/image`` will be used.
+#. If needed, override existing config settings by creating a new file ``src/config.local``. You can override all settings found in ``src/modules/beamos/config``. If you need to override the path to the Raspbian image to use for building BeamOS, override the path to be used in ``ZIP_IMG``. By default the most recent file matching ``*-raspbian.zip`` found in ``src/image`` will be used.
 #. Run ``src/build_dist`` as root.
 #. The final image will be created at the ``src/workspace``
 
