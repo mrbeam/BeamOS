@@ -13,13 +13,8 @@ plugins:
     checks:
       octoprint:
         pip: https://github.com/mrbeam/OctoPrint/archive/{target_version}.zip
-        prerelease: false
-        method: github_commit
-        stable_branch:
-          branch: mrbeam-buster
-          commitish: mrbeam-buster
+        prerelease: true
         user: mrbeam
-        displayVersion: 1.3.6.5
 serial:
   additionalPorts:
     - /dev/ttyAMA*
