@@ -263,8 +263,8 @@ pushd /home/pi
     if [ -n "$EXTRA_SSH_KEY" ]; then
       # EXTRA_SSH_KEY is not written in any config for security reasons.
       # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
-      mkdir -p /home/pi/.ssh
-      echo "$EXTRA_SSH_KEY" > /home/pi/.ssh/id_rsa
+      mkdir -p /root/.ssh
+      echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
     fi
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" = "yes" ]
