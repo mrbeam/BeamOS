@@ -176,6 +176,16 @@ mv ./micro /usr/bin/
 apt-install python3-pip neofetch
 python3 -m pip install crudini
 
+# Enable ssh identification for private packages in bitbucket.org
+if [ -n "$EXTRA_SSH_KEY" ]; then
+  # EXTRA_SSH_KEY is not written in any config for security reasons.
+  # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
+  mkdir -p /root/.ssh
+  echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
+  chmod 0600 /root/.ssh/id_rsa
+fi
+ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
+
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   sudo -u pi mkdir -p .local/bin
@@ -260,13 +270,6 @@ pushd /home/pi
     # Install MrBeamDocs
     pip_install $BEAMOS_MRBEAMPLUGIN_DOCS_ARCHIVE
     set_plugin_update_conf_remote mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH
-    if [ -n "$EXTRA_SSH_KEY" ]; then
-      # EXTRA_SSH_KEY is not written in any config for security reasons.
-      # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
-      mkdir -p /root/.ssh
-      echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
-      chmod 0600 /root/.ssh/id_rsa
-    fi
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" = "yes" ]
   then
