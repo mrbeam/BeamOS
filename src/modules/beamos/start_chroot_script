@@ -265,6 +265,7 @@ pushd /home/pi
       # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
       mkdir -p /root/.ssh
       echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
+      chmod 0600 /root/.ssh/id_rsa
     fi
   fi
   if [ "$BEAMOS_INCLUDE_IOBEAM" = "yes" ]
