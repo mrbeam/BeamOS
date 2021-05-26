@@ -136,7 +136,7 @@ Public MrBeam projects included in BeamOS
 
 All the open source repos are pulled using a specific branch, no need to make an update to this repository
 
-* `MrBeamPlugin <https://github.com/mrbeam/>`_ The main plugin that drives the lasercutter
+* `MrBeamPlugin <https://github.com/mrbeam/MrBeamPlugin>`_ The main plugin that drives the lasercutter
     * branch : ``mrbeam2-stable-buster``
 * `Netconnectd <https://github.com/mrbeam/netconnectd_mrbeam>`_ The networking server that handles wifi and access point modes
     * branch : ``master``
@@ -150,3 +150,16 @@ All the open source repos are pulled using a specific branch, no need to make an
 * `RPI_WS281X <https://github.com/mrbeam/rpi_ws281x>`_ (discontinued) an LED strip driver used with the LED server
     * Uses the latest Python3 package from `the upstream RPI_WS281X <https://github.com/rpi-ws281x/rpi-ws281x-python>`_
 * `MrBeam Docs <https://github.com/mrbeam/MrBeamDoc>`_ The documentation for using your MrBeam - offline
+
+Automated Deployment
+~~~~~~~~~~~~~~~~~~~~
+
+Every push to this repo will trigger a `GitHub Action <https://github.com/mrbeam/BeamOS/actions>`_. 
+
+2 images will be built:
+
+* Stable version ``YYYY-MM-DD-beamos-2S.img`` - it should be used when assembling new devices of the ``2S`` variant
+* Develop version ``YYYY-MM-DD-beamos-develop-2S.img`` - Predefined develop account, options and settings;
+  should be just "plug-n-play" except for the camera calibration
+
+These images are compressed and uploaded to an S3 storage defined in ``build.yml`` and the base64 encoded credentials are provided as a secret.
