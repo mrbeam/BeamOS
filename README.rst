@@ -30,11 +30,6 @@ Features
 * `Raspbian <http://www.raspbian.org/>`_ tweaked for maximum performance for printing out of the box
 * `mjpg-streamer with RaspiCam support <https://github.com/jacksonliam/mjpg-streamer>`_ for live viewing of prints and timelapse video creation.
 
-Developing
-----------
-
-# TODO
-
 Requirements
 ~~~~~~~~~~~~
 
@@ -64,9 +59,7 @@ You can build it by issuing the following commands::
     cd ..
     ../../CustomPiOS/src/update-custompios-paths
     sudo modprobe loop
-    sudo bash -x ./build_dist beamos [--ssh <.ssh>] [--gpg <.gnupg>]
-
- The ssh folder and gpg folder were omitted from the build script for security reasons. If you wish to add them, use the `--ssh` and `--gpg` flags.
+    sudo bash -x ./build_dist beamos
     
 Building BeamOS Variants
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -105,4 +98,55 @@ Usage
 #. Run ``src/build_dist`` as root.
 #. The final image will be created at the ``src/workspace``
 
-Code contribution would be appreciated!
+Development
+-----------
+
+Secrets
+~~~~~~~
+
+This repository is public, but it uses GitHub secrets to pull from proprietary sources and include authentication keys. 
+You can find the GitHub secrets in the `project settings <https://github.com/mrbeam/BeamOS/settings/secrets/actions>`_
+
+Private repos included in BeamOS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because of complications when using `actions/checkout <https://github.com/actions/checkout>`_, the proprietary projects 
+have been added to the beamos module filesystem as git submodules. Their commit hash needs to be updated as part of this git repo::
+
+    git submodule sync
+    git foreach "git pull"
+    git add src/modules/beamos/filesystem/repos
+    git commit -m "Update X Y Z package"
+
+These repos are
+
+* `IOBeam <https://github.com/mrbeam/iobeam>`_  handles most IO components
+    * branch: ``mrbeam2-stable``
+* `Mount Manager <https://github.com/mrbeam/mount_manager>`_ to run signed scripts when plugging in a usb stick
+    * branch: ``mrbeam2-stable``
+* `MrB Check <https://github.com/mrbeam/mrb_check>`_ Automated QA control script for the assembly of the MrBeam
+    * branch: ``beamos``
+* `MrB Hardware Info <https://github.com/mrbeam/>`_ Provides additional readings for IOBeam
+    * branch: ``mrbeam2-stable``
+
+N.B. These repos are NOT affected by the branch written in the config files for building BeamOS.
+
+Public MrBeam projects included in BeamOS
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All the open source repos are pulled using a specific branch, no need to make an update to this repository
+
+* `MrBeamPlugin <https://github.com/mrbeam/>`_ The main plugin that drives the lasercutter
+    * branch : ``mrbeam2-stable-buster``
+* `Netconnectd <https://github.com/mrbeam/netconnectd_mrbeam>`_ The networking server that handles wifi and access point modes
+    * branch : ``master``
+* `OctoPrint-Netconnectd <https://github.com/mrbeam/octoprint_netconnectd>`_ The OctoPrint plugin that interfaces with Netconnectd
+    * branch : ``mrbeam2-stable-buster``
+* `OctoPrint-Camera <https://github.com/mrbeam/>`_ A camera plugin used for the QA testing (as of writing this)
+    * branch : ``master``
+* `LED strips server <https://github.com/mrbeam/MrBeamLedStrips>`_ state-based LED strip driver
+* `Find My MrBeam <https://github.com/mrbeam/OctoPrint-FindMyMrBeam>`_ OctoPrint plugin that sends network discovery data
+* `Shield flash tool <https://github.com/mrbeam/shield_flasher>`_ updates the microcontroller with our latest GRBL version
+* `RPI_WS281X <https://github.com/mrbeam/rpi_ws281x>`_ (discontinued) an LED strip driver used with the LED server
+    * Uses the latest Python3 package from `the upstream RPI_WS281X <https://github.com/rpi-ws281x/rpi-ws281x-python>`_
+* `MrBeam Docs <https://github.com/mrbeam/MrBeamDoc>`_ The documentation for using your MrBeam - offline
