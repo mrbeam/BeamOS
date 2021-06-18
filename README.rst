@@ -107,7 +107,9 @@ Secrets
 This repository is public, but it uses GitHub secrets to pull from proprietary sources and include authentication keys. 
 You can find the GitHub secrets in the `project settings <https://github.com/mrbeam/BeamOS/settings/secrets/actions>`_
 
-Private repos included in BeamOS
+.. _submodules:
+
+Private repos included in BeamOS 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Because of complications when using `actions/checkout <https://github.com/actions/checkout>`_, the proprietary projects 
@@ -163,3 +165,12 @@ Every push to this repo will trigger a `GitHub Action <https://github.com/mrbeam
   should be just "plug-n-play" except for the camera calibration
 
 These images are compressed and uploaded to an S3 storage defined in ``build.yml`` and the base64 encoded credentials are provided as a secret.
+
+Making a new release
+~~~~~~~~~~~~~~~~~~~~
+
+#. Update the private submodules_
+#. If a submodule was updated, 
+#. Once pushed, a new build will run with a `Github automation <https://github.com/mrbeam/BeamOS/actions>`_
+#. After testing the result of the uploaded image, `create a new release <https://github.com/mrbeam/BeamOS/releases/new>`_
+#. Be sure to attach the ``.zip`` file to publish the image with the release.
