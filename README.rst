@@ -10,7 +10,7 @@ A `Raspberry Pi <http://www.raspberrypi.org/>`_ distribution for the Mr Beam Las
 This repository contains the source script to generate the distribution out of an existing `Raspbian <http://www.raspbian.org/>`_ distro image.
 
 TODO
-----
+~~~~
 
 #. Add possibility to switch between tags, branches and python versions.
 
@@ -79,11 +79,11 @@ Or to build a variant inside a container::
 Building BeamOS Flavors
 ~~~~~~~~~~~~~~~~~~~~~~~
 
-Flavors are simply extra config tweaking on the base variant. I the case of BeamOS, it allows to build a ``develop`` flavor and/or a pre-filled device series for the MrBeam (2S, 2T, 2U ...) 
+Flavors are simply extra config tweaking on the base variant. I the case of BeamOS, it allows to build a ``develop`` flavor and/or a pre-filled device series for the MrBeam (2S, 2T, 2U ...) ::
 
     sudo bash -x ./build_dist beamos [Flavor]
 
-Or to make a develop image that automatically takes on the 2S variant:
+Or to make a develop image that automatically takes on the 2S variant::
 
     sudo bash -x ./build_dist beamos develop 2S
 
