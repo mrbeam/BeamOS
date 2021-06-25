@@ -77,8 +77,8 @@ jobs:
         if [ -n $VARIANT ]; then
           [ -n "${{ matrix.flavors }}" ] && FL="$(echo ${{ matrix.flavors }} | sed 's/ /-/g')-"
           IMAGE=$NOW-$VARIANT-$FL$DIST_VERSION
-          if ${GITHUB_REF##*/} != 'mrbeam'; then
-            IMAGE+=${GITHUB_REF##*/}
+          if [[${GITHUB_REF##*/} != 'mrbeam']]; then
+            IMAGE="${IMAGE}-${GITHUB_REF##*/}"
           fi
           cp repository/src/workspace-$VARIANT/*.img $IMAGE.img
         else
