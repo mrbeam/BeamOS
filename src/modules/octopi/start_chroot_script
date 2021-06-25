@@ -163,6 +163,8 @@ echo "${BASE_USER} ALL=NOPASSWD: /usr/sbin/service" > /etc/sudoers.d/octoprint-s
 # Note, this code is also in /filesystem/home/pi/scripts/
 sed -i 's@exit 0@@' /etc/rc.local
 cat <<'EOT' >> /etc/rc.local
+# clear mount_manager leftovers
+/root/mount_manager/mount_manager clear
 
 echo
 echo "------------------------------------------------------------"
