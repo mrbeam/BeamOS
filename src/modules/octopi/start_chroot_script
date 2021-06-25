@@ -164,7 +164,7 @@ echo "${BASE_USER} ALL=NOPASSWD: /usr/sbin/service" > /etc/sudoers.d/octoprint-s
 sed -i 's@exit 0@@' /etc/rc.local
 cat <<'EOT' >> /etc/rc.local
 # clear mount_manager leftovers
-/root/mount_manager/mount_manager clear
+/usr/bin/mount_manager clear
 
 echo
 echo "------------------------------------------------------------"
