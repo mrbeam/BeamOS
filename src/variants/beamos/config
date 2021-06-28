@@ -47,4 +47,4 @@ export BEAMOS_INCLUDE_SSH=yes
 # OctoPrint-Camera
 export BEAMOS_INCLUDE_CAMERA=yes
 # LED Strips
-export BEAMOS_MRBEAMLED_REPO_BRANCH=mrbeam2-beta
+#export BEAMOS_MRBEAMLED_REPO_BRANCH=mrbeam2-beta
