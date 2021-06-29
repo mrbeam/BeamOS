@@ -12,23 +12,3 @@ export BEAMOS_MRBEAMLED_REPO_BRANCH=develop
 # The Github mirror does not have a develop branch
 # export BEAMOS_MOUNTMANAGER_REPO_BRANCH=develop
 export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=develop
-
-## DEV - enable repos little by little
-# export BASE_IMAGE_RESIZEROOT=1000
-# export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=mrbeam2-dev-buster
-# export BEAMOS_INCLUDE_MOUNTMANAGER=yes
-export BEAMOS_INCLUDE_CAMERA=yes # test backend
-
-# Track Netconnectd from Manuel McLure's branch fork
-# export BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master
-# export BEAMOS_NETCONNECTD_WIFI_ARCHIVE=https://github.com/mrbeam/wifi/archive/$BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH.zip
-# export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH=mrbeam2-stable-buster
-# export BEAMOS_NETCONNECTD_PLUGIN_ARCHIVE=https://github.com/mrbeam/OctoPrint-Netconnectd/archive/$BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH.zip
-# export BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
-# export BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
-
-# IObeam
-# export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=f_unpriviledged # not interesting for the image itself
-
-# LED strips
-# export BEAMOS_MRBEAMLED_REPO_BRANCH=py3
