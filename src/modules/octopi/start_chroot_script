@@ -259,3 +259,6 @@ fi
 
 systemctl_if_exists enable ffmpeg_hls.service
 
+
+### set date of image to image creation date
+sudo /sbin/fake-hwclock save
