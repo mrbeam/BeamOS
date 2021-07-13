@@ -13,7 +13,7 @@ fi
 . /lib/lsb/init-functions
 
 # The hostname
-CONFIG_HOSTNAME="$(crudini --set /etc/mrbeam '' hostname 2>/dev/null )"
+CONFIG_HOSTNAME="$(crudini --get /etc/mrbeam '' hostname 2>/dev/null )"
 
 if [ -n "$1" ]; then
   new_hostname="MrBeam-$1"
