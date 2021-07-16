@@ -267,6 +267,10 @@ pushd /home/pi
     set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
     rm /proc/cpuinfo
 
+    #write MrBeamPlugin version number into octoprint config
+    MRBEAMPLUGIN_VERSION="$(crudini --get OctoPrint-MrBeam/octoprint_mrbeam/__version.py '' __version__ | tr -d '"' 2>/dev/null )"
+    set_yaml ".plugins.mrbeam.version = \"$MRBEAMPLUGIN_VERSION\""
+
     # Install MrBeamDocs
     pip_install $BEAMOS_MRBEAMPLUGIN_DOCS_ARCHIVE
     set_plugin_update_conf_remote mrbeamdoc $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH
