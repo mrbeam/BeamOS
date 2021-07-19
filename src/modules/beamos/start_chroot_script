@@ -269,7 +269,8 @@ pushd /home/pi
 
     #write MrBeamPlugin version number into octoprint config
 #    MRBEAMPLUGIN_VERSION="$(~/oprint/bin/pip --disable-pip-version-check list --no-python-version-warning | grep -i "mr-beam" | tr -s ' ' | cut -d " " -f2)"
-    MRBEAMPLUGIN_VERSION="$(crudini --get /home/pi/site-packages/octoprint_mrbeam/__version.py '' __version__ | tr -d '"' 2>/dev/null )"
+#    MRBEAMPLUGIN_VERSION="$(crudini --get /home/pi/site-packages/octoprint_mrbeam/__version.py '' __version__ | tr -d '"' 2>/dev/null )"
+    MRBEAMPLUGIN_VERSION=$(echo "__version__; exit()" | python -i /home/pi/site-packages/octoprint_mrbeam/__version.py | tr -d "'")
     set_yaml ".plugins.mrbeam.version = \"$MRBEAMPLUGIN_VERSION\""
 
     # Install MrBeamDocs
