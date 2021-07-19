@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - mrbeam
+      - mrbeam2-stable
     paths-ignore:
       - '*.rst'
       - '*.md'
