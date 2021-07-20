@@ -374,8 +374,8 @@ pushd /home/pi
     apt-install gnupg zip unzip
     unpack /filesystem/mount_manager/root / root
     unpack /filesystem/mount_manager/home /home/ pi
-    echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="usb_mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
-    echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block usb_mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
+    echo 'ACTION=="add",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",TAG+="systemd",ENV{SYSTEMD_WANTS}="mount_manager_add.service"' >> /lib/udev/rules.d/00-mount_manager.rules
+    echo 'ACTION=="remove",SUBSYSTEM=="block",KERNEL=="sd*[!0-9]",RUN+="/bin/systemctl start --no-block mount_manager_remove.service"' >> /lib/udev/rules.d/00-mount_manager.rules
     # mount manager was cloned as a submodule to /filesystem before running the script
     mv /filesystem/repos/mount_manager/mount_manager/mount_manager /usr/bin/
     chmod +x /usr/bin/mount_manager
