@@ -1,6 +1,7 @@
 [Service]
-Type=simple
+Type=oneshot
 ExecStart=/usr/bin/mount_manager add
 
-[Install]
-WantedBy=octoprint.service
+[Unit]
+After=mount_manager_remove.service
+Before=udev.service
