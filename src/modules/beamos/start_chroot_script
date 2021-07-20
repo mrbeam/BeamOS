@@ -388,6 +388,9 @@ pushd /home/pi
     # sudo -u "${BASE_USER}" gpg --import /usr/share/mount_manager/pubkey.asc
     # The daemon gpg-agent can make the system hang when umouting the chroot image
     gpgconf --kill gpg-agent
+    systemctl enable mount_manager_add.service
+    systemctl enable mount_manager_remove.service
+    systemctl enable mount_manager_clear.service
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" = "yes" ]
   then

@@ -1,3 +1,6 @@
 [Service]
 Type=simple
 ExecStart=/usr/bin/mount_manager remove
+
+[Install]
+WantedBy=mount_manager_add.service
