@@ -390,6 +390,7 @@ pushd /home/pi
     gpgconf --kill gpg-agent
     systemctl enable mount_manager_add.service
     systemctl enable mount_manager_remove.service
+    systemctl enable mount_manager_remove_before_octo.service
     systemctl enable mount_manager_clear.service
   fi
   if [ "$BEAMOS_INCLUDE_FINDMYMRBEAM" = "yes" ]
