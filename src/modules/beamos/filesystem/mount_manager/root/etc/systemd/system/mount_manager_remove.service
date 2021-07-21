@@ -3,7 +3,7 @@ Type=oneshot
 ExecStart=/usr/bin/mount_manager remove
 
 [Unit]
-Before=udev.service
+Before=octoprint.service
 
 [Install]
 WantedBy=multi-user.target
