@@ -1,0 +1,10 @@
+[Unit]
+Description=runs the mount_manager clear command
+Before=shutdown.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/mount_manager clear
+
+[Install]
+WantedBy=shutdown.target
