@@ -31,3 +31,11 @@ export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 
 # Dev allow ssh for now
 export BEAMOS_INCLUDE_SSH=yes
+
+# RC branches
+# export BEAMOS_MOUNTMANAGER_REPO_BRANCH="rc-v.0.9.8-beta"
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH="rc-v.0.9.8-beta"
+export BEAMOS_CAMERA_REPO_BRANCH="rc-v.0.9.8-beta"
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH="rc-v.0.9.8-beta"
+export BEAMOS_MRBEAMLED_REPO_BRANCH="rc-v.0.9.8-beta"
+# export BEAMOS__REPO_BRANCH="rc-v.0.9.8-beta"
