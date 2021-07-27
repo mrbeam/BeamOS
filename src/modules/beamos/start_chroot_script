@@ -447,10 +447,10 @@ pushd /home/pi
     # Remove all of the branch: some-branch keys in the config.yaml file
     yq e 'del(.plugins.softwareupdate.checks.*.branch)' -i .octoprint/config.yaml
   fi
+  set_plugin_update_conf mrbeam branch "rc-v.0.9.8-beta"
+  set_plugin_update_conf netconnectd branch "rc-v.0.9.8-beta"
+  set_plugin_update_conf mrbeam-ledstrips branch "rc-v.0.9.8-beta"
 popd
-set_plugin_update_conf mrbeam branch "rc-v.0.9.8-beta"
-set_plugin_update_conf netconnectd branch "rc-v.0.9.8-beta"
-set_plugin_update_conf mrbeam-ledstrips branch "rc-v.0.9.8-beta"
 
 # store beamos commit used to build this image
 # (will be the same as the octopi commit version
