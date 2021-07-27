@@ -159,6 +159,7 @@ set_plugin_update_conf_remote() {
   module_id=$1
   url=$2
   branch=$3
+  [ "$branch" = "rc-v.0.9.8-beta" ] && set_plugin_update_conf "$module_id" "branch" "$branch"
   set_plugin_update_conf $module_id branch $branch
   set_plugin_update_conf $module_id current $(get_hash_remote $url $branch)
 }
