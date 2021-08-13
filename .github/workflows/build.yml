@@ -105,5 +105,5 @@ jobs:
         PROJECT_ID: devpi-310008
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images/R
+        args: cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images/R/
         cli: gsutil
