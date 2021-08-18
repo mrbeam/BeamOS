@@ -9,7 +9,7 @@ on:
       - '*.rst'
       - '*.md'
   pull_request:
-    - branch: [develop, mrbeam2-stable]
+    branches: [develop, mrbeam2-stable]
 env:
   VARIANT: beamos
 
