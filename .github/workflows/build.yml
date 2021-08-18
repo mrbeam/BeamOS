@@ -8,7 +8,7 @@ on:
     paths-ignore:
       - '*.rst'
       - '*.md'
-  pull-request:
+  pull_request:
     - branch: [develop, mrbeam2-stable]
 env:
   VARIANT: beamos
