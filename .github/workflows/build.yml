@@ -8,8 +8,8 @@ on:
     paths-ignore:
       - '*.rst'
       - '*.md'
-  schedule:
-    - cron: '0 0 * * *'
+  pull_request:
+    branches: [develop, mrbeam2-stable]
 env:
   VARIANT: beamos
 
