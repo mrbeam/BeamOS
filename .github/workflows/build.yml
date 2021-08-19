@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flavors: ["2S", "develop 2S"]
+        flavors: ["2S", "2R", "develop 2R"]
         # flavors: ["develop 2S"]
     steps:
     - name: Install Dependencies
@@ -105,5 +105,8 @@ jobs:
         PROJECT_ID: devpi-310008
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images
+        args: |
+          # Use the last letter of the flavor for the directory name
+          dir="$(echo ${{ matrix.flavors }} | rev | cut -c 1)"
+          cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images/$dir/
         cli: gsutil

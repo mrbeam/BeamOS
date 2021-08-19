@@ -1,0 +1,2 @@
+#!/bin/sh
+export BEAMOS_DEVICE_MODEL="2R"
