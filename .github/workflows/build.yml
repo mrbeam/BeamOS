@@ -100,13 +100,14 @@ jobs:
       run: |
         zip -r ${{ steps.copy.outputs.image }}.zip ${{ steps.copy.outputs.image }}.img
 
+    - name: Create env variable for upload folder in gcloud bucket
+      run: |
+        # Use the last letter of the flavor for the directory name
+        echo "DIR=$(echo ${{ matrix.flavors }} | rev | cut -c 1)" >> $GITHUB_ENV
     - uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: devpi-310008
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: |
-          # Use the last letter of the flavor for the directory name
-          dir="$(echo ${{ matrix.flavors }} | rev | cut -c 1)"
-          cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images/$dir/
+        args: cp ${{ steps.copy.outputs.image }}.zip gs://beamos_images/${{ env.DIR }}/
         cli: gsutil
