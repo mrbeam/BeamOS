@@ -466,7 +466,7 @@ set_field() {
 }
 set_field octopi $VERSION-$(date +"%Y-%m-%d") /etc/mrbeam
 if [ -n "$BEAMOS_DEVICE_MODEL" ]; then
-  set_field model MRBEAM2_DC /etc/mrbeam
+  set_field model $BEAMOS_MODEL /etc/mrbeam
   set_field device_series $BEAMOS_DEVICE_MODEL /etc/mrbeam
   set_field device_type "MrBeam$BEAMOS_DEVICE_MODEL" /etc/mrbeam
 fi
