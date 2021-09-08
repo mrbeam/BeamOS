@@ -39,7 +39,7 @@ jobs:
     needs: set_matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+      matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
         # flavors: ["2S", "2R", "develop 2R"]
         # flavors: ["develop 2S"]
     steps:
@@ -82,8 +82,6 @@ jobs:
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
-    - name: Add Alpha flavour if required
-      run:
     - name: Build Image (MrBeam Variant)
       run: |
         sudo modprobe loop
