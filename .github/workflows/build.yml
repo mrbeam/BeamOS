@@ -30,7 +30,7 @@ jobs:
       if: ${{ !github.event.inputs.build_alpha }}
       run: |
         echo "::set-output name=matrix::{\"flavors\":[\"2S\", \"2R\"]}"
-    - id: set-matrix
+    - id: set-matrix-alpha
       if: ${{ github.event.inputs.build_alpha }}
       run: |
         echo "::set-output name=matrix::{\"flavors\":[\"alpha 2R\"]}"
