@@ -27,10 +27,10 @@ jobs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
     - id: set-matrix
-      if: ${{ github.event.inputs.build_alpha == 'true'  }}
+      if: ${{ github.event.inputs.build_alpha != 'true'  }}
       run: echo "::set-output name=matrix::{\"include\":[{\"flavors\":[\"2S\", \"2R\"]}]}"
     - id: set-matrix-alpha
-      if: ${{ github.event.inputs.build_alpha != 'true' }}
+      if: ${{ github.event.inputs.build_alpha == 'true' }}
       run: echo "::set-output name=matrix::{\"include\":{\"flavors\":[\"alpha 2R\"]}}"
 
   build:
