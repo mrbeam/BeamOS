@@ -434,7 +434,7 @@ pushd /home/pi
   else
     rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
-  if [ "$BEAMOS_DEV" = "yes" ]; then
+  if [ "$BEAMOS_DEV" = "yes" ] || [ "$BEAMOS_DEV_CONFIG" = "yes" ]; then
     apt-install vim curl pkg-config figlet
     pushd /home/pi/.octoprint
       # Fuse the dev config file onto the normal config

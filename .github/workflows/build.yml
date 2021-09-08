@@ -2,6 +2,11 @@ name: Build Image
 
 on: 
   workflow_dispatch:
+    inputs:
+      build_alpha:
+        description: 'Alpha build?'
+        required: true
+        default: false
   push:
     branches:
       - mrbeam2-stable
@@ -15,11 +20,26 @@ env:
 
 
 jobs:
+  set_matrix:
+    name: Configure the matrix of image flavors to build.
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      if: ! ${{ github.event.inputs.build_alpha }}
+      run: |
+        echo "::set-output name=matrix::{\"flavors\":[\"2S\", \"2R\"]}"
+
+    - id: set-matrix
+      if: ${{ github.event.inputs.build_alpha }}
+      run: |
+        echo "::set-output name=matrix::{\"flavors\":[\"alpha 2R\"]}"
   build:
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        flavors: ["2S", "2R", "develop 2R"]
+      matrix: ${{fromJson(needs.job1.outputs.matrix)}}
+        # flavors: ["2S", "2R", "develop 2R"]
         # flavors: ["develop 2S"]
     steps:
     - name: Install Dependencies
@@ -61,6 +81,8 @@ jobs:
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
+    - name: Add Alpha flavour if required
+      run:
     - name: Build Image (MrBeam Variant)
       run: |
         sudo modprobe loop
