@@ -4,8 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       build_alpha:
-        description: 'Alpha build?'
-        required: true
+        description: 'Alpha build true/false default: false'
+        required: false
         default: false
   push:
     branches:
