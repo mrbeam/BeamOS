@@ -28,7 +28,7 @@ jobs:
     steps:
     - id: set-matrix
       if:
-      run:
+      run: |
         if [ ${{ github.event.inputs.build_alpha }} == 'true' ]; then
           flavors='["2S", "2R"]'
         else
