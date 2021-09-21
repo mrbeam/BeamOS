@@ -127,9 +127,10 @@ get_branch_submodule() {
     # Uses files generated in build.yml!!
     cat "$branch_file"
   else
-    pushd $repo_loc
+    # git submodule status $repo_loc | sed 's/^.*(\(.*\))/\1/' | cut -d '/' -f3-
+    pushd $repo_loc 1>&2
       git branch | tail -n 1
-    popd
+    popd 1>&2
   fi
 }
 
