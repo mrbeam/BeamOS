@@ -111,11 +111,14 @@ get_hash_submodule() {
   branch_file=$repo_loc/current_commit_hash
   if [ -f "$branch_file" ]; then
     # Uses files generated in build.yml!!
+    # GitHub is broken, so I am writing the commit hashes into a file,
+    # Then I read the file content here
     cat "$branch_file"
   else
-    pushd $repo_loc
+    # git submodule status $repo_loc | cut -d ' ' -f2
+    pushd $repo_loc 1>&2
       git rev-parse HEAD
-    popd
+    popd 1>&2
   fi
 }
 
