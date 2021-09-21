@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Will add the dev environment and pre-set the dev user.
-export BEAMOS_DEV_CONFIG=yes
+# export BEAMOS_DEV_CONFIG=yes
 
 export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-alpha
 
