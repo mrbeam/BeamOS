@@ -2,6 +2,11 @@ name: Build Image
 
 on: 
   workflow_dispatch:
+    inputs:
+      build_alpha:
+        description: 'Alpha build true/false default: false'
+        required: false
+        default: false
   push:
     branches:
       - mrbeam2-stable
@@ -15,11 +20,29 @@ env:
 
 
 jobs:
+  set_matrix:
+    name: Configure the matrix of image flavors to build.
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+    - id: set-matrix
+      if:
+      run: |
+        if [ "${{ github.event.inputs.build_alpha }}" = "true" ]
+        then
+          flavors='{"flavor":"alpha 2R"}'
+        else
+          flavors='{"flavor":"2S"},{"flavor":"2R"}'
+        fi
+        echo "::set-output name=matrix::{\"include\":[$flavors]}"
+
   build:
+    needs: set_matrix
     runs-on: ubuntu-latest
     strategy:
-      matrix:
-        flavors: ["2S", "2R", "develop 2R"]
+      matrix: ${{fromJson(needs.set_matrix.outputs.matrix)}}
+        # flavors: ["2S", "2R", "develop 2R"]
         # flavors: ["develop 2S"]
     steps:
     - name: Install Dependencies
@@ -66,7 +89,7 @@ jobs:
         sudo modprobe loop
         cd repository/src
         echo "export EXTRA_SSH_KEY='${{ secrets.SSH_BEAMOS01_RSA }}'" >> config
-        sudo bash -x ./build_dist $VARIANT ${{ matrix.flavors }}
+        sudo bash -x ./build_dist $VARIANT ${{ matrix.flavor }}
 
     - name: Copy output
       id: copy
@@ -75,7 +98,7 @@ jobs:
         NOW=$(date +"%Y-%m-%d-%H%M")
         # When building a variant, it is built in workspace-$VARIANT
         if [ -n $VARIANT ]; then
-          [ -n "${{ matrix.flavors }}" ] && FL="$(echo ${{ matrix.flavors }} | sed 's/ /-/g')-"
+          [ -n "${{ matrix.flavor }}" ] && FL="$(echo ${{ matrix.flavor }} | sed 's/ /-/g')-"
           IMAGE=$NOW-$VARIANT-$FL$DIST_VERSION
           BRANCH_NAME=${GITHUB_REF##*/}
           if [[ "$BRANCH_NAME" != "mrbeam" ]]; then
@@ -103,7 +126,7 @@ jobs:
     - name: Create env variable for upload folder in gcloud bucket
       run: |
         # Use the last letter of the flavor for the directory name
-        echo "DIR=$(echo ${{ matrix.flavors }} | rev | cut -c 1)" >> $GITHUB_ENV
+        echo "DIR=$(echo ${{ matrix.flavor }} | rev | cut -c 1)" >> $GITHUB_ENV
     - uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: devpi-310008

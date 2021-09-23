@@ -14,6 +14,4 @@ then
     sed -i "s@http://raspbian.raspberrypi.org/raspbian/@$DEV_LIBS_APTMIRROR@g" /etc/apt/sources.list
 fi
 
-apt-get update
-
 apt-get install -y $(echo $DEV_LIBS_BASE $DEV_LIBS_EXTRA)
