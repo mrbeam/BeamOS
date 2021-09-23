@@ -29,7 +29,8 @@ jobs:
     - id: set-matrix
       if:
       run: |
-        if ${{ github.event.inputs.build_alpha }}; then
+        if [ "${{ github.event.inputs.build_alpha }}" = "true" ]
+        then
           flavors='{"flavor":"alpha 2R"}'
         else
           flavors='{"flavor":"2S"},{"flavor":"2R"}'
