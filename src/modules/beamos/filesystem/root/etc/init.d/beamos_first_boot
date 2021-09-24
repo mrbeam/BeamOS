@@ -21,8 +21,8 @@ do_start () {
 
     BEAMOS_HOSTNAME_BIN=/usr/bin/beamos_hostname
     #load current saved vars
-    SERIAL=$(crudini --get /etc/mrbeam '' serial 2>/dev/null )
-    HOSTNAME=$(crudini --get /etc/mrbeam '' hostname 2>/dev/null )
+    SERIAL=$(crudini --get /etc/mrbeam 'Mr Beam' serial 2>/dev/null )
+    HOSTNAME=$(crudini --get /etc/mrbeam 'Mr Beam' hostname 2>/dev/null )
     if [ -x $BEAMOS_HOSTNAME_BIN ] && [ -z "$HOSTNAME" ]; then
         echo "$(timestamp) Setting the device hostname..." >> $logfile
         $BEAMOS_HOSTNAME_BIN >> $logfile

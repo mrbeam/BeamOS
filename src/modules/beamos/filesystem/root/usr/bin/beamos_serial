@@ -16,4 +16,4 @@ else
 fi
 echo "Setting device serial to $SERIAL"
 
-crudini --set /etc/mrbeam "" serial $SERIAL
+crudini --set /etc/mrbeam "Mr Beam" serial $SERIAL
