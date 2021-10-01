@@ -1,9 +1,7 @@
 [submodule "src/modules/beamos/filesystem/iobeam"]
 	path = src/modules/beamos/filesystem/repos/iobeam
-	# url = https://github.com/mrbeam/iobeam.git
 	url = git@github.com:mrbeam/iobeam.git
-	branch = develop
-	# branch = f_unpriviledged
+	branch = mrbeam2-stable
 [submodule "src/modules/beamos/filesystem/mount_manager"]
 	path = src/modules/beamos/filesystem/repos/mount_manager
 	url = git@github.com:mrbeam/mount_manager.git
@@ -15,4 +13,4 @@
 [submodule "src/modules/beamos/filesystem/repos/mrb_check"]
 	path = src/modules/beamos/filesystem/repos/mrb_check
 	url = git@github.com:mrbeam/mrb_check.git
-	branch = master
+	branch = mrbeam2-stable
