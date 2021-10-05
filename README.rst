@@ -136,15 +136,15 @@ N.B. These repos are NOT affected by the branch written in the config files for 
 Public MrBeam projects included in BeamOS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-All the open source repos are pulled using a specific branch, no need to make an update to this repository
+All the open source repos are pulled using a specific branch, no need to make an update to this repository.
 
 * `MrBeamPlugin <https://github.com/mrbeam/MrBeamPlugin>`_ The main plugin that drives the lasercutter
-    * branch : ``mrbeam2-stable-buster``
+    * branch : ``mrbeam2-stable``
 * `Netconnectd <https://github.com/mrbeam/netconnectd_mrbeam>`_ The networking server that handles wifi and access point modes
     * branch : ``master``
 * `OctoPrint-Netconnectd <https://github.com/mrbeam/octoprint_netconnectd>`_ The OctoPrint plugin that interfaces with Netconnectd
-    * branch : ``mrbeam2-stable-buster``
-* `OctoPrint-Camera <https://github.com/mrbeam/>`_ A camera plugin used for the QA testing (as of writing this)
+    * branch : ``mrbeam2-stable``
+* `OctoPrint-Camera <https://github.com/mrbeam/OctoPrint-Camera>`_ A camera plugin used for the QA testing (as of writing this)
     * branch : ``master``
 * `LED strips server <https://github.com/mrbeam/MrBeamLedStrips>`_ state-based LED strip driver
 * `Find My MrBeam <https://github.com/mrbeam/OctoPrint-FindMyMrBeam>`_ OctoPrint plugin that sends network discovery data
@@ -152,6 +152,9 @@ All the open source repos are pulled using a specific branch, no need to make an
 * `RPI_WS281X <https://github.com/mrbeam/rpi_ws281x>`_ (discontinued) an LED strip driver used with the LED server
     * Uses the latest Python3 package from `the upstream RPI_WS281X <https://github.com/rpi-ws281x/rpi-ws281x-python>`_
 * `MrBeam Docs <https://github.com/mrbeam/MrBeamDoc>`_ The documentation for using your MrBeam - offline
+
+N.B. The listed branches can change with the "flavours" that you decide to build. For example, you could build a beta or alpha flavour that includes the mrbeam2-beta branches from the public repos. Private repos need to be changed and committed manually.
+
 
 Automated Deployment
 ~~~~~~~~~~~~~~~~~~~~
