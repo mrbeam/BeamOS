@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Will add the dev environment and pre-set the dev user.
+# export BEAMOS_DEV_CONFIG=yes
+
+export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-beta
+
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_CAMERA_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_IOBEAM_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_MRBEAMLED_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_MOUNTMANAGER_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_NETCONNECTD_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH=mrbeam2-beta
+# export BEAMOS_SHIELDFLASHER_REPO_BRANCH=master
+# export BEAMOS_RPI_WS281X_REPO_BRANCH=master
+export BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH=mrbeam2-beta
+export BEAMOS_CHECK_REPO_BRANCH=mrbeam2-beta
+# export BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master

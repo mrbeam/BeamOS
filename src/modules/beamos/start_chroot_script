@@ -111,11 +111,14 @@ get_hash_submodule() {
   branch_file=$repo_loc/current_commit_hash
   if [ -f "$branch_file" ]; then
     # Uses files generated in build.yml!!
+    # GitHub is broken, so I am writing the commit hashes into a file,
+    # Then I read the file content here
     cat "$branch_file"
   else
-    pushd $repo_loc
+    # git submodule status $repo_loc | cut -d ' ' -f2
+    pushd $repo_loc 1>&2
       git rev-parse HEAD
-    popd
+    popd 1>&2
   fi
 }
 
@@ -127,9 +130,10 @@ get_branch_submodule() {
     # Uses files generated in build.yml!!
     cat "$branch_file"
   else
-    pushd $repo_loc
+    # git submodule status $repo_loc | sed 's/^.*(\(.*\))/\1/' | cut -d '/' -f3-
+    pushd $repo_loc 1>&2
       git branch | tail -n 1
-    popd
+    popd 1>&2
   fi
 }
 
@@ -176,15 +180,16 @@ mv ./micro /usr/bin/
 apt-install python3-pip neofetch
 python3 -m pip install crudini
 
+mkdir -p /root/.ssh
+# Add ssh creds to prevent errors when pulling from bitbucket
+ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
 # Enable ssh identification for private packages in bitbucket.org
 if [ -n "$EXTRA_SSH_KEY" ]; then
   # EXTRA_SSH_KEY is not written in any config for security reasons.
   # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
-  mkdir -p /root/.ssh
   echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
   chmod 0600 /root/.ssh/id_rsa
 fi
-ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
 
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
@@ -434,7 +439,7 @@ pushd /home/pi
   else
     rm /boot/ssh || echo "Auto sshd already disabled - /boot/ssh is not a file"
   fi
-  if [ "$BEAMOS_DEV" = "yes" ]; then
+  if [ "$BEAMOS_DEV" = "yes" ] || [ "$BEAMOS_DEV_CONFIG" = "yes" ]; then
     apt-install vim curl pkg-config figlet
     pushd /home/pi/.octoprint
       # Fuse the dev config file onto the normal config
@@ -466,7 +471,7 @@ set_field() {
 }
 set_field octopi $VERSION-$(date +"%Y-%m-%d") /etc/mrbeam
 if [ -n "$BEAMOS_DEVICE_MODEL" ]; then
-  set_field model MRBEAM2_DC /etc/mrbeam
+  set_field model $BEAMOS_MODEL /etc/mrbeam
   set_field device_series $BEAMOS_DEVICE_MODEL /etc/mrbeam
   set_field device_type "MrBeam$BEAMOS_DEVICE_MODEL" /etc/mrbeam
 fi

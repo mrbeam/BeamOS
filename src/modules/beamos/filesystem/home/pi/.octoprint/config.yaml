@@ -13,7 +13,6 @@ plugins:
     checks:
       octoprint:
         pip: https://github.com/mrbeam/OctoPrint/archive/{target_version}.zip
-        prerelease: true
         user: mrbeam
 serial:
   additionalPorts:

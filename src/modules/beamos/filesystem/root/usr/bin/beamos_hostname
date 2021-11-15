@@ -13,7 +13,7 @@ fi
 . /lib/lsb/init-functions
 
 # The hostname
-CONFIG_HOSTNAME="$(crudini --get /etc/mrbeam '' hostname 2>/dev/null )"
+CONFIG_HOSTNAME="$(crudini --get /etc/mrbeam 'Mr Beam' hostname 2>/dev/null )"
 
 if [ -n "$1" ]; then
   new_hostname="MrBeam-$1"
@@ -44,7 +44,7 @@ if [ "$new_hostname" = "$sanitized_hostname" ]; then
   echo "$new_hostname" > /etc/hostname
   sed -i -e "s/$old_hostname/$new_hostname/g" /etc/hosts
   hostname "$new_hostname"
-  crudini --set /etc/mrbeam "" hostname $new_hostname
+  crudini --set /etc/mrbeam "Mr Beam" hostname $new_hostname
   log_success_msg "Host name changed to $new_hostname , reboot to apply..."
 else
   log_failure_msg "Hostname $new_hostname contains invalid characters (only a-zA-Z0-9 are allowed), refusing to change"

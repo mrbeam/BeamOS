@@ -1,2 +1,3 @@
 #!/bin/sh
 export BEAMOS_DEVICE_MODEL="2T"
+export BEAMOS_MODEL="MRBEAM2_DC"
