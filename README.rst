@@ -113,7 +113,7 @@ The scripts will do the following (abridged):
 #. for each module:
     #. ``cd modules/<module>/``
     #. Collect and ``export`` the configuration variables from the ``config``, ``config.local`` and ``config.flavour``
-    #. Mount the ``filesystem/`` folder on root ``/``
+    #. Mount the ``filesystem/`` folder on the image root folder ``/``
     #. Change root (`chroot <https://wiki.archlinux.org/title/Chroot>`_) to the mounted image.
     #. Run the ``start_chroot_script`` shell/bash script
     #. Optionaly run a nested module here (will unmount the ``filesystem`` and exit/reenter chroot in the process)
