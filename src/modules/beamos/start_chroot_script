@@ -86,13 +86,14 @@ pip_install_dev_or_rm() {
 }
 
 apt-install() {
+  # apt-get install without getting stuck on [Y/n] prompt
   apt-get install -y $@
 }
 
 set_yaml() {
   # Set values in a path in config.yaml
   # yq -i eval "$@" /home/pi/.octoprint/config.yaml
-  sudo -u pi yq -i eval "$@" .octoprint/config.yaml
+  sudo -u pi yq -i eval "$@" /home/pi/.octoprint/config.yaml
 }
 
 get_hash_remote() {
@@ -102,10 +103,20 @@ get_hash_remote() {
 }
 
 get_hash_local() {
+  # Get the commit hash of HEAD for the git repo in current work dir (cwd).
   git rev-parse HEAD
 }
 
 get_hash_submodule() {
+  # Will attempt to get the commit hash for a repo in the /filesystem/repos/ dir.
+  # If a file in the repo is named `current_commit_hash`, then the function reads from that file.
+  # If it doesn't, then uses the git tool to get the actual hash.
+  # The reason for the hack is that the git submodules wouldn't work reliably.
+  # To circumvent the problem, the host device writes the commit hash into
+  # the `current_commit_hash` file in every repo befoore starting the chroot
+  # - and here we read these files.
+
+  # NOTE: copy pasta of get_branch_submodule()
   # a bit hacky... doesn't seem to simply work with get_hash_local
   repo_loc=/filesystem/repos/$1
   branch_file=$repo_loc/current_commit_hash
@@ -123,6 +134,15 @@ get_hash_submodule() {
 }
 
 get_branch_submodule() {
+  # Will attempt to get the branch for a repo in the /filesystem/repos/ dir.
+  # If a file in the repo is named `current_branch`, then the function reads from that file.
+  # If it doesn't, then uses the git tool to get the actual branch.
+  # The reason for the hack is that the git submodules wouldn't work reliably.
+  # To circumvent the problem, the host device writes the git branch into
+  # the `current_branch` file in every repo befoore starting the chroot
+  # - and here we read these files.
+
+  # NOTE: copy pasta of get_hash_submodule()
   # a bit hacky... doesn't seem to simply work with get_hash_local
   repo_loc=/filesystem/repos/$1
   branch_file=$repo_loc/current_branch
@@ -130,6 +150,7 @@ get_branch_submodule() {
     # Uses files generated in build.yml!!
     cat "$branch_file"
   else
+    # Go to the repo dir and get the branch using `git`
     # git submodule status $repo_loc | sed 's/^.*(\(.*\))/\1/' | cut -d '/' -f3-
     pushd $repo_loc 1>&2
       git branch | tail -n 1
@@ -138,8 +159,10 @@ get_branch_submodule() {
 }
 
 set_plugin_update_conf() {
-  # set_plugin_update_conf iobeam branch mrbeam2-stable
-  # set_plugin_update_conf iobeam url https://github.com/mrbeam/iobeam.git
+  # Shorthand to setup the config.yaml for the softwareupdate plugin
+  # Examples:
+  #   set_plugin_update_conf iobeam branch mrbeam2-stable
+  #   set_plugin_update_conf iobeam url https://github.com/mrbeam/iobeam.git
   module_id=$1
   key=$2
   val=$3
@@ -147,19 +170,24 @@ set_plugin_update_conf() {
 }
 
 set_plugin_update_conf_submodule() {
-  # set_plugin_update_conf_submodule iobeam iobeam
+  # Update the config.yaml with the branch and commit hashes for specific packages
+  # Use the name of a git repo in /filesystem/repos/<submodule> to get
+  # the hash & branch names from
+  # Example:
+  #   set_plugin_update_conf_submodule iobeam iobeam
+  #   set_plugin_update_conf_submodule mrb_check mrb_check
   module_id=$1
-  # path=$2
   submodule=$2
-  # hash=$()
-  # pushd $path
   set_plugin_update_conf $module_id branch $(get_branch_submodule $submodule)
   set_plugin_update_conf $module_id current $(get_hash_submodule $submodule)
-  # popd
 }
 
 set_plugin_update_conf_remote() {
-  # set_plugin_update_conf_remote iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
+  # Update the config.yaml with the branch and commit hashes for specific packages
+  # Uses the url for a remote git repo to get the lastest commit hash for a specific branch
+  # It then updates the config to reflect the branch and the commit hash used.
+  # Example:
+  #   set_plugin_update_conf_remote iobeam mrbeam2-stable https://github.com/mrbeam/iobeam.git
   module_id=$1
   url=$2
   branch=$3
@@ -205,17 +233,11 @@ pushd /home/pi
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
     python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
     # OctoPrint has no need to update mrb_check -> No need to add to config.yaml
-    # # Do this BEFORE INSTALLING as - in the develop version,
-    # # it will move the source folder, in which case we couldn't access it.
-    # set_plugin_update_conf_submodule mrb_check mrb_check
-    # set_plugin_update_conf mrb_check pip_command "sudo $BEAMOS_CHECK_VENV/bin/pip"
-    # mrb_check is cloned as a submodule to /filesystem before running the script
     PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
 
     ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
     unpack /filesystem/mrb_check/root / root
     # Remove the auto start of mrb_check -> Only trigger mrb_check pr usb stick.
-    # [ "$BEAMOS_DEV" = "yes" ] && \
     echo "DEVELOP - This file prevents mrb_check to run on second boot." >> /etc/mrb_check_success
 
     # The OctoPrint-Camera plugin is only required for the assembly right now
@@ -231,6 +253,7 @@ pushd /home/pi
       rm /proc/cpuinfo
       # set_yaml '.plugins._disabled = [ "camera" ]'
     fi
+    # rlpr allows to print the test results at the assembly facility
     # rlpr : A utility for lpd printing without using /etc/printcap
     apt-install rlpr
   fi
@@ -240,6 +263,13 @@ pushd /home/pi
     # Only the MrBeamPlugin requires OpenCV
     # TODO Optimise
     if [ "BEAMOS_COMPILE_OPENCV" = "yes" ]; then
+      # This part would build the OpenCV library binaries and link them in
+      # order to use them in out python2 environment.
+      #
+      # NOTE: It is recommended to isolate all the Camera processing into a separate
+      # plugin (OctoPrint-Camera) which could easily be upgraded to Python3. In Python3
+      # the pypi package for OpenCV is available.
+      # caviat: It requires all plugins to be migrated to python3 too.
       echo "Pulling $BEAMOS_OPENCV_VERSION"
       echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
       # Following the pyimagesearch tutorial
@@ -250,6 +280,9 @@ pushd /home/pi
       sudo apt -y remove $DEV_LIBS_OPENCV # save space
 
     else
+      # Installs the complete OpenCV library including the gtk environment.
+      # This step takes a looot of space but is required to get picamera on python2 easily
+      # as you don't have to configure the OpenCV build and link everything.
       echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
       # After this operation, 1085 MB of additional disk space will be used.
       apt-install python-opencv
@@ -319,9 +352,9 @@ pushd /home/pi
     # Enable the iobeam.service unit that was previously copied
     systemctl_if_exists enable iobeam.service
 
-    # Add AVRDUDE
+    # Add AVRDUDE : utility to flash GRBL on the Shield microcontroller.
     apt-install avrdude
-    # Install the Shield Auto Flasher
+    # Install the Shield "Auto Flasher" wrapper for avrdude.
     AVR_DIR=$(dirname $(which avrdude))
     mv $(which avrdude) $AVR_DIR/avrdude-original
     wget https://raw.githubusercontent.com/mrbeam/shield_flasher/master/avrdude-autoreset -O $AVR_DIR/avrdude-autoreset
@@ -478,7 +511,7 @@ fi
 
 
 #####################################################################
-### setup services
+### setup systemd units/services
 
 # Enable systemd units
 update-rc.d beamos_first_boot defaults

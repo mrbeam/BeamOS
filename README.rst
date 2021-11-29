@@ -9,10 +9,9 @@ A `Raspberry Pi <http://www.raspberrypi.org/>`_ distribution for the Mr Beam Las
 
 This repository contains the source script to generate the distribution out of an existing `Raspbian <http://www.raspbian.org/>`_ distro image.
 
-TODO
-~~~~
+This repository is a fork of `OctoPi <https://github.com/guysoft/OctoPi>`_ but is not maintained by or affiliated with the maintainers of that project. This is a project integral to the laser cutters produced by MrBeam and cannot be used for a 3D printer out of the box.
 
-#. Add possibility to switch between tags, branches and python versions.
+TODO:  Add possibility to switch between tags, branches and python versions.
 
 How to use it?
 --------------
@@ -101,6 +100,27 @@ Usage
 Development
 -----------
 
+All the scripts are written in Bash - not POSIX.
+
+How it works
+~~~~~~~~~~~~
+
+The collections of scripts work with a set of "modules". When no modules are provided, the script only creates an updated Raspbian image with limited changes (username, hostname, network setup ...). For more info around the modules, have a look at the `Modules wiki for CustomPiOS <https://github.com/guysoft/CustomPiOS/wiki/Modules>`_
+
+The scripts will do the following (abridged):
+
+#. unzip the raspbian image from the provided .zip in ``src/image/`` or ``src/image-raspios_lite_arm64/`` into the ``image/`` folder and mount it
+#. for each module:
+   #. ``cd modules/<module>/``
+   #. Collect and ``export`` the configuration variables from the ``config``, ``config.local`` and ``config.flavour``
+   #. Mount the ``filesystem/`` folder on root ``/``
+   #. Change root (`chroot <https://wiki.archlinux.org/title/Chroot>`_) to the mounted image.
+   #. Run the ``start_chroot_script`` shell/bash script
+   #. Optionaly run a nested module here (will unmount the ``filesystem`` and exit/reenter chroot in the process)
+   #. Run the ``stop_chroot_script`` shell/bash script
+   #. exit chroot
+#. The end result image is in ``image/`` folder, ready to be ``dd``'ed onto an SD card.
+
 Secrets
 ~~~~~~~
 
@@ -167,13 +187,19 @@ Every push to this repo will trigger a `GitHub Action <https://github.com/mrbeam
 * Develop version ``YYYY-MM-DD-beamos-develop-2S.img`` - Predefined develop account, options and settings;
   should be just "plug-n-play" except for the camera calibration
 
-These images are compressed and uploaded to an S3 storage defined in ``build.yml`` and the base64 encoded credentials are provided as a secret.
+These images are compressed and uploaded to an S3 storage defined in ``build.yml`` and the base64 encoded credentials are provided as a secret. See internal documentation to access these builds.
+
+Alpha Image Release
+~~~~~~~~~~~~~~~~~~~
+
+If you have access to the project, you can trigger a build for an alpha version image in the GitHub Actions using ``Build image`` > ``Run workflow`` > ``Alpha build true/false default: false`` : ``true``
+
 
 Making a new release
 ~~~~~~~~~~~~~~~~~~~~
 
 #. Update the private submodules_
-#. If a submodule was updated, 
+#. If a submodule was updated, be sure to commit the commit hash change.
 #. Once pushed, a new build will run with a `Github automation <https://github.com/mrbeam/BeamOS/actions>`_
 #. After testing the result of the uploaded image, `create a new release <https://github.com/mrbeam/BeamOS/releases/new>`_
 #. Be sure to attach the ``.zip`` file to publish the image with the release.
