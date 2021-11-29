@@ -1,7 +1,7 @@
 BeamOS
 ======
 
-.. image:: https://raw.githubusercontent.com/mrbeam/BeamOS/mrbeam/media/BeamOS.png
+.. image:: https://github.com/mrbeam/BeamOS/raw/develop/media/BeamOS.png
 .. :scale: 50 %
 .. :alt: Mr Beam logo
 
@@ -119,7 +119,9 @@ The scripts will do the following (abridged):
     #. Optionaly run a nested module here (will unmount the ``filesystem`` and exit/reenter chroot in the process)
     #. Run the ``stop_chroot_script`` shell/bash script
     #. exit chroot
-#. The end result image is in ``image/`` folder, ready to be ``dd``'ed onto an SD card.
+#. The end result image is in ``workspace/`` or ``workspace-[variant]/`` folder, ready to be ``dd``'ed onto an SD card.
+
+NOTE: All the scripts on the chroot will be run as the local root user.
 
 Secrets
 ~~~~~~~
