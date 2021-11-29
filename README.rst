@@ -111,14 +111,14 @@ The scripts will do the following (abridged):
 
 #. unzip the raspbian image from the provided .zip in ``src/image/`` or ``src/image-raspios_lite_arm64/`` into the ``image/`` folder and mount it
 #. for each module:
-   #. ``cd modules/<module>/``
-   #. Collect and ``export`` the configuration variables from the ``config``, ``config.local`` and ``config.flavour``
-   #. Mount the ``filesystem/`` folder on root ``/``
-   #. Change root (`chroot <https://wiki.archlinux.org/title/Chroot>`_) to the mounted image.
-   #. Run the ``start_chroot_script`` shell/bash script
-   #. Optionaly run a nested module here (will unmount the ``filesystem`` and exit/reenter chroot in the process)
-   #. Run the ``stop_chroot_script`` shell/bash script
-   #. exit chroot
+    #. ``cd modules/<module>/``
+    #. Collect and ``export`` the configuration variables from the ``config``, ``config.local`` and ``config.flavour``
+    #. Mount the ``filesystem/`` folder on root ``/``
+    #. Change root (`chroot <https://wiki.archlinux.org/title/Chroot>`_) to the mounted image.
+    #. Run the ``start_chroot_script`` shell/bash script
+    #. Optionaly run a nested module here (will unmount the ``filesystem`` and exit/reenter chroot in the process)
+    #. Run the ``stop_chroot_script`` shell/bash script
+    #. exit chroot
 #. The end result image is in ``image/`` folder, ready to be ``dd``'ed onto an SD card.
 
 Secrets
