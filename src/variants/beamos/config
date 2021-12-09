@@ -10,7 +10,7 @@ export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos
 
 # Proxy server
 #export BASE_PYPI_INDEX="http://devpi.soll.xyz:5798/mrbeam/prod/+simple/"
-export BASE_PYPI_INDEX="http://datamania.atbo.studio:3141/root/dev/+simple/"
+export BASE_PYPI_INDEX="http://datamania.atbo.studio:3141/root/dev/+simple/\ntrusted-host = datamania.atbo.studio"
 
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
