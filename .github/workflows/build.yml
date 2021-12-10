@@ -33,7 +33,7 @@ jobs:
         then
           flavors='{"flavor":"alpha 2R"}'
         else
-          flavors='{"flavor":"2S"},{"flavor":"2R"}'
+          flavors='{"flavor":"2R"}'
         fi
         echo "::set-output name=matrix::{\"include\":[$flavors]}"
 
