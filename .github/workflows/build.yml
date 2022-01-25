@@ -50,6 +50,38 @@ jobs:
         sudo apt update
         sudo apt install coreutils p7zip-full qemu-user-static
 
+    - name: Configure SSH-Keys
+      env:
+        SSH_KEY_MOUNTMANAGER: ${{ secrets.DEPLOY_KEY_MOUNTMANAGER }}
+        SSH_KEY_MRBCHECK: ${{ secrets.DEPLOY_KEY_MRBCHECK }}
+        SSH_KEY_BITBUCKET: ${{ secrets.BITBUCKET_ACCESS_KEY }}
+      run: |
+        mkdir -p ~/.ssh/
+        echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
+        echo "$SSH_KEY_MOUNTMANAGER" > ~/.ssh/mountmanager.key
+        echo "$SSH_KEY_MRBCHECK" > ~/.ssh/mrbcheck.key
+        chmod 600 ~/.ssh/bitbucket.key
+        chmod 600 ~/.ssh/mountmanager.key
+        chmod 600 ~/.ssh/mrbcheck.key
+
+        touch ~/.ssh/known_hosts
+        ssh-keygen -R bitbucket.org
+        ssh-keygen -R github.com
+        ssh-keyscan -H bitbucket.org >> ~/.ssh/known_hosts
+        ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
+        cat >>~/.ssh/config <<END
+        Host bitbucket.org
+          HostName bitbucket.org
+          IdentityFile ~/.ssh/bitbucket.key
+        Host github.com-mountmanager
+          HostName github.com
+          IdentityFile ~/.ssh/mountmanager.key
+        Host github.com-mrb_check
+          HostName github.com
+          IdentityFile ~/.ssh/mrbcheck.key
+        END
+
     - name: Checkout CustomPiOS
       uses: actions/checkout@v2
       with:
@@ -60,7 +92,6 @@ jobs:
     - name: Checkout Project Repository
       uses: actions/checkout@v2
       with:
-        ssh-key: ${{ secrets.SSH_MRB }}
         submodules: recursive
         path: repository
 
