@@ -87,7 +87,7 @@ pip_install_dev_or_rm() {
 
 apt-install() {
   # apt-get install without getting stuck on [Y/n] prompt
-  apt-get install -y $@
+  apt-get install -y $@ --fix-missing
 }
 
 set_yaml() {
@@ -375,14 +375,16 @@ pushd /home/pi
     gitclone BEAMOS_NETCONNECTD_REPO $NETCONNECTD_PROJ
     # Create venv
     python3 -m virtualenv -p python3 $BEAMOS_NETCONNECTD_VENV
-    $BEAMOS_NETCONNECTD_VENV/bin/python -m pip install $BEAMOS_NETCONNECTD_WIFI_ARCHIVE $NETCONNECTD_PROJ
+#    $BEAMOS_NETCONNECTD_VENV/bin/python -m pip install $BEAMOS_NETCONNECTD_WIFI_ARCHIVE $NETCONNECTD_PROJ
     pushd $NETCONNECTD_PROJ
-      mkdir -p /etc/netconnectd.conf.d/{hostapd,dnsmasq} /etc/network/interfaces.d/
-      cp extras/netconnectd.yaml /etc/netconnectd.conf.d/
-      cp extras/netconnectd.service /etc/systemd/system/
-      cp extras/eth0 /etc/network/interfaces.d/
+       sudo $BEAMOS_NETCONNECTD_VENV/bin/python setup.py install_extras
+       sudo $BEAMOS_NETCONNECTD_VENV/bin/python setup.py install
+#      mkdir -p /etc/netconnectd.conf.d/{hostapd,dnsmasq} /etc/network/interfaces.d/
+#      cp extras/netconnectd.yaml /etc/netconnectd.conf.d/
+#      cp extras/netconnectd.service /etc/systemd/system/
+#      cp extras/eth0 /etc/network/interfaces.d/
     popd
-    echo 'EXTRA_OPTS="--debug"' >> /etc/default/netconnectd
+#    echo 'EXTRA_OPTS="--debug"' >> /etc/default/netconnectd
     if [ "$BEAMOS_DEV" == "yes" ]; then
       echo "nothing to do"
     else
