@@ -1,3 +1,1 @@
-export DIST_NAME=OctoPi
-export DIST_VERSION=0.18.1
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi)), password-for-sudo)"

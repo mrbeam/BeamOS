@@ -1,6 +1,7 @@
 #!/bin/sh
 # variant mrbeam, flavor default: override hostname & custom config setting
 export DIST_NAME=BeamOS
+export DIST_VERSION=0.18.2
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
 export BASE_IMAGE_ENLARGEROOT=1700
 
