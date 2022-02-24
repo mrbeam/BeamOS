@@ -126,6 +126,7 @@ jobs:
       id: copy
       run: |
         source repository/src/config
+        source repository/src/variants/beamos/config
         NOW=$(date +"%Y-%m-%d-%H%M")
         # When building a variant, it is built in workspace-$VARIANT
         if [ -n $VARIANT ]; then
