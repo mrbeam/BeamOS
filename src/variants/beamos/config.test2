@@ -1,0 +1,18 @@
+#!/bin/sh
+
+export BASE_IMAGE_PATH=/distro/image
+export BASE_ZIP_IMG=`ls -t $BASE_IMAGE_PATH/*-{raspbian,raspios}-*-armhf-*.img | head -n 1`
+#export BASE_PYPI_INDEX="https://gergely.imreh.net/wheels"
+export BASE_PYPI_INDEX="http://datamania.atbo.studio:3141/root/dev/"
+
+#export BEAMOS_INCLUDE_MRBEAMPLUGIN=no
+#export BEAMOS_INCLUDE_IOBEAM=no
+#export BEAMOS_INCLUDE_MRBEAMLED=no
+#export BEAMOS_INCLUDE_NETCONNECTD=no
+#export BEAMOS_INCLUDE_FINDMYMRBEAM=no
+#export BEAMOS_INCLUDE_SHIELDFLASHER=no
+#export BEAMOS_INCLUDE_MOUNTMANAGER=no
+#export BEAMOS_INCLUDE_CHECK=no
+#export OCTOPI_INCLUDE_OCTOPRINT=yes
+export BEAMOS_INCLUDE_CAMERA=no
+export MODULES="base(network, disable-services(dev-libs(octopi)), password-for-sudo)"

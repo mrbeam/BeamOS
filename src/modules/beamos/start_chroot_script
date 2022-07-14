@@ -191,8 +191,14 @@ set_plugin_update_conf_remote() {
   module_id=$1
   url=$2
   branch=$3
+  tag=${4:-false}
   set_plugin_update_conf $module_id branch $branch
+
+#  if tag; then
   set_plugin_update_conf $module_id current $(get_hash_remote $url $branch)
+#  else
+#    set_plugin_update_conf $module_id current $(get_hash_remote_tag $url $branch)
+#  fi
 }
 
 # Unpack the regular files
@@ -262,7 +268,7 @@ pushd /home/pi
   then
     # Only the MrBeamPlugin requires OpenCV
     # TODO Optimise
-    if [ "BEAMOS_COMPILE_OPENCV" = "yes" ]; then
+    if [ "$BEAMOS_COMPILE_OPENCV" = "yes" ]; then
       # This part would build the OpenCV library binaries and link them in
       # order to use them in out python2 environment.
       #
@@ -302,8 +308,8 @@ pushd /home/pi
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
-    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
-    rm /proc/cpuinfo
+    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH tag
+#    rm /proc/cpuinfo
 
     # Install MrBeamDocs
     pip_install $BEAMOS_MRBEAMPLUGIN_DOCS_ARCHIVE
