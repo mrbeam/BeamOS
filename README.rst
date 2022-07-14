@@ -88,7 +88,22 @@ Or to make a develop image that automatically takes on the 2S variant::
 
 Building Using Docker
 ~~~~~~~~~~~~~~~~~~~~~~
-`See Building with docker entry in wiki <https://github.com/guysoft/CustomPiOS/wiki/Building-with-Docker>`_
+
+
+clone https://github.com/mrbeam/CustomPiOS in same root folder as this beamos repo so it can be found with "../CustomPiOS/"
+
+see also `Building with docker entry in wiki <https://github.com/guysoft/CustomPiOS/wiki/Building-with-Docker>`_
+
+run the following commands to create the container::
+
+    sudo docker-compose up -d
+
+run this to create a new build with the container::
+
+    sudo docker exec -it beamos-build build beamos [variants]
+
+The result will end up in the ``src/workspace-beamos`` folder
+
 
 Usage
 ~~~~~

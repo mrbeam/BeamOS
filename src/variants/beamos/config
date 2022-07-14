@@ -3,6 +3,9 @@
 export DIST_NAME=BeamOS
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
 export BASE_IMAGE_ENLARGEROOT=1700
+export READTHEDOCS=True
+export BASE_IMAGE_PATH=/distro/image
+export BASE_ZIP_IMG=`ls -t $BASE_IMAGE_PATH/*-{raspbian,raspios}-*-armhf-*.img | head -n 1`
 
 export BEAMOS_DEV=no
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"

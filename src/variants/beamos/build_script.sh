@@ -11,8 +11,8 @@ OCTOPIPATH=/OctoPi
 
 for i in `lsof ${OCTOPIPATH}/src/workspace-mrbeam/mount | awk '{print $2}'`; do kill -9 $i; done
 
-rm ${OCTOPIPATH}/src/workspace-mrbeam/*.img
-rm ${OCTOPIPATH}/src/workspace-mrbeam/*.zip
+#rm ${OCTOPIPATH}/src/workspace-mrbeam/*.img
+#rm ${OCTOPIPATH}/src/workspace-mrbeam/*.zip
 
 pushd ${OCTOPIPATH}
     umount ${OCTOPIPATH}/src/workspace-mrbeam/mount/boot

@@ -8,6 +8,7 @@ set -x
 set -e
 
 export LC_ALL=C
+export READTHEDOCS=True
 
 source /common.sh
 
@@ -64,10 +65,11 @@ add_mrb3() {
   sudo -u pi python3.7 -m venv /home/pi/mrb3
 }
 
+READTHEDOCS=True
 OPRINT=/home/pi/oprint/bin
 
 pip_install() {
-  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip --disable-pip-version-check install $@
+  PIP_DEFAULT_TIMEOUT=60 READTHEDOCS=True sudo -u pi $OPRINT/pip --disable-pip-version-check install --extra-index-url=http://datamania.atbo.studio:3141/root/dev/ $@
 }
 
 pip_install_dev_or_rm() {
@@ -239,7 +241,7 @@ pushd /home/pi
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
     python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
     # OctoPrint has no need to update mrb_check -> No need to add to config.yaml
-    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install --extra-index-url=http://datamania.atbo.studio:3141/root/dev/ /filesystem/repos/mrb_check
 
     ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
     unpack /filesystem/mrb_check/root / root
@@ -252,8 +254,14 @@ pushd /home/pi
     then
       echo "--- Installing OctoPrint-Camera ..."
       # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
-      cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+#      cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+      # disables the device check for picamera
+      READTHEDOCS=True
+      echo 'export READTHEDOCS=True' >> /home/pi/oprint/bin/activate
+      echo $READTHEDOCS
       gitclone BEAMOS_CAMERA_REPO OctoPrint-Camera
+      # test to copy numpy
+      cp -r $BEAMOS_CHECK_VENV/lib/python2.7/site-packages/numpy* /home/pi/oprint/lib/python2.7/site-packages/
       pip_install_dev_or_rm ./OctoPrint-Camera
       set_plugin_update_conf_remote camera $BEAMOS_CAMERA_REPO_SHIP $BEAMOS_CAMERA_REPO_BRANCH
       rm /proc/cpuinfo
@@ -304,8 +312,9 @@ pushd /home/pi
     # See https://lxml.de/installation.html
     apt-install libxml2 libxslt1.1 libxslt-dev libjpeg9
     # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
-    cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
-
+#    cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+    # disables the device check for picamera
+    READTHEDOCS=True
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
     set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH tag
