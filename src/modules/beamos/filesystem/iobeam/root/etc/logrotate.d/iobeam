@@ -1,6 +1,6 @@
 /var/log/iobeam.log {
     size 2M
-    rotate 4
+    rotate 3
     compress
     delaycompress
     missingok
