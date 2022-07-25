@@ -87,7 +87,7 @@ jobs:
       with:
         repository: 'mrbeam/CustomPiOS'
         path: CustomPiOS
-        ref: 'mrbeam'
+        ref: 'test_devpi_josef'
 
     - name: Checkout Project Repository
       uses: actions/checkout@v2
