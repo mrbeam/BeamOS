@@ -299,6 +299,7 @@ pushd /home/pi
     apt-install libxml2 libxslt1.1 libxslt-dev libjpeg9
     # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
     cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+    unpack /filesystem/analytics/root / root # add logrotate for analytics
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
@@ -382,6 +383,7 @@ pushd /home/pi
       cp extras/netconnectd.service /etc/systemd/system/
       cp extras/eth0 /etc/network/interfaces.d/
     popd
+    unpack /filesystem/netconnectd/root / root # add logrotate
     if [ "$BEAMOS_DEV" == "yes" ]; then
       echo 'EXTRA_OPTS="--debug"' >> /etc/default/netconnectd
     else
