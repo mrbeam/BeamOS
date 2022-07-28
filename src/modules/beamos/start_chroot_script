@@ -483,6 +483,7 @@ pushd /home/pi
   else
     # Remove all of the branch: some-branch keys in the config.yaml file
     yq e 'del(.plugins.softwareupdate.checks.*.branch)' -i .octoprint/config.yaml
+    yq e 'del(.plugins.softwareupdate.checks.*.current)' -i .octoprint/config.yaml
   fi
 popd
 
