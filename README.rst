@@ -144,33 +144,29 @@ have been added to the beamos module filesystem as git submodules. Their commit 
 
 These repos are
 
-* `IOBeam <https://github.com/mrbeam/iobeam>`_  handles most IO components
-    * branch: ``mrbeam2-stable``
+* `IOBeam <https://bitbucket.org/mrbeam/iobeam/>`_  handles most IO components
+* `MrB Hardware Info <https://bitbucket.org/mrbeam/mrb_hw_info/>`_ Provides additional readings for IOBeam
 * `Mount Manager <https://github.com/mrbeam/mount_manager>`_ to run signed scripts when plugging in a usb stick
     * branch: ``mrbeam2-stable``
 * `MrB Check <https://github.com/mrbeam/mrb_check>`_ Automated QA control script for the assembly of the MrBeam
     * branch: ``beamos``
-* `MrB Hardware Info <https://github.com/mrbeam/>`_ Provides additional readings for IOBeam
-    * branch: ``mrbeam2-stable``
 
 N.B. These repos are NOT affected by the branch written in the config files for building BeamOS.
 
 Public MrBeam projects included in BeamOS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-All the open source repos are pulled using a specific branch, no need to make an update to this repository.
+All the open source repos are pulled using the latest stable release tag or branch
 
 * `MrBeamPlugin <https://github.com/mrbeam/MrBeamPlugin>`_ The main plugin that drives the lasercutter
-    * branch : ``mrbeam2-stable``
 * `Netconnectd <https://github.com/mrbeam/netconnectd_mrbeam>`_ The networking server that handles wifi and access point modes
-    * branch : ``master``
 * `OctoPrint-Netconnectd <https://github.com/mrbeam/octoprint_netconnectd>`_ The OctoPrint plugin that interfaces with Netconnectd
-    * branch : ``mrbeam2-stable``
+* `Find My MrBeam <https://github.com/mrbeam/OctoPrint-FindMyMrBeam>`_ OctoPrint plugin that sends network discovery data
 * `OctoPrint-Camera <https://github.com/mrbeam/OctoPrint-Camera>`_ A camera plugin used for the QA testing (as of writing this)
     * branch : ``master``
 * `LED strips server <https://github.com/mrbeam/MrBeamLedStrips>`_ state-based LED strip driver
-* `Find My MrBeam <https://github.com/mrbeam/OctoPrint-FindMyMrBeam>`_ OctoPrint plugin that sends network discovery data
 * `Shield flash tool <https://github.com/mrbeam/shield_flasher>`_ updates the microcontroller with our latest GRBL version
+    * branch : ``mrbeam2-stable``
 * `RPI_WS281X <https://github.com/mrbeam/rpi_ws281x>`_ (discontinued) an LED strip driver used with the LED server
     * Uses the latest Python3 package from `the upstream RPI_WS281X <https://github.com/rpi-ws281x/rpi-ws281x-python>`_
 * `MrBeam Docs <https://github.com/mrbeam/MrBeamDoc>`_ The documentation for using your MrBeam - offline
@@ -185,8 +181,8 @@ Every push to this repo will trigger a `GitHub Action <https://github.com/mrbeam
 
 2 images will be built:
 
-* Stable version ``YYYY-MM-DD-beamos-2S.img`` - it should be used when assembling new devices of the ``2S`` variant
-* Develop version ``YYYY-MM-DD-beamos-develop-2S.img`` - Predefined develop account, options and settings;
+* Stable version ``YYYY-MM-DD-beamos-2S-$DIST_VERSION.img`` - it should be used when assembling new devices of the ``2S`` variant
+* Develop version ``YYYY-MM-DD-beamos-develop-2S-$DIST_VERSION.img`` - Predefined develop account, options and settings;
   should be just "plug-n-play" except for the camera calibration
 
 These images are compressed and uploaded to an S3 storage defined in ``build.yml`` and the base64 encoded credentials are provided as a secret. See internal documentation to access these builds.
