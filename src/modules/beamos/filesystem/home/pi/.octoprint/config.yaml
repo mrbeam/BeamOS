@@ -25,3 +25,7 @@ server:
     serverRestartCommand: sudo systemctl restart octoprint.service
     systemRestartCommand: sudo shutdown -r now
     systemShutdownCommand: sudo shutdown -h now
+  onlineCheck:
+    enabled: true
+    host: find.mr-beam.org
+    port: '80'
