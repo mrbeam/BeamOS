@@ -339,10 +339,16 @@ pushd /home/pi
     # iobeam is cloned as a submodule to /filesystem before running the script
     if [ "$BEAMOS_DEV" = "yes" ]; then
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
-      mv /filesystem/repos/mrb_hw_info /filesystem/repos/iobeam sources/
+      gitclone BEAMOS_IOBEAM_REPO iobeam
+      gitclone BEAMOS_MRBHWINFO_REPO mrb_hw_info
+      mv mrb_hw_info iobeam sources/
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install -e sources/mrb_hw_info sources/iobeam
     else
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests /filesystem/repos/mrb_hw_info numpy /filesystem/repos/iobeam
+      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
+      gitclone BEAMOS_IOBEAM_REPO iobeam
+      pip_install_dev_or_rm ./iobeam
+      gitclone BEAMOS_MRBHWINFO_REPO mrb_hw_info
+      pip_install_dev_or_rm ./mrb_hw_info
     fi
 
     # Link the executables to have iobeam(cli) in the $PATH
