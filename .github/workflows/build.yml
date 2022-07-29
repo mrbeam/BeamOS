@@ -86,7 +86,7 @@ jobs:
       uses: shimataro/ssh-key-action@v2
       with:
         key: ${{ secrets.BITBUCKET_ACCESS_KEY }}
-        name: id_rsa-bastion
+        name: id_rsa-bitbucket
         known_hosts: ${{ secrets.BITBUCKET_KNOWN_HOST }}
         config: |
           Host bitbucket.org
