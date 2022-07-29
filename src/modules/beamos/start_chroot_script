@@ -350,9 +350,9 @@ pushd /home/pi
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install -e sources/mrb_hw_info sources/iobeam
     else
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
-      sudo -u pi git clone -b $BEAMOS_MRBEAMIOBEAM_REPO_BRANCH $BEAMOS_IOBEAM_REPO_BUILD iobeam
+      sudo git clone -b $BEAMOS_IOBEAM_REPO_BRANCH $BEAMOS_IOBEAM_REPO_BUILD iobeam
       pip_install_dev_or_rm ./iobeam
-      sudo -u pi git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
+      sudo git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
       pip_install_dev_or_rm ./mrb_hw_info
     fi
 
