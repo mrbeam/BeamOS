@@ -14,7 +14,7 @@ export BASE_PYPI_INDEX="http://datamania.atbo.studio:3141/root/dev/"
 
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
-export OCTOPI_OCTOPRINT_REPO_BRANCH=mrbeam2-stable
+export OCTOPI_OCTOPRINT_REPO_BRANCH=v1.3.6.9
 # export OCTOPI_OCTOPRINT_ARCHIVE=/filesystem/OctoPrint
 export OCTOPI_OCTOPRINT_ARCHIVE=https://github.com/mrbeam/OctoPrint/archive/$OCTOPI_OCTOPRINT_REPO_BRANCH.zip
 

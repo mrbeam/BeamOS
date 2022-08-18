@@ -50,7 +50,7 @@ jobs:
         sudo apt update
         sudo apt install coreutils p7zip-full qemu-user-static
 
-    - name: Configure SSH-Keys
+    - name: Configure SSH-Keys inside image
       env:
         SSH_KEY_MOUNTMANAGER: ${{ secrets.DEPLOY_KEY_MOUNTMANAGER }}
         SSH_KEY_MRBCHECK: ${{ secrets.DEPLOY_KEY_MRBCHECK }}
