@@ -354,6 +354,8 @@ pushd /home/pi
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./iobeam
       sudo git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
       PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./mrb_hw_info
+      rm -rf mrb_hw_info
+      rm -rf iobeam
     fi
 
     # Link the executables to have iobeam(cli) in the $PATH
