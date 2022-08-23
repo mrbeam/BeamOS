@@ -1,7 +1,7 @@
 #!/bin/sh
 # variant mrbeam, flavor default: override hostname & custom config setting
 export DIST_NAME=BeamOS
-export DIST_VERSION=0.19.0
+export DIST_VERSION=0.19.0dev0
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
 export BASE_IMAGE_ENLARGEROOT=1700
 
@@ -14,7 +14,7 @@ export BASE_PYPI_INDEX="http://datamania.atbo.studio:3141/root/dev/"
 
 export OCTOPI_OCTOPRINT_REPO_BUILD=https://github.com/mrbeam/OctoPrint.git
 export OCTOPI_OCTOPRINT_REPO_SHIP=https://github.com/mrbeam/OctoPrint.git
-export OCTOPI_OCTOPRINT_REPO_BRANCH=v1.3.6.9
+export OCTOPI_OCTOPRINT_REPO_BRANCH=feature/SW-1030-octoprint-upgrade-to-latest-v-1-x
 # export OCTOPI_OCTOPRINT_ARCHIVE=/filesystem/OctoPrint
 export OCTOPI_OCTOPRINT_ARCHIVE=https://github.com/mrbeam/OctoPrint/archive/$OCTOPI_OCTOPRINT_REPO_BRANCH.zip
 
