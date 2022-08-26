@@ -33,6 +33,7 @@ else
   PYTHON=python3
 fi
 
+apt-get install software-properties-common
 add-apt-repository ppa:deadsnakes/ppa
 apt-get update
 apt-get -y --force-yes install python3.10 python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
