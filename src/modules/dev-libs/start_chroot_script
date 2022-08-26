@@ -13,7 +13,7 @@ then
     cp /etc/apt/sources.list /etc/apt/sources.list.backup
     sed -i "s@http://raspbian.raspberrypi.org/raspbian/@$DEV_LIBS_APTMIRROR@g" /etc/apt/sources.list
 fi
-apt-get -y install software-properties-common
-add-apt-repository ppa:deadsnakes/ppa
-apt-get update
+#apt-get -y install software-properties-common
+#add-apt-repository ppa:deadsnakes/ppa
+#apt-get update
 apt-get install -y $(echo $DEV_LIBS_BASE $DEV_LIBS_EXTRA)
