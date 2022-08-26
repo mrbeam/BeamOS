@@ -61,7 +61,7 @@ jobs:
         echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
         echo "$SSH_KEY_MOUNTMANAGER" > ~/.ssh/mountmanager.key
         echo "$SSH_KEY_MRBCHECK" > ~/.ssh/mrbcheck.key
-        echo "SSH_KEY_MRB3_CORE_PLUGIN" > ~/.ssh/mrb3-core-plugin.key
+        echo "$SSH_KEY_MRB3_CORE_PLUGIN" > ~/.ssh/mrb3-core-plugin.key
         chmod 600 ~/.ssh/bitbucket.key
         chmod 600 ~/.ssh/mountmanager.key
         chmod 600 ~/.ssh/mrbcheck.key
@@ -126,6 +126,7 @@ jobs:
         sudo modprobe loop
         cd repository/src
         echo "export EXTRA_SSH_KEY='${{ secrets.SSH_BEAMOS01_RSA }}'" >> config
+        echo "export SSH_KEY_MRB3_CORE_PLUGIN='${{ secrets.DEPLOY_KEY_MRB3_CORE_PLUGIN }}'" >> config
         sudo bash -x ./build_dist $VARIANT ${{ matrix.flavor }}
 
     - name: Copy output
