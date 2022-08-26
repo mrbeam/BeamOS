@@ -206,7 +206,7 @@ mv ./micro /usr/bin/
 # Install a toml cli tool and neofetch presentation script
 # Can be used to edit / query /etc/mrbeam `crudini --get /etc/mrbeam "" hostname`
 apt-install python3-pip neofetch
-python3 -m pip install crudini
+python3.10 -m pip install crudini
 
 mkdir -p /root/.ssh
 # Add ssh creds to prevent errors when pulling from bitbucket
@@ -236,7 +236,7 @@ pushd /home/pi
     # Create a python2 venv because python2-pip might not be an available package
     BEAMOS_CHECK_VENV=/usr/local/mrb_check/venv
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
-    python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
+    python3.10 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
     # OctoPrint has no need to update mrb_check -> No need to add to config.yaml
     PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
 
@@ -329,7 +329,7 @@ pushd /home/pi
     # Create a python2 venv because python2-pip might not be an available package
     BEAMOS_IOBEAM_VENV=/usr/local/iobeam/venv
     mkdir -p $(dirname $BEAMOS_IOBEAM_VENV)
-    python3 -m virtualenv -p python3.10 $BEAMOS_IOBEAM_VENV
+    python3.10 -m virtualenv -p python3.10 $BEAMOS_IOBEAM_VENV
     # change pip commands to match the new virtualenv
     # Do this BEFORE INSTALLING as - in the develop version,
     # it will move the source folder, in which case we couldn't access it.

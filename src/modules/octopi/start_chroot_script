@@ -45,7 +45,7 @@ apt-get install --reinstall iputils-ping
 pushd /home/"${BASE_USER}"
 
   # build virtualenv
-  sudo -u "${BASE_USER}" python3 -m virtualenv --python=$PYTHON oprint
+  sudo -u "${BASE_USER}" python3.10 -m virtualenv --python=$PYTHON oprint
   sudo -u "${BASE_USER}" /home/"${BASE_USER}"/oprint/bin/pip install --upgrade pip
 
   # OctoPrint
