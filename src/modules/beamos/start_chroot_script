@@ -329,7 +329,7 @@ pushd /home/pi
     # Create a python2 venv because python2-pip might not be an available package
     BEAMOS_IOBEAM_VENV=/usr/local/iobeam/venv
     mkdir -p $(dirname $BEAMOS_IOBEAM_VENV)
-    python3 -m virtualenv -p python3 $BEAMOS_IOBEAM_VENV
+    python3 -m virtualenv -p python3.10 $BEAMOS_IOBEAM_VENV
     # change pip commands to match the new virtualenv
     # Do this BEFORE INSTALLING as - in the develop version,
     # it will move the source folder, in which case we couldn't access it.
