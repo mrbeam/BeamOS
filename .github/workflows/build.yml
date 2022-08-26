@@ -87,7 +87,7 @@ jobs:
           IdentityFile ~/.ssh/mrb3-core-plugin.key
         END
         
-        mkdir -p /home/pi/.ssh/
+        sudo mkdir -p /home/pi/.ssh/
         echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin.key
         chmod 600 /home/pi/.ssh/mrb3-core-plugin.key
         
