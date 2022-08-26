@@ -61,11 +61,10 @@ jobs:
         echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
         echo "$SSH_KEY_MOUNTMANAGER" > ~/.ssh/mountmanager.key
         echo "$SSH_KEY_MRBCHECK" > ~/.ssh/mrbcheck.key
-        echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin.key
+       
         chmod 600 ~/.ssh/bitbucket.key
         chmod 600 ~/.ssh/mountmanager.key
         chmod 600 ~/.ssh/mrbcheck.key
-        chmod 600 /home/pi/.ssh/mrb3-core-plugin.key
 
         touch ~/.ssh/known_hosts
         ssh-keygen -R bitbucket.org
@@ -87,6 +86,11 @@ jobs:
           HostName github.com
           IdentityFile ~/.ssh/mrb3-core-plugin.key
         END
+        
+        mkdir -p /home/pi/.ssh/
+        echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin.key
+        chmod 600 /home/pi/.ssh/mrb3-core-plugin.key
+        
 
     - name: Checkout CustomPiOS
       uses: actions/checkout@v2
