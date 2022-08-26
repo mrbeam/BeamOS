@@ -224,11 +224,6 @@ if [ -n "$EXTRA_SSH_KEY" ]; then
   chmod 0600 /root/.ssh/id_rsa
 fi
 
-if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
-  echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /root/.ssh/mrb3-core-plugin
-  chmod 0600 /root/.ssh/mrb3-core-plugin
-fi
-
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   sudo -u pi mkdir -p .local/bin
