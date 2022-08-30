@@ -90,6 +90,7 @@ jobs:
         sudo mkdir -p /home/pi/.ssh/
         echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin.key
         chmod 600 /home/pi/.ssh/mrb3-core-plugin.key
+        ssh-keyscan -H github.com >> /home/pi/.ssh/known_hosts
         
 
     - name: Checkout CustomPiOS
