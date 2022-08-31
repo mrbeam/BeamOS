@@ -82,14 +82,12 @@ jobs:
         Host github.com-mrb_check
           HostName github.com
           IdentityFile ~/.ssh/mrbcheck.key
-        Host github.com-mrb3-core-plugin
-          HostName github.com
-          IdentityFile ~/.ssh/mrb3-core-plugin.key
         END
         
         sudo mkdir -p /home/pi/.ssh/
         echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin.key
         chmod 600 /home/pi/.ssh/mrb3-core-plugin.key
+        touch /home/pi/.ssh/known_hosts
         ssh-keyscan -t rsa github.com >> /home/pi/.ssh/known_hosts
         
         
