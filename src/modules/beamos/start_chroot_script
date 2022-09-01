@@ -224,6 +224,13 @@ if [ -n "$EXTRA_SSH_KEY" ]; then
   chmod 0600 /root/.ssh/id_rsa
 fi
 
+if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
+  # EXTRA_SSH_KEY is not written in any config for security reasons.
+  # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
+  echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /root/.ssh/id_rsa
+  chmod 0600 /root/.ssh/id_rsa
+fi
+
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   sudo -u pi mkdir -p .local/bin
