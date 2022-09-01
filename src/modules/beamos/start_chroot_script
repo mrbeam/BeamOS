@@ -228,8 +228,8 @@ fi
 if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
   # EXTRA_SSH_KEY is not written in any config for security reasons.
   # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
-  echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /root/.ssh/id_rsa
-  chmod 0600 /root/.ssh/id_rsa
+  echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-core-plugin
 fi
 
 pushd /home/pi
