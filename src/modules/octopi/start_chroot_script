@@ -34,6 +34,48 @@ else
 fi
 apt-get -y --force-yes install python3 python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
 
+#apt-get -y install software-properties-common
+#add-apt-repository ppa:deadsnakes/ppa
+#apt-get update
+#apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+PYTHON3_VERSION=3.10.6
+file="Python-${PYTHON3_VERSION}.tar.xz"
+url="https://www.python.org/ftp/python/${PYTHON3_VERSION}/${file}"
+apt-get -y install python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
+#wget -qO - https://raw.githubusercontent.com/tvdsluijs/sh-python-installer/main/python.sh | sudo bash -s 3.10.0
+echo "Updating & upgrading system"
+apt -qq update && apt --yes --force-yes upgrade < /dev/null
+echo "Installing Python essentials"
+apt -qq install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev < /dev/null
+echo "Downloading Python $PYTHON3_VERSION"
+wget "${url}"
+echo "Decompressing file"
+tar -Jxf "${file}" < /dev/null
+cd "Python-${PYTHON3_VERSION}"
+echo "Prepare the source for the installation"
+./configure --enable-optimizations
+echo "(Install the new Python version $PYTHON3_VERSION)"
+sudo make altinstall
+echo "Let's cleanup!"
+cd ..
+rm -rf "Python-${PYTHON3_VERSION}"
+rm -r "${file}"
+
+echo "Let's install PIP"
+apt -qq install -y python3-pip < /dev/null
+
+#echo "updating pip..."
+#python"${py_main_version}" -m pip install --upgrade pip
+
+new_python_version=$(python -c 'import platform; print(platform.python_version())')
+echo "new python version $new_python_version"
+
+new_python_version=$(python3 -c 'import platform; print(platform.python_version())')
+echo "new python version3 $new_python_version"
+
+new_python_version=$(python3.10 -c 'import platform; print(platform.python_version())')
+echo "new python version3.10 $new_python_version"
+
 echo " - Reinstall iputils-ping"
 apt-get install --reinstall iputils-ping
 
