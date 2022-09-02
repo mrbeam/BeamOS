@@ -54,8 +54,7 @@ echo "(Install the new Python version 3.10)"
 sudo make altinstall
 echo "Let's cleanup!"
 cd ..
-rm -rf "Python-$new_version"
-rm -r "${file}"
+rm -rf "Python-3.10.0"
 
 echo "Let's install PIP"
 apt -qq install -y python3-pip < /dev/null
