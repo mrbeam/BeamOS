@@ -37,24 +37,28 @@ fi
 #add-apt-repository ppa:deadsnakes/ppa
 #apt-get update
 #apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
+PYTHON3_VERSION=python3.10.6
+file="Python-${PYTHON3_VERSION}.tar.xz"
+url="https://www.python.org/ftp/python/${PYTHON3_VERSION}/${file}"
 apt-get -y install python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
 #wget -qO - https://raw.githubusercontent.com/tvdsluijs/sh-python-installer/main/python.sh | sudo bash -s 3.10.0
 echo "Updating & upgrading system"
 apt -qq update && apt --yes --force-yes upgrade < /dev/null
 echo "Installing Python essentials"
 apt -qq install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev < /dev/null
-echo "Downloading Python 3.10"
-wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz
+echo "Downloading Python $PYTHON3_VERSION"
+wget "${url}"
 echo "Decompressing file"
-tar -zxvf Python-3.10.0.tgz
-cd Python-3.10.0
+tar -Jxf "${file}" < /dev/null
+cd "Python-${$PYTHON3_VERSION}"
 echo "Prepare the source for the installation"
 ./configure --enable-optimizations
-echo "(Install the new Python version 3.10)"
+echo "(Install the new Python version $PYTHON3_VERSION)"
 sudo make altinstall
 echo "Let's cleanup!"
 cd ..
-rm -rf "Python-3.10.0"
+rm -rf "Python-${PYTHON3_VERSION}"
+rm -r "${file}"
 
 echo "Let's install PIP"
 apt -qq install -y python3-pip < /dev/null
@@ -77,7 +81,7 @@ apt-get install --reinstall iputils-ping
 pushd /home/"${BASE_USER}"
 
   # build virtualenv
-  sudo -u "${BASE_USER}" python3.10 -m virtualenv --python=$PYTHON oprint
+  sudo -u "${BASE_USER}" python3 -m virtualenv --python=$PYTHON oprint
   sudo -u "${BASE_USER}" /home/"${BASE_USER}"/oprint/bin/pip install --upgrade pip
 
   # OctoPrint
