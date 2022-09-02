@@ -236,7 +236,7 @@ pushd /home/pi
     # Create a python2 venv because python2-pip might not be an available package
     BEAMOS_CHECK_VENV=/usr/local/mrb_check/venv
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
-    python3.10 -m venv $BEAMOS_CHECK_VENV
+    python -m venv $BEAMOS_CHECK_VENV
     # OctoPrint has no need to update mrb_check -> No need to add to config.yaml
     PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
 
