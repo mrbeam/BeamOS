@@ -33,7 +33,7 @@ jobs:
         then
           flavors='{"flavor":"alpha 2R"}'
         else
-          flavors='{"flavor":"mrb3"}'
+          flavors='{"flavor":"mrb3 oprint173"}'
         fi
         echo "::set-output name=matrix::{\"include\":[$flavors]}"
 
@@ -50,7 +50,7 @@ jobs:
         sudo apt update
         sudo apt install coreutils p7zip-full qemu-user-static
 
-    - name: Configure SSH-Keys inside image
+    - name: Configure SSH-Keys for pipeline
       env:
         SSH_KEY_MOUNTMANAGER: ${{ secrets.DEPLOY_KEY_MOUNTMANAGER }}
         SSH_KEY_MRBCHECK: ${{ secrets.DEPLOY_KEY_MRBCHECK }}
@@ -60,6 +60,7 @@ jobs:
         echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
         echo "$SSH_KEY_MOUNTMANAGER" > ~/.ssh/mountmanager.key
         echo "$SSH_KEY_MRBCHECK" > ~/.ssh/mrbcheck.key
+       
         chmod 600 ~/.ssh/bitbucket.key
         chmod 600 ~/.ssh/mountmanager.key
         chmod 600 ~/.ssh/mrbcheck.key
@@ -120,6 +121,7 @@ jobs:
         sudo modprobe loop
         cd repository/src
         echo "export EXTRA_SSH_KEY='${{ secrets.SSH_BEAMOS01_RSA }}'" >> config
+        echo "export SSH_KEY_MRB3_CORE_PLUGIN='${{ secrets.DEPLOY_KEY_MRB3_CORE_PLUGIN }}'" >> config
         sudo bash -x ./build_dist $VARIANT ${{ matrix.flavor }}
 
     - name: Copy output

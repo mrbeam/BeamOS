@@ -214,6 +214,7 @@ ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
 
 mkdir -p /home/pi/.ssh
 ssh-keyscan -t rsa bitbucket.org >> /home/pi/.ssh/known_hosts
+ssh-keyscan -t rsa github.com >> /home/pi/.ssh/known_hosts
 chown 1000:1000 /home/pi/.ssh/known_hosts
 
 # Enable ssh identification for private packages in bitbucket.org
@@ -222,6 +223,14 @@ if [ -n "$EXTRA_SSH_KEY" ]; then
   # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
   echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
   chmod 0600 /root/.ssh/id_rsa
+fi
+
+if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
+  # EXTRA_SSH_KEY is not written in any config for security reasons.
+  # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
+  echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-core-plugin
+  chown pi:pi /home/pi/.ssh/mrb3-core-plugin
 fi
 
 pushd /home/pi
@@ -308,7 +317,7 @@ pushd /home/pi
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
-    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
+#    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
     rm /proc/cpuinfo
 
     # Install MrBeamDocs
