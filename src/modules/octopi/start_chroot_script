@@ -59,8 +59,8 @@ rm -rf "Python-3.10.0"
 echo "Let's install PIP"
 apt -qq install -y python3-pip < /dev/null
 
-echo "updating pip..."
-python"${py_main_version}" -m pip install --upgrade pip
+#echo "updating pip..."
+#python"${py_main_version}" -m pip install --upgrade pip
 
 new_python_version=$(python -c 'import platform; print(platform.python_version())')
 echo "new python version $new_python_version"
