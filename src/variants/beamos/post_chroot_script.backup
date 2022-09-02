@@ -58,14 +58,14 @@ sudo -u pi /home/pi/oprint/bin/pip install --no-index --find-links=/wheels/ pill
 sudo rm -rf /wheels
 
 # install Mr Beam Plugin
-pushd /home/pi
-  gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
-  pushd MrBeamPlugin
-    addGitHashToConfig "mrbeamhash"
-    sudo -u pi /home/pi/oprint/bin/pip install .
-  popd
-  rm -rf MrBeamPlugin
-popd
+#pushd /home/pi
+#  gitclone OCTOPI_MRBEAMPLUGIN_REPO MrBeamPlugin
+#  pushd MrBeamPlugin
+#    addGitHashToConfig "mrbeamhash"
+#    sudo -u pi /home/pi/oprint/bin/pip install .
+#  popd
+#  rm -rf MrBeamPlugin
+#popd
 
 # install netconnectd
 sudo systemctl disable hostapd.service
