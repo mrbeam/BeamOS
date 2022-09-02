@@ -1,0 +1,28 @@
+#!/bin/sh
+export BEAMOS_DEV=yes
+export BEAMOS_DEVICE_MODEL="mrb3"
+export BEAMOS_MODEL="MRBEAM2_DC_S"
+
+
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=v0.11.0
+export BEAMOS_CAMERA_REPO_BRANCH=mrbeam2-stable
+export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=v0.4.0
+export BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH=v0.2.0
+## Dependencies
+export BEAMOS_IOBEAM_REPO_BRANCH=feature/SW-1522-iobeam-to-python-3.10.x-in-githu
+export BEAMOS_MRBHWINFO_REPO_BRANCH=SW-1677
+export BEAMOS_MRBEAMLED_REPO_BRANCH=SW-1677
+export BEAMOS_NETCONNECTD_REPO_BRANCH=v1.0.0
+export BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH=v1.0.0
+## BeamOS-dependencies
+export BEAMOS_MOUNTMANAGER_REPO_BRANCH=mrbeam2-stable
+export BEAMOS_SHIELDFLASHER_REPO_BRANCH=master
+export BEAMOS_RPI_WS281X_REPO_BRANCH=master
+export BEAMOS_CHECK_REPO_BRANCH=beamos
+export BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master
+
+export BEAMOS_MRBEAMPLUGIN_REPO_BUILD=https://github.com/mrbeam/MrBeamPlugin.git
+export BEAMOS_IOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
+export BEAMOS_MRBHWINFO_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/mrb_hw_info.git
+export BEAMOS_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
+export BEAMOS_NETCONNECTD_REPO_BUILD=https://github.com/mrbeam/netconnectd_mrbeam.git
