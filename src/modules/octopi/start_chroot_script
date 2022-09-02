@@ -50,7 +50,7 @@ echo "Downloading Python $PYTHON3_VERSION"
 wget "${url}"
 echo "Decompressing file"
 tar -Jxf "${file}" < /dev/null
-cd "Python-${$PYTHON3_VERSION}"
+cd "Python-${PYTHON3_VERSION}"
 echo "Prepare the source for the installation"
 ./configure --enable-optimizations
 echo "(Install the new Python version $PYTHON3_VERSION)"
