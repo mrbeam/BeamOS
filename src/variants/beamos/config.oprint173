@@ -4,5 +4,5 @@ export DIST_VERSION=0.19.0dev1
 
 export BEAMOS_MRBEAMPLUGIN_ARCHIVE=https://github.com/mrbeam/mrb3-core-plugin/archive/$BEAMOS_MRBEAMPLUGIN_REPO_BRANCH.zip
 export BEAMOS_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/mrb3-core-plugin.git
-export BEAMOS_MRBEAMPLUGIN_REPO_BUILD=git@github.com:mrbeam/mrb3-core-plugin.git
+export BEAMOS_MRBEAMPLUGIN_REPO_BUILD=git@github.com-mrb3-core-plugin:mrbeam/mrb3-core-plugin.git
 export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=epic/SW-1030-octoprint-upgrade-to-latest-v-1-x
