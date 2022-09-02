@@ -81,8 +81,7 @@ jobs:
         Host github.com-mrb_check
           HostName github.com
           IdentityFile ~/.ssh/mrbcheck.key
-        END      
-        
+        END
 
     - name: Checkout CustomPiOS
       uses: actions/checkout@v2
