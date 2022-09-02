@@ -38,7 +38,36 @@ fi
 #apt-get update
 #apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
 #apt-get -y install python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
-wget -qO - https://raw.githubusercontent.com/tvdsluijs/sh-python-installer/main/python.sh | sudo bash -s 3.10.0
+#wget -qO - https://raw.githubusercontent.com/tvdsluijs/sh-python-installer/main/python.sh | sudo bash -s 3.10.0
+echo "Updating & upgrading system"
+apt -qq update && apt --yes --force-yes upgrade < /dev/null
+echo "Installing Python essentials"
+apt -qq install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev wget libbz2-dev < /dev/null
+echo "Downloading Python 3.10"
+wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tgz
+echo "Decompressing file"
+tar -zxvf Python-3.10.0.tgz
+cd Python-3.10.0
+echo "Prepare the source for the installation"
+./configure --enable-optimizations
+echo "(Install the new Python version 3.10)"
+sudo make altinstall
+echo "Let's cleanup!"
+cd ..
+rm -rf "Python-$new_version"
+rm -r "${file}"
+
+echo "Let's install PIP"
+apt -qq install -y python3-pip < /dev/null
+
+echo "updating pip..."
+python"${py_main_version}" -m pip install --upgrade pip
+
+new_python_version=$(python -c 'import platform; print(platform.python_version())')
+echo "new python version $new_python_version"
+
+new_python_version=$(python3.10 -c 'import platform; print(platform.python_version())')
+echo "new python version2 $new_python_version"
 
 echo " - Reinstall iputils-ping"
 apt-get install --reinstall iputils-ping
