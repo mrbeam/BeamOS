@@ -37,7 +37,7 @@ fi
 #add-apt-repository ppa:deadsnakes/ppa
 #apt-get update
 #apt install -y build-essential zlib1g-dev libncurses5-dev libgdbm-dev libnss3-dev libssl-dev libreadline-dev libffi-dev wget
-#apt-get -y install python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
+apt-get -y install python3-virtualenv git screen subversion cmake avahi-daemon libavahi-compat-libdnssd1 libatlas3-base
 #wget -qO - https://raw.githubusercontent.com/tvdsluijs/sh-python-installer/main/python.sh | sudo bash -s 3.10.0
 echo "Updating & upgrading system"
 apt -qq update && apt --yes --force-yes upgrade < /dev/null
@@ -65,8 +65,11 @@ apt -qq install -y python3-pip < /dev/null
 new_python_version=$(python -c 'import platform; print(platform.python_version())')
 echo "new python version $new_python_version"
 
+new_python_version=$(python3 -c 'import platform; print(platform.python_version())')
+echo "new python version3 $new_python_version"
+
 new_python_version=$(python3.10 -c 'import platform; print(platform.python_version())')
-echo "new python version2 $new_python_version"
+echo "new python version3.10 $new_python_version"
 
 echo " - Reinstall iputils-ping"
 apt-get install --reinstall iputils-ping
