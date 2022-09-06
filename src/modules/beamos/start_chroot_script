@@ -221,8 +221,8 @@ chown 1000:1000 /home/pi/.ssh/known_hosts
 if [ -n "$EXTRA_SSH_KEY" ]; then
   # EXTRA_SSH_KEY is not written in any config for security reasons.
   # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
-  echo "$EXTRA_SSH_KEY" > /root/.ssh/bitbucket
-  chmod 0600 /root/.ssh/bitbucket
+  echo "$EXTRA_SSH_KEY" > /root/.ssh/id_rsa
+  chmod 0600 /root/.ssh/id_rsa
 fi
 
 if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
