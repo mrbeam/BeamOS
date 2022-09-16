@@ -56,6 +56,8 @@ echo "Prepare the source for the installation"
 ./configure --enable-optimizations
 echo "(Install the new Python version $PYTHON3_VERSION)"
 sudo make altinstall
+#echo "Let's try to create package"
+#sudo cpack
 echo "Let's cleanup!"
 cd ..
 rm -rf "Python-${PYTHON3_VERSION}"
@@ -82,8 +84,10 @@ apt-get install --reinstall iputils-ping
 pushd /home/"${BASE_USER}"
 
   # build virtualenv
-  sudo -u "${BASE_USER}" python3 -m virtualenv --python=$PYTHON oprint
+#  sudo -u "${BASE_USER}" python3 -m virtualenv --python=$PYTHON oprint
+  sudo -u "${BASE_USER}" python3.10 -m venv oprint
   sudo -u "${BASE_USER}" /home/"${BASE_USER}"/oprint/bin/pip install --upgrade pip
+  sudo -u "${BASE_USER}" /home/"${BASE_USER}"/oprint/bin/pip install wheel
 
   # OctoPrint
   if [ "$OCTOPI_INCLUDE_OCTOPRINT" == "yes" ]

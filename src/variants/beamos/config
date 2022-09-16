@@ -3,7 +3,7 @@
 export DIST_NAME=BeamOS
 export DIST_VERSION=0.19.0dev0
 export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
-export BASE_IMAGE_ENLARGEROOT=1700
+export BASE_IMAGE_ENLARGEROOT=2000
 
 export BEAMOS_DEV=no
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"

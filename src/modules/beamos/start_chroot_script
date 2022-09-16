@@ -67,7 +67,7 @@ add_mrb3() {
 OPRINT=/home/pi/oprint/bin
 
 pip_install() {
-  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip --disable-pip-version-check install $@
+  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip3 --disable-pip-version-check install $@
 }
 
 pip_install_dev_or_rm() {
@@ -238,7 +238,7 @@ pushd /home/pi
   sudo -u pi mkdir -p .local/bin
   sudo -u pi ln -s /home/pi/oprint/bin/octoprint .local/bin/
   # Add symlink to preserve legacy compatibility for mrbtools
-  sudo -u pi ln -s oprint/lib/python2.7/site-packages
+  #  sudo -u pi ln -s oprint/lib/python2.7/site-packages
 
   if [ "$BEAMOS_INCLUDE_CHECK" = "yes" ]
   then
@@ -262,6 +262,7 @@ pushd /home/pi
       # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
       cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
       gitclone BEAMOS_CAMERA_REPO OctoPrint-Camera
+      pip_install numpy==1.23.3
       pip_install_dev_or_rm ./OctoPrint-Camera
       set_plugin_update_conf_remote camera $BEAMOS_CAMERA_REPO_SHIP $BEAMOS_CAMERA_REPO_BRANCH
       rm /proc/cpuinfo
@@ -288,8 +289,14 @@ pushd /home/pi
       echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
       # Following the pyimagesearch tutorial
       # https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/
-      DEV_LIBS_OPENCV="libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev"
+#      DEV_LIBS_OPENCV="libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev"
+      DEV_LIBS_OPENCV="cmake gcc g++ python3-dev python3-numpy libavcodec-dev libavformat-dev libswscale-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgtk-3-dev"
       apt-install $DEV_LIBS_OPENCV libhdf5-103
+
+      cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+      pip_install opencv-python-headless
+      rm /proc/cpuinfo
+
       # TODO finish up
       sudo apt -y remove $DEV_LIBS_OPENCV # save space
 
@@ -300,14 +307,14 @@ pushd /home/pi
       echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
       # After this operation, 1085 MB of additional disk space will be used.
 #      apt-install python-opencv
+      sudo apt-get -y install python3-opencv
       # link the global library to the oprint environment
-#      ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so
+      ln -s /usr/lib/python3.10/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python3.10/cv2.so
       # Headless install (which fails)
       # PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
       # Install the opencv wheel available for raspberry (also fails)
       # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
 
-      pip_install opencv-python
     fi
     echo "--- Installing MrBeamPlugin"
     # Library dependencies for lxml and PIL
@@ -353,18 +360,13 @@ pushd /home/pi
     # numpy and mrb_hw_info AND requests are not listed as a dependency in iobeam or mrb_hw_info, install them manually before iobeam
     # They are installed on the root level because they use root files from time to time. See iobeam#69 (nice)
     # iobeam is cloned as a submodule to /filesystem before running the script
-    if [ "$BEAMOS_DEV" = "yes" ]; then
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
-      gitclone BEAMOS_IOBEAM_REPO iobeam
-      gitclone BEAMOS_MRBHWINFO_REPO mrb_hw_info
-      mv mrb_hw_info iobeam sources/
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install -e sources/mrb_hw_info sources/iobeam
-    else
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
-      sudo git clone -b $BEAMOS_IOBEAM_REPO_BRANCH $BEAMOS_IOBEAM_REPO_BUILD iobeam
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./iobeam
-      sudo git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./mrb_hw_info
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
+    sudo git clone -b $BEAMOS_IOBEAM_REPO_BRANCH $BEAMOS_IOBEAM_REPO_BUILD iobeam
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./iobeam
+    sudo git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./mrb_hw_info
+
+    if [ "$BEAMOS_DEV" != "yes" ]; then
       rm -rf mrb_hw_info
       rm -rf iobeam
     fi
