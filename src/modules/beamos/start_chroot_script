@@ -309,7 +309,7 @@ pushd /home/pi
 #      apt-install python-opencv
       sudo apt-get -y install python3-opencv
       # link the global library to the oprint environment
-      ln -s /usr/lib/python3.10/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python3.10/cv2.so
+      ln -s /usr/lib/python3/dist-packages/cv2.cpython-37m-arm-linux-gnueabihf.so /home/pi/oprint/lib/python3.10/site-packages/cv2.so
       # Headless install (which fails)
       # PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
       # Install the opencv wheel available for raspberry (also fails)

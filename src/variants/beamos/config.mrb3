@@ -6,7 +6,7 @@ export BEAMOS_MODEL="MRBEAM2_DC_S"
 export BEAMOS_MRBEAMPLUGIN_ARCHIVE=https://github.com/mrbeam/mrb3-core-plugin/archive/$BEAMOS_MRBEAMPLUGIN_REPO_BRANCH.zip
 export BEAMOS_MRBEAMPLUGIN_REPO_SHIP=https://github.com/mrbeam/mrb3-core-plugin.git
 export BEAMOS_MRBEAMPLUGIN_REPO_BUILD=git@github.com-mrb3-core-plugin:mrbeam/mrb3-core-plugin.git
-export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=epic/SW-1030-octoprint-upgrade-to-latest-v-1-x
+export BEAMOS_MRBEAMPLUGIN_REPO_BRANCH=alpha
 
 export BEAMOS_CAMERA_REPO_BRANCH=mrbeam2-stable
 export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=v0.4.0
