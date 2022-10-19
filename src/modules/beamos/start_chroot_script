@@ -226,11 +226,35 @@ if [ -n "$EXTRA_SSH_KEY" ]; then
 fi
 
 if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
-  # EXTRA_SSH_KEY is not written in any config for security reasons.
-  # Use it when invoking BeamOS : `EXTRA_SSH_KEY="some_key" ./build_dist mrbeam`
   echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin
   chmod 0600 /home/pi/.ssh/mrb3-core-plugin
   chown pi:pi /home/pi/.ssh/mrb3-core-plugin
+fi
+
+if [ -n "$SSH_KEY_MRB3_FINDME_PLUGIN" ]; then
+  echo "$SSH_KEY_MRB3_FINDME_PLUGIN" > /home/pi/.ssh/mrb3-findMe-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-findMe-plugin
+  chown pi:pi /home/pi/.ssh/mrb3-findMe-plugin
+fi
+if [ -n "$SSH_KEY_MRB3_CONNECT_PLUGIN" ]; then
+  echo "$SSH_KEY_MRB3_CONNECT_PLUGIN" > /home/pi/.ssh/mrb3-connect-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-connect-plugin
+  chown pi:pi /home/pi/.ssh/mrb3-connect-plugin
+fi
+if [ -n "$SSH_KEY_MRB3_CONNECT_DAEMON" ]; then
+  echo "$SSH_KEY_MRB3_CONNECT_DAEMON" > /home/pi/.ssh/mrb3-connect-daemon
+  chmod 0600 /home/pi/.ssh/mrb3-connect-daemon
+  chown pi:pi /home/pi/.ssh/mrb3-connect-daemon
+fi
+if [ -n "$SSH_KEY_MRB3_DOC" ]; then
+  echo "$SSH_KEY_MRB3_DOC" > /home/pi/.ssh/mrb3-doc
+  chmod 0600 /home/pi/.ssh/mrb3-doc
+  chown pi:pi /home/pi/.ssh/mrb3-doc
+fi
+if [ -n "$SSH_KEY_MRB3_HAL" ]; then
+  echo "$SSH_KEY_MRB3_HAL" > /home/pi/.ssh/mrb3-hal
+  chmod 0600 /home/pi/.ssh/mrb3-hal
+  chown pi:pi /home/pi/.ssh/mrb3-hal
 fi
 
 pushd /home/pi

@@ -122,6 +122,11 @@ jobs:
         cd repository/src
         echo "export EXTRA_SSH_KEY='${{ secrets.SSH_BEAMOS01_RSA }}'" >> config
         echo "export SSH_KEY_MRB3_CORE_PLUGIN='${{ secrets.DEPLOY_KEY_MRB3_CORE_PLUGIN }}'" >> config
+        echo "export SSH_KEY_MRB3_FINDME_PLUGIN='${{ secrets.DEPLOY_KEY_MRB3_FINDME_PLUGIN }}'" >> config
+        echo "export SSH_KEY_MRB3_CONNECT_PLUGIN='${{ secrets.DEPLOY_KEY_MRB3_CONNECT_PLUGIN }}'" >> config
+        echo "export SSH_KEY_MRB3_CONNECT_DAEMON='${{ secrets.DEPLOY_KEY_MRB3_CONNECT_DAEMON }}'" >> config
+        echo "export SSH_KEY_MRB3_DOC='${{ secrets.DEPLOY_KEY_MRB3_DOC }}'" >> config
+        echo "export SSH_KEY_MRB3_HAL='${{ secrets.DEPLOY_KEY_MRB3_HAL }}'" >> config
         sudo bash -x ./build_dist $VARIANT ${{ matrix.flavor }}
 
     - name: Copy output
