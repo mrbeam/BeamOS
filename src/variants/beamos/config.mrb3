@@ -23,7 +23,7 @@ export BEAMOS_MRBEAMLED_REPO_BUILD=https://github.com/mrbeam/MrBeamLedStrips.git
 export BEAMOS_NETCONNECTD_REPO_BRANCH=alpha
 export BEAMOS_NETCONNECTD_REPO_BUILD=git@github.com-mrb3-connect-daemon:mrbeam/mrb3-connect-daemon.git
 export BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BRANCH=alpha
-export BEAMOS_NETCONNECTD_REPO_BUILD=git@github.com-mrb3-doc:mrbeam/mrb3-doc.git
+export BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BUILD=git@github.com-mrb3-doc:mrbeam/mrb3-doc.git
 ## BeamOS-dependencies
 export BEAMOS_MOUNTMANAGER_REPO_BRANCH=mrbeam2-stable
 export BEAMOS_SHIELDFLASHER_REPO_BRANCH=master
