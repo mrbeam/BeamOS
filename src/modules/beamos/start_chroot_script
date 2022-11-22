@@ -58,16 +58,16 @@ enable_hw_serial() {
 add_mrb3() {
   echo "--- Installing Python3"
   # additional python3 packages (uncomment when needed +20sec)
-  apt-get -y install python3 python3-venv python3-dev
+  apt-get -y install python3.10 python3.10-venv python3.10-dev
   # create mrb virtual environments
   # TODO create mrb2 and mrb3 (python 2 and 3 versions)
-  sudo -u pi python3.7 -m venv /home/pi/mrb3
+  sudo -u pi python3.10 -m venv /home/pi/mrb3
 }
 
 OPRINT=/home/pi/oprint/bin
 
 pip_install() {
-  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip --disable-pip-version-check install $@
+  PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip3 --disable-pip-version-check install $@
 }
 
 pip_install_dev_or_rm() {
@@ -206,7 +206,7 @@ mv ./micro /usr/bin/
 # Install a toml cli tool and neofetch presentation script
 # Can be used to edit / query /etc/mrbeam `crudini --get /etc/mrbeam "" hostname`
 apt-install python3-pip neofetch
-python3 -m pip install crudini
+python3.10 -m pip install crudini
 
 mkdir -p /root/.ssh
 # Add ssh creds to prevent errors when pulling from bitbucket
@@ -214,6 +214,7 @@ ssh-keyscan -t rsa bitbucket.org >> /root/.ssh/known_hosts
 
 mkdir -p /home/pi/.ssh
 ssh-keyscan -t rsa bitbucket.org >> /home/pi/.ssh/known_hosts
+ssh-keyscan -t rsa github.com >> /home/pi/.ssh/known_hosts
 chown 1000:1000 /home/pi/.ssh/known_hosts
 
 # Enable ssh identification for private packages in bitbucket.org
@@ -224,12 +225,44 @@ if [ -n "$EXTRA_SSH_KEY" ]; then
   chmod 0600 /root/.ssh/id_rsa
 fi
 
+if [ -n "$SSH_KEY_MRB3_CORE_PLUGIN" ]; then
+  echo "$SSH_KEY_MRB3_CORE_PLUGIN" > /home/pi/.ssh/mrb3-core-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-core-plugin
+  chown pi:pi /home/pi/.ssh/mrb3-core-plugin
+fi
+
+if [ -n "$SSH_KEY_MRB3_FINDME_PLUGIN" ]; then
+  echo "$SSH_KEY_MRB3_FINDME_PLUGIN" > /home/pi/.ssh/mrb3-findMe-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-findMe-plugin
+  chown pi:pi /home/pi/.ssh/mrb3-findMe-plugin
+fi
+if [ -n "$SSH_KEY_MRB3_CONNECT_PLUGIN" ]; then
+  echo "$SSH_KEY_MRB3_CONNECT_PLUGIN" > /home/pi/.ssh/mrb3-connect-plugin
+  chmod 0600 /home/pi/.ssh/mrb3-connect-plugin
+  chown pi:pi /home/pi/.ssh/mrb3-connect-plugin
+fi
+if [ -n "$SSH_KEY_MRB3_CONNECT_DAEMON" ]; then
+  echo "$SSH_KEY_MRB3_CONNECT_DAEMON" > /home/pi/.ssh/mrb3-connect-daemon
+  chmod 0600 /home/pi/.ssh/mrb3-connect-daemon
+  chown pi:pi /home/pi/.ssh/mrb3-connect-daemon
+fi
+if [ -n "$SSH_KEY_MRB3_DOC" ]; then
+  echo "$SSH_KEY_MRB3_DOC" > /home/pi/.ssh/mrb3-doc
+  chmod 0600 /home/pi/.ssh/mrb3-doc
+  chown pi:pi /home/pi/.ssh/mrb3-doc
+fi
+if [ -n "$SSH_KEY_MRB3_HAL" ]; then
+  echo "$SSH_KEY_MRB3_HAL" > /home/pi/.ssh/mrb3-hal
+  chmod 0600 /home/pi/.ssh/mrb3-hal
+  chown pi:pi /home/pi/.ssh/mrb3-hal
+fi
+
 pushd /home/pi
   # Add .local/bin to PATH and add link to octoprint there
   sudo -u pi mkdir -p .local/bin
   sudo -u pi ln -s /home/pi/oprint/bin/octoprint .local/bin/
   # Add symlink to preserve legacy compatibility for mrbtools
-  sudo -u pi ln -s oprint/lib/python2.7/site-packages
+  #  sudo -u pi ln -s oprint/lib/python2.7/site-packages
 
   if [ "$BEAMOS_INCLUDE_CHECK" = "yes" ]
   then
@@ -253,6 +286,7 @@ pushd /home/pi
       # picamera (OctoPrint-MrBeam dependency) needs to check /proc/cpuinfo at install time to figure out which model it's used with.
       cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
       gitclone BEAMOS_CAMERA_REPO OctoPrint-Camera
+      pip_install numpy==1.23.3
       pip_install_dev_or_rm ./OctoPrint-Camera
       set_plugin_update_conf_remote camera $BEAMOS_CAMERA_REPO_SHIP $BEAMOS_CAMERA_REPO_BRANCH
       rm /proc/cpuinfo
@@ -279,8 +313,14 @@ pushd /home/pi
       echo "Compiling OpenCV v.$BEAMOS_OPENCV_VERSION for python $PYTHON_VERSION -- This can take around an hour"
       # Following the pyimagesearch tutorial
       # https://www.pyimagesearch.com/2019/09/16/install-opencv-4-on-raspberry-pi-4-and-raspbian-buster/
-      DEV_LIBS_OPENCV="libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev"
+#      DEV_LIBS_OPENCV="libjpeg-dev libtiff5-dev libjasper-dev libpng-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libatlas-base-dev gfortran libhdf5-dev libhdf5-serial-dev"
+      DEV_LIBS_OPENCV="cmake gcc g++ python3-dev python3-numpy libavcodec-dev libavformat-dev libswscale-dev libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev libgtk-3-dev"
       apt-install $DEV_LIBS_OPENCV libhdf5-103
+
+      cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
+      pip_install opencv-python-headless
+      rm /proc/cpuinfo
+
       # TODO finish up
       sudo apt -y remove $DEV_LIBS_OPENCV # save space
 
@@ -290,13 +330,15 @@ pushd /home/pi
       # as you don't have to configure the OpenCV build and link everything.
       echo "--- Installing OpenCV from pip wheels ~ 10min because installs gtk"
       # After this operation, 1085 MB of additional disk space will be used.
-      apt-install python-opencv
+#      apt-install python-opencv
+      sudo apt-get -y install python3-opencv
       # link the global library to the oprint environment
-      ln -s /usr/lib/python2.7/dist-packages/cv2.arm-linux-gnueabihf.so /home/pi/oprint/lib/python2.7/cv2.so
+      ln -s /usr/lib/python3/dist-packages/cv2.cpython-37m-arm-linux-gnueabihf.so /home/pi/oprint/lib/python3.10/site-packages/cv2.so
       # Headless install (which fails)
       # PIP_DEFAULT_TIMEOUT=60 sudo -u pi $OPRINT/pip install opencv-python-headless
       # Install the opencv wheel available for raspberry (also fails)
       # PIP_DEFAULT_TIMEOUT=60 sudo -u pi /home/pi/oprint/bin/pip install opencv-python #opencv-contrib-python-nonfree-headless
+
     fi
     echo "--- Installing MrBeamPlugin"
     # Library dependencies for lxml and PIL
@@ -308,7 +350,7 @@ pushd /home/pi
 
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
-    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
+#    set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
     rm /proc/cpuinfo
 
     # Install MrBeamDocs
@@ -329,7 +371,7 @@ pushd /home/pi
     # Create a python2 venv because python2-pip might not be an available package
     BEAMOS_IOBEAM_VENV=/usr/local/iobeam/venv
     mkdir -p $(dirname $BEAMOS_IOBEAM_VENV)
-    python3 -m virtualenv -p python2 $BEAMOS_IOBEAM_VENV
+    python3.10 -m venv $BEAMOS_IOBEAM_VENV
     # change pip commands to match the new virtualenv
     # Do this BEFORE INSTALLING as - in the develop version,
     # it will move the source folder, in which case we couldn't access it.
@@ -342,18 +384,13 @@ pushd /home/pi
     # numpy and mrb_hw_info AND requests are not listed as a dependency in iobeam or mrb_hw_info, install them manually before iobeam
     # They are installed on the root level because they use root files from time to time. See iobeam#69 (nice)
     # iobeam is cloned as a submodule to /filesystem before running the script
-    if [ "$BEAMOS_DEV" = "yes" ]; then
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
-      gitclone BEAMOS_IOBEAM_REPO iobeam
-      gitclone BEAMOS_MRBHWINFO_REPO mrb_hw_info
-      mv mrb_hw_info iobeam sources/
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install -e sources/mrb_hw_info sources/iobeam
-    else
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
-      sudo git clone -b $BEAMOS_IOBEAM_REPO_BRANCH $BEAMOS_IOBEAM_REPO_BUILD iobeam
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./iobeam
-      sudo git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
-      PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./mrb_hw_info
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install requests numpy
+    sudo git clone -b $BEAMOS_IOBEAM_REPO_BRANCH $BEAMOS_IOBEAM_REPO_BUILD iobeam
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./iobeam
+    sudo git clone -b $BEAMOS_MRBHWINFO_REPO_BRANCH $BEAMOS_MRBHWINFO_REPO_BUILD mrb_hw_info
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_IOBEAM_VENV/bin/python -m pip install ./mrb_hw_info
+
+    if [ "$BEAMOS_DEV" != "yes" ]; then
       rm -rf mrb_hw_info
       rm -rf iobeam
     fi
@@ -388,7 +425,7 @@ pushd /home/pi
     NETCONNECTD_PROJ=sources/netconnectd
     gitclone BEAMOS_NETCONNECTD_REPO $NETCONNECTD_PROJ
     # Create venv
-    python3 -m virtualenv -p python3 $BEAMOS_NETCONNECTD_VENV
+    python3.10 -m venv $BEAMOS_NETCONNECTD_VENV
     $BEAMOS_NETCONNECTD_VENV/bin/python -m pip install $BEAMOS_NETCONNECTD_WIFI_ARCHIVE $NETCONNECTD_PROJ
     pushd $NETCONNECTD_PROJ
       mkdir -p /etc/netconnectd.conf.d/{hostapd,dnsmasq} /etc/network/interfaces.d/
@@ -458,7 +495,7 @@ pushd /home/pi
     # apt-install python3-pip
     # Install in a separate venv
     LED_VENV=/usr/local/mrbeam_ledstrips/venv
-    python3 -m virtualenv -p python3 $LED_VENV
+    python3.10 -m venv $LED_VENV
     $LED_VENV/bin/pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
     # Link the executables to have mrbeam_ledstrips(_cli) in the $PATH
     ln -s $LED_VENV/bin/mrbeam_ledstrips /usr/bin/
