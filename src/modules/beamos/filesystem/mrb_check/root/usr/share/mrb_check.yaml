@@ -6,10 +6,10 @@ device_info:
   model: MRBEAM2_DC
   model_force: MRBEAM2_DC
 modules:
+  - check_0009_i2c
   - check_0010_environment
   - check_0015_room_environment
   - check_0020_leds
-  - check_0025_i2c
   - check_0030_iobeam_static
   - check_0040_gpg
   - check_0045_serial_grbl_programmer
