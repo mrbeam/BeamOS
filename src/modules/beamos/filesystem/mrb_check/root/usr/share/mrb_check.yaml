@@ -5,30 +5,24 @@ device_info:
   series: 2S
   model: MRBEAM2_DC
   model_force: MRBEAM2_DC
-  accepted_series:
-    - 2G
-    - 2U
-    - 2V
-    - 2T
-    - 2S
 modules:
-  - 0010_environment
-  - 0015_room_environment
-  - 0020_leds
-  - 0025_i2c
-  - 0030_iobeam_static
-  - 0040_gpg
-  - 0045_serial_grbl_programmer
-  - 0050_grbl
-  - 0060_config_yaml
-  - 0070_iobeam_dynamic_auto
-  - 0080_iobeam_compressor
-  - 0090_iobeam_smart_reedswitches
-  - 0110_iobeam_dynamic_manual
-  - 0120_movement
-  - 0130_laser_temp
-  - 0140_save_to_file
-  - 0250_calibration_markers
+  - check_0010_environment
+  - check_0015_room_environment
+  - check_0020_leds
+  - check_0025_i2c
+  - check_0030_iobeam_static
+  - check_0040_gpg
+  - check_0045_serial_grbl_programmer
+  - check_0050_grbl
+  - check_0060_config_yaml
+  - check_0070_iobeam_dynamic_auto
+  - check_0080_iobeam_compressor
+  - check_0090_iobeam_smart_reedswitches
+  - check_0110_iobeam_dynamic_manual
+  - check_0120_movement
+  - check_0130_laser_temp
+  - check_0140_save_to_file
+  - check_0250_calibration_markers
 compressor:
   required: true
 smart_reedswitch:
