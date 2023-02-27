@@ -31,9 +31,9 @@ jobs:
       run: |
         if [ "${{ github.event.inputs.build_alpha }}" = "true" ]
         then
-          flavors='{"flavor":"alpha 2R"}'
+          flavors='{"flavor":"alpha 2Q"}'
         else
-          flavors='{"flavor":"2R"}'
+          flavors='{"flavor":"2Q"},{"flavor":"2R"}'
         fi
         echo "::set-output name=matrix::{\"include\":[$flavors]}"
 
