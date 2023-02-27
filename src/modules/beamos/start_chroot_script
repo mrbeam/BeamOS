@@ -388,10 +388,18 @@ pushd /home/pi
     gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
     pip_install_dev_or_rm ./OctoPrint-Netconnectd
     set_plugin_update_conf_remote netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
-    sudo ln -s /home/pi/oprint/lib/python2.7/site-packages/octoprint_netconnectd/scripts/wifi-hotspot.py /usr/bin/
+    NETCONNECTD_DIR=/home/pi/oprint/lib/python2.7/site-packages/octoprint_netconnectd
+    sudo ln -s $NETCONNECTD_DIR/scripts/wifi-hotspot.py /usr/bin/
     sudo chmod +x /usr/bin/wifi-hotspot.py
     sudo sed -i 's/^/#/' /etc/network/interfaces
     sudo apt -y purge openresolv dhcpcd5
+
+    # Install external wifi support components
+    sudo ln -s $NETCONNECTD_DIR/scripts/90-wlan.rules /etc/udev/rules.d/
+    sudo ln -s $NETCONNECTD_DIR/scripts/enable-wlan0.sh /usr/bin/
+    sudo chmod +x /usr/bin/enable-wlan0.sh
+    sudo ln -s $NETCONNECTD_DIR/scripts/disable-wlan0.sh /usr/bin/
+    sudo chmod +x /usr/bin/disable-wlan0.sh
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" = "yes" ]
   then
