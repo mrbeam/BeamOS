@@ -388,6 +388,8 @@ pushd /home/pi
     gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
     pip_install_dev_or_rm ./OctoPrint-Netconnectd
     set_plugin_update_conf_remote netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
+    sudo ln -s /home/pi/oprint/lib/python2.7/site-packages/octoprint_netconnectd/scripts/wifi-hotspot.py /usr/bin/
+    sudo sed -i 's/^/#/' /etc/network/interfaces
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" = "yes" ]
   then
