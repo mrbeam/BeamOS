@@ -391,7 +391,7 @@ pushd /home/pi
     sudo ln -s /home/pi/oprint/lib/python2.7/site-packages/octoprint_netconnectd/scripts/wifi-hotspot.py /usr/bin/
     sudo chmod +x /usr/bin/wifi-hotspot.py
     sudo sed -i 's/^/#/' /etc/network/interfaces
-    sudo apt purge openresolv dhcpcd5
+    sudo apt -y purge openresolv dhcpcd5
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" = "yes" ]
   then
