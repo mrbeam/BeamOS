@@ -238,8 +238,7 @@ pushd /home/pi
     mkdir -p $(dirname $BEAMOS_CHECK_VENV)
     python3 -m virtualenv -p python2 $BEAMOS_CHECK_VENV
     # OctoPrint has no need to update mrb_check -> No need to add to config.yaml
-    sudo git clone -b $BEAMOS_CHECK_REPO_BRANCH $BEAMOS_CHECK_REPO_BUILD mrb_check
-    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install ./mrb_check
+    PIP_DEFAULT_TIMEOUT=60 $BEAMOS_CHECK_VENV/bin/python -m pip install /filesystem/repos/mrb_check
 
     ln -s $BEAMOS_CHECK_VENV/bin/mrb_check /usr/bin/
     unpack /filesystem/mrb_check/root / root
