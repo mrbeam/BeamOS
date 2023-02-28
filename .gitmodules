@@ -1,16 +1,7 @@
-[submodule "src/modules/beamos/filesystem/repos/iobeam"]
-	path = src/modules/beamos/filesystem/repos/iobeam
-	url = git@bitbucket.org:mrbeam/iobeam.git
-	branch = mrbeam2-stable
 [submodule "src/modules/beamos/filesystem/repos/mount_manager"]
 	path = src/modules/beamos/filesystem/repos/mount_manager
 	url = git@github.com-mountmanager:mrbeam/mount_manager.git
 	branch = mrbeam2-stable
-[submodule "src/modules/beamos/filesystem/repos/mrb_hw_info"]
-	path = src/modules/beamos/filesystem/repos/mrb_hw_info
-	url = git@bitbucket.org:mrbeam/mrb_hw_info.git
-	branch = mrbeam2-stable
 [submodule "src/modules/beamos/filesystem/repos/mrb_check"]
 	path = src/modules/beamos/filesystem/repos/mrb_check
-	url = git@github.com-mrb_check:mrbeam/mrb_check.git
-	branch = mrbeam2-stable
+	url = git@github.com:mrbeam/mrb_check.git
