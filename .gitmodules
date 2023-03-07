@@ -5,4 +5,4 @@
 [submodule "src/modules/beamos/filesystem/repos/mrb_check"]
 	path = src/modules/beamos/filesystem/repos/mrb_check
 	url = git@github.com-mrb_check:mrbeam/mrb_check.git
-    branch = master
+	branch = master
