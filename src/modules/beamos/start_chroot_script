@@ -383,42 +383,20 @@ pushd /home/pi
     python2 -m pip install smbus
   fi
   if [ "$BEAMOS_INCLUDE_NETCONNECTD" = "yes" ]; then
-    # Install the Netconnectd daemon
-    apt-install hostapd dnsmasq logrotate rfkill
-    NETCONNECTD_PROJ=sources/netconnectd
-    gitclone BEAMOS_NETCONNECTD_REPO $NETCONNECTD_PROJ
-    # Create venv
-    python3 -m virtualenv -p python3 $BEAMOS_NETCONNECTD_VENV
-    $BEAMOS_NETCONNECTD_VENV/bin/python -m pip install $BEAMOS_NETCONNECTD_WIFI_ARCHIVE $NETCONNECTD_PROJ
-    pushd $NETCONNECTD_PROJ
-      mkdir -p /etc/netconnectd.conf.d/{hostapd,dnsmasq} /etc/network/interfaces.d/
-      cp extras/netconnectd.yaml /etc/netconnectd.conf.d/
-      cp extras/netconnectd.service /etc/systemd/system/
-      cp extras/eth0 /etc/network/interfaces.d/
-    popd
-    unpack /filesystem/netconnectd/root / root # add logrotate
-    if [ "$BEAMOS_DEV" == "yes" ]; then
-      echo 'EXTRA_OPTS="--debug"' >> /etc/default/netconnectd
-    else
-      rm -rf $NETCONNECTD_PROJ
-    fi
-    # Link the executables to have netconnectd(cli) in the $PATH
-    ln -s $BEAMOS_NETCONNECTD_VENV/bin/netconnectd /usr/bin/
-    ln -s $BEAMOS_NETCONNECTD_VENV/bin/netconnectcli /usr/bin/
-    # update-rc.d -f hostapd remove
-    # update-rc.d -f dnsmasq remove
-    # update-rc.d netconnectd defaults 98
-    systemctl enable netconnectd.service
-    systemctl disable dnsmasq.service
-    systemctl disable wpa_supplicant
-    set_plugin_update_conf_remote netconnectd-daemon $BEAMOS_NETCONNECTD_REPO_SHIP $BEAMOS_NETCONNECTD_REPO_BRANCH
-    # change pip commands to match the new virtualenv
-    set_plugin_update_conf netconnectd-daemon pip_command "sudo $BEAMOS_NETCONNECTD_VENV/bin/pip"
-
     # Install the OctoPrint plugin for communicating with Netconnectd
+    apt-install libdbus-glib-1-dev libgirepository1.0-dev libdbus-1-dev network-manager logrotate rfkill
     gitclone BEAMOS_NETCONNECTD_PLUGIN_REPO OctoPrint-Netconnectd
     pip_install_dev_or_rm ./OctoPrint-Netconnectd
     set_plugin_update_conf_remote netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
+    sudo ln -s /home/pi/oprint/lib/python2.7/site-packages/octoprint_netconnectd/scripts/wifi-hotspot.py /usr/bin/
+    sudo chmod +x /usr/bin/wifi-hotspot.py
+
+    # Add # char in front of every line of /etc/network/interface
+    # Make sure that no configuration in this file
+    sudo sed -i 's/^/#/' /etc/network/interfaces
+
+    # Remove these conflict packages
+    sudo apt -y purge openresolv dhcpcd5
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" = "yes" ]
   then
