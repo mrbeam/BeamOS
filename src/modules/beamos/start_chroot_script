@@ -390,7 +390,12 @@ pushd /home/pi
     set_plugin_update_conf_remote netconnectd $BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP $BEAMOS_NETCONNECTD_PLUGIN_REPO_BRANCH
     sudo ln -s /home/pi/oprint/lib/python2.7/site-packages/octoprint_netconnectd/scripts/wifi-hotspot.py /usr/bin/
     sudo chmod +x /usr/bin/wifi-hotspot.py
+
+    # Add # char in front of every line of /etc/network/interface
+    # Make sure that no configuration in this file
     sudo sed -i 's/^/#/' /etc/network/interfaces
+
+    # Remove these conflict packages
     sudo apt -y purge openresolv dhcpcd5
   fi
   if [ "$BEAMOS_INCLUDE_MOUNTMANAGER" = "yes" ]
