@@ -11,5 +11,5 @@ export BEAMOS_MRBEAMIOBEAM_REPO_BRANCH=alpha
 export BEAMOS_MRBHWINFO_REPO_BRANCH=alpha
 export BEAMOS_MRBEAMLED_REPO_BRANCH=alpha
 # The Github mirror does not have a develop branch
-# export BEAMOS_MOUNTMANAGER_REPO_BRANCH=alpha
+# export BEAMOS_MOUNTMANAGER_REPO_BRANCH=alpha # currently not used
 export BEAMOS_FINDMYMRBEAM_REPO_BRANCH=alpha
