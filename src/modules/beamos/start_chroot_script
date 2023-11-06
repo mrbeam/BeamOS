@@ -306,6 +306,9 @@ pushd /home/pi
     cp /filesystem/picamera/cpuinfo.pi3bp /proc/cpuinfo
     unpack /filesystem/analytics/root / root # add logrotate for analytics
 
+    #install ntp to sync time and for the ntp check
+    apt-get install ntp -y
+
     gitclone BEAMOS_MRBEAMPLUGIN_REPO OctoPrint-MrBeam
     pip_install_dev_or_rm ./OctoPrint-MrBeam
     set_plugin_update_conf_remote mrbeam $BEAMOS_MRBEAMPLUGIN_REPO_SHIP $BEAMOS_MRBEAMPLUGIN_REPO_BRANCH
