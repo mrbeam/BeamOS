@@ -31,4 +31,4 @@ export OCTOPI_PYTHON_VERSION=python2
 export DEV_LIBS_EXTRA="python2-dev libxml2-dev libxslt1-dev"
 
 # Dev allow ssh for now
-export BEAMOS_INCLUDE_SSH=no
+export BEAMOS_INCLUDE_SSH=yes
