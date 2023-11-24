@@ -25,7 +25,7 @@ TRUE_USER=pi
 [ -n "$BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH" ] || BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH=master
 
 # MrBeamPlugin
-[ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || BEAMOS_INCLUDE_MRBEAMPLUGIN=yes
+[ -n "$BEAMOS_INCLUDE_MRBEAMPLUGIN" ] || BEAMOS_INCLUDE_MRBEAMPLUGIN=no
 # This uses the latest release as an archive
 # [ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || export BEAMOS_MRBEAMPLUGIN_ARCHIVE=$(wget -q -O - https://api.github.com/repos/mrbeam/MrBeamPlugin/releases/latest | grep "zipball_url" | cut -d : -f 2,3 | tr -d \" | tr -d ,)
 [ -n "$BEAMOS_MRBEAMPLUGIN_ARCHIVE" ] || BEAMOS_MRBEAMPLUGIN_ARCHIVE=https://github.com/mrbeam/MrBeamPlugin/archive/$BEAMOS_MRBEAMPLUGIN_REPO_BRANCH.zip
@@ -38,13 +38,13 @@ TRUE_USER=pi
 [ -n "$BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BUILD" ] || BEAMOS_MRBEAMPLUGIN_DOCS_REPO_BUILD=https://github.com/mrbeam/MrBeamDoc.git
 
 # OctoPrint-Camera
-[ -n "$BEAMOS_INCLUDE_CAMERA" ] || BEAMOS_INCLUDE_CAMERA=yes
+[ -n "$BEAMOS_INCLUDE_CAMERA" ] || BEAMOS_INCLUDE_CAMERA=no
 [ -n "$BEAMOS_CAMERA_ARCHIVE" ] || BEAMOS_CAMERA_ARCHIVE=https://github.com/mrbeam/OctoPrint-Camera/archive/$BEAMOS_CAMERA_REPO_BRANCH.zip
 [ -n "$BEAMOS_CAMERA_REPO_BUILD" ] || BEAMOS_CAMERA_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Camera.git
 [ -n "$BEAMOS_CAMERA_REPO_SHIP" ] || BEAMOS_CAMERA_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Camera.git
 
 # IOBeam
-[ -n "$BEAMOS_INCLUDE_IOBEAM" ] || BEAMOS_INCLUDE_IOBEAM=yes
+[ -n "$BEAMOS_INCLUDE_IOBEAM" ] || BEAMOS_INCLUDE_IOBEAM=no
 [ -n "$BEAMOS_IOBEAM_ARCHIVE" ] || BEAMOS_IOBEAM_ARCHIVE=git+ssh://git@bitbucket.org/mrbeam/iobeam.git@$BEAMOS_IOBEAM_REPO_BRANCH
 [ -n "$BEAMOS_IOBEAM_REPO_BUILD" ] || BEAMOS_IOBEAM_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
 [ -n "$BEAMOS_IOBEAM_REPO_SHIP" ] || BEAMOS_IOBEAM_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/iobeam.git
@@ -59,7 +59,7 @@ TRUE_USER=pi
 [ -n "$BEAMOS_RPI_WS281X_ARCHIVE" ] || BEAMOS_RPI_WS281X_ARCHIVE=rpi-ws281x
 
 # Netconnectd and Netconnectd plugin
-[ -n "$BEAMOS_INCLUDE_NETCONNECTD" ] || BEAMOS_INCLUDE_NETCONNECTD=yes
+[ -n "$BEAMOS_INCLUDE_NETCONNECTD" ] || BEAMOS_INCLUDE_NETCONNECTD=no
 #   Wifi package for netconnectd
 [ -n "$BEAMOS_NETCONNECTD_WIFI_ARCHIVE" ] || BEAMOS_NETCONNECTD_WIFI_ARCHIVE=https://github.com/mrbeam/wifi/archive/$BEAMOS_NETCONNECTD_WIFI_REPO_BRANCH.zip
 [ -n "$BEAMOS_NETCONNECTD_ARCHIVE" ] || BEAMOS_NETCONNECTD_ARCHIVE=https://github.com/mrbeam/netconnectd_mrbeam/archive/$BEAMOS_NETCONNECTD_REPO_BRANCH.zip
@@ -71,27 +71,27 @@ TRUE_USER=pi
 [ -n "$BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD" ] || BEAMOS_NETCONNECTD_PLUGIN_REPO_BUILD=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 [ -n "$BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP" ] || BEAMOS_NETCONNECTD_PLUGIN_REPO_SHIP=https://github.com/mrbeam/OctoPrint-Netconnectd.git
 
-[ -n "$BEAMOS_INCLUDE_FINDMYMRBEAM" ] || BEAMOS_INCLUDE_FINDMYMRBEAM=yes
+[ -n "$BEAMOS_INCLUDE_FINDMYMRBEAM" ] || BEAMOS_INCLUDE_FINDMYMRBEAM=no
 [ -n "$BEAMOS_FINDMYMRBEAM_ARCHIVE" ] || BEAMOS_FINDMYMRBEAM_ARCHIVE=https://github.com/mrbeam/OctoPrint-FindMyMrBeam/archive/$BEAMOS_FINDMYMRBEAM_REPO_BRANCH.zip
 [ -n "$BEAMOS_FINDMYMRBEAM_REPO_BUILD" ] || BEAMOS_FINDMYMRBEAM_REPO_BUILD=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
 [ -n "$BEAMOS_FINDMYMRBEAM_REPO_SHIP" ] || BEAMOS_FINDMYMRBEAM_REPO_SHIP=https://github.com/mrbeam/OctoPrint-FindMyMrBeam.git
 
-[ -n "$BEAMOS_INCLUDE_SHIELDFLASHER" ] || BEAMOS_INCLUDE_SHIELDFLASHER=yes
+[ -n "$BEAMOS_INCLUDE_SHIELDFLASHER" ] || BEAMOS_INCLUDE_SHIELDFLASHER=no
 [ -n "$BEAMOS_SHIELDFLASHER_ARCHIVE" ] || BEAMOS_SHIELDFLASHER_ARCHIVE=https://github.com/mrbeam/shield_flasher/archive/$BEAMOS_SHIELDFLASHER_REPO_BRANCH.zip
 [ -n "$BEAMOS_SHIELDFLASHER_REPO_BUILD" ] || BEAMOS_SHIELDFLASHER_REPO_BUILD=https://github.com/mrbeam/shield_flasher.git
 [ -n "$BEAMOS_SHIELDFLASHER_REPO_SHIP" ] || BEAMOS_SHIELDFLASHER_REPO_SHIP=https://github.com/mrbeam/shield_flasher.git
 
-[ -n "$BEAMOS_INCLUDE_MOUNTMANAGER" ] || BEAMOS_INCLUDE_MOUNTMANAGER=yes
+[ -n "$BEAMOS_INCLUDE_MOUNTMANAGER" ] || BEAMOS_INCLUDE_MOUNTMANAGER=no
 [ -n "$BEAMOS_MOUNTMANAGER_ARCHIVE" ] || BEAMOS_MOUNTMANAGER_ARCHIVE=https://github.com/mrbeam/usb_mount_manager/archive/$BEAMOS_MOUNTMANAGER_REPO_BRANCH.zip
 [ -n "$BEAMOS_MOUNTMANAGER_REPO_BUILD" ] || BEAMOS_MOUNTMANAGER_REPO_BUILD=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 [ -n "$BEAMOS_MOUNTMANAGER_REPO_SHIP" ] || BEAMOS_MOUNTMANAGER_REPO_SHIP=git+ssh://git@bitbucket.org/mrbeam/usb_mount_manager.git
 
-[ -n "$BEAMOS_INCLUDE_CHECK" ] || BEAMOS_INCLUDE_CHECK=yes
+[ -n "$BEAMOS_INCLUDE_CHECK" ] || BEAMOS_INCLUDE_CHECK=no
 [ -n "$BEAMOS_CHECK_ARCHIVE" ] || BEAMOS_CHECK_ARCHIVE=https://github.com/mrbeam/mrb_check/archive/$BEAMOS_CHECK_REPO_BRANCH.zip
 [ -n "$BEAMOS_CHECK_REPO_BUILD" ] || BEAMOS_CHECK_REPO_BUILD=git+ssh://git@github.com:mrbeam/mrb_check.git
 [ -n "$BEAMOS_CHECK_REPO_SHIP" ] || BEAMOS_CHECK_REPO_SHIP=git+ssh://git@github.com:mrbeam/mrb_check.git
 ### Misc
 
-[ -n "$BEAMOS_DEV" ] || BEAMOS_DEV=yes
+[ -n "$BEAMOS_DEV" ] || BEAMOS_DEV=no
 [ -n "$BEAMOS_I2C_BAUDRATE" ] || BEAMOS_I2C_BAUDRATE=64000
 [ -n "$BEAMOS_MODEL" ] || BEAMOS_MODEL=MRBEAM2_DC_S

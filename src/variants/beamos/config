@@ -1,9 +1,9 @@
 #!/bin/sh
 # variant mrbeam, flavor default: override hostname & custom config setting
-export DIST_NAME=BeamOS
-export DIST_VERSION=0.20.3
-export BASE_OVERRIDE_HOSTNAME=MrBeam-XXXX
-export BASE_IMAGE_ENLARGEROOT=1700
+export DIST_NAME=MigrationOS
+export DIST_VERSION=0.1.0
+export BASE_OVERRIDE_HOSTNAME=MigrationOS
+#export BASE_IMAGE_ENLARGEROOT=1700
 
 export BEAMOS_DEV=no
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"

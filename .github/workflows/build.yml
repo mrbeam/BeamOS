@@ -35,7 +35,7 @@ jobs:
         else
           flavors='{"flavor":"2Q"},{"flavor":"2R"}'
         fi
-        echo "::set-output name=matrix::{\"include\":[$flavors]}"
+        echo "matrix={\"include\":[$flavors]}" >> $GITHUB_OUTPUT
 
   build:
     needs: set_matrix
@@ -142,7 +142,7 @@ jobs:
           cp repository/src/workspace/*.img $IMAGE.img
         fi
 
-        echo "::set-output name=image::$IMAGE"
+        echo "image=$IMAGE" >> $GITHUB_OUTPUT
 
     # # artifact upload will take care of zipping for us
     # - uses: actions/upload-artifact@v1
