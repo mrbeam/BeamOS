@@ -196,7 +196,6 @@ set_plugin_update_conf_remote() {
 }
 
 # Unpack the regular files
-unpack /filesystem/home /home/ pi
 unpack /filesystem/root / root
 
 # Install a more feature-fool alternative to nano : micro
