@@ -33,7 +33,7 @@ jobs:
         then
           flavors='{"flavor":"alpha 2Q"}'
         else
-          flavors='{"flavor":"2Q"},{"flavor":"2R"}'
+          flavors='{"flavor":"migrationOS"}'
         fi
         echo "matrix={\"include\":[$flavors]}" >> $GITHUB_OUTPUT
 
