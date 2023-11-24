@@ -158,7 +158,7 @@ jobs:
     - name: Create env variable for upload folder in gcloud bucket
       run: |
         # Use the last letter of the flavor for the directory name
-        echo "DIR=$(echo ${{ matrix.flavor }} | rev | cut -c 1)" >> $GITHUB_ENV
+        echo "DIR=$(echo ${{ matrix.flavor }})" >> $GITHUB_ENV
     - uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: devpi-310008
