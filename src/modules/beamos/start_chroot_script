@@ -526,6 +526,10 @@ if [ -n "$BEAMOS_DEVICE_MODEL" ]; then
   set_field device_type "MrBeam$BEAMOS_DEVICE_MODEL" /etc/mrbeam
 fi
 
+######Migration OS stuff#####
+sudo apt-get install -y bmap-tools
+#TODO download image into /home/pi/image
+
 
 #####################################################################
 ### setup systemd units/services
