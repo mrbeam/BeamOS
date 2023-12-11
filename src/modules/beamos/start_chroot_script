@@ -527,9 +527,15 @@ if [ -n "$BEAMOS_DEVICE_MODEL" ]; then
 fi
 
 ######Migration OS stuff#####
+# Install bmap-tools for flashing the beamos2 image
 sudo apt-get install -y bmap-tools
-#TODO download image into /home/pi/image
 
+# TODO: SW-3164 Download image into /home/pi/image
+
+# Copy migrationos.sh and migrationos_to_beamos2.sh to /usr/bin
+unpack /filesystem/migration / root
+
+# TODO: SW-4169 Add migration service to run migrationos_to_beamos2.sh on boot
 
 #####################################################################
 ### setup systemd units/services
