@@ -30,7 +30,7 @@ do_exit()
     echo "$0: Normal exiting."
   else
     echo "$0: Exiting with error code [${RET_CODE}]"
-    set_status_fail
+    sudo bash ${BASEDIR}/migration.sh set-status fail
   fi
 }
 
