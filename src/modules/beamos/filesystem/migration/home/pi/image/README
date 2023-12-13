@@ -1,0 +1,11 @@
+# Beam OS 2 Image and bmap File
+
+This directory is intended for storing the "Beam OS 2" image and bmap file. Please follow the instructions below:
+
+1. Place the "Beam OS 2" image file here. The name of the image file should be: `beamos2.wic.bz2`.
+2. Place the bmap file here. The name of the bmap file should be: `beamos2.wic.bmap`.
+3. Use the `migrationos_to_beamos2.sh` script to flash the SD card with the Beam OS 2 image.
+4. The migration service will automatically run the `migrationos_to_beamos2.sh` script.
+5. No manual interaction is required during the migration process.
+
+For any further assistance, please refer to the documentation or contact the support team.
