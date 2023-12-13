@@ -273,20 +273,25 @@ do_restore_data () {
   backupfile="${backupfolder}${configfile}"
   applyfile="${applyfolder}${configfile}"
   #accessControl needed for users.yaml
-  echo "$(timestamp) $0: Restoring accessControl for /home/pi/.octoprint/config.yaml"
+  echo "$(timestamp) $0: Restoring accessControl for $configfile"
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"accessControl":select(fileIndex==1).accessControl}' $applyfile -
 
   #plugins.findmymrbeam
-  echo "$(timestamp) $0: Restoring plugins.findmymrbeam for /home/pi/.octoprint/config.yaml"
+  echo "$(timestamp) $0: Restoring plugins.findmymrbeam for $configfile"
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"findmymrbeam":select(fileIndex==1).plugins.findmymrbeam}}' $applyfile -
 
   #plugins.mrbeam.analyticsEnabled
-  echo "$(timestamp) $0: Restoring plugins.mrbeam.analyticsEnabled for /home/pi/.octoprint/config.yaml"
+  echo "$(timestamp) $0: Restoring plugins.mrbeam.analyticsEnabled for $configfile"
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"analyticsEnabled":select(fileIndex==1).plugins.mrbeam.analyticsEnabled}}}' $applyfile -
 
   #plugins.mrbeam.review
-  echo "$(timestamp) $0: Restoring plugins.mrbeam.review for /home/pi/.octoprint/config.yaml"
+  echo "$(timestamp) $0: Restoring plugins.mrbeam.review for $configfile"
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
+
+  #We now set a field to identify this as a first boot after upgrade
+  #server.firstBootAfterUpgrade
+  echo "$(timestamp) $0: Set server.firstBootAfterUpgrade for $configfile"
+  sudo yq eval -i '.server.firstBootAfterUpgrade = true' $applyfile
 
   # Loop through the rest of the files and folders in the array and copy backed up files
   echo "$(timestamp) $0: Restoring the rest of the files to Home"
