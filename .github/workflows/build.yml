@@ -139,7 +139,7 @@ jobs:
         PROJECT_ID: devpi-310008
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
       with:
-        args: cp gs://beamos_images/beamOS2/${{ steps.find_latest_image.outputs.latest_image }} repository/src/image/
+        args: cp gs://beamos_stable/${{ steps.find_latest_image.outputs.latest_image }} repository/src/image/
         cli: gsutil
 
     - name: Extract the Latest Image
