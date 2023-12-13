@@ -530,8 +530,6 @@ fi
 # Install bmap-tools for flashing the beamos2 image
 sudo apt-get install -y bmap-tools
 
-# TODO: SW-3164 Download image into /home/pi/image
-
 # Copy migrationos.sh and migrationos_to_beamos2.sh to /usr/bin
 unpack /filesystem/migration / root
 
