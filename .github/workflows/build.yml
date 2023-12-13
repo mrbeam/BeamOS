@@ -120,7 +120,7 @@ jobs:
       uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: devpi-310008
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DOWNLOAD }}
       with:
         args: ls gs://beamos_stable/
         cli: gsutil
@@ -137,7 +137,7 @@ jobs:
       uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: devpi-310008
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
+        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DOWNLOAD }}
       with:
         args: cp gs://beamos_stable/${{ steps.find_latest_image.outputs.latest_image }} repository/src/image/
         cli: gsutil
