@@ -115,49 +115,6 @@ jobs:
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
-    - name: List Objects in the Stable Bucket
-      id: list_objects
-      uses: actions-hub/gcloud@master
-      env:
-        PROJECT_ID: devpi-310008
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        args: ls gs://beamos_stable/
-        cli: gsutil
-
-    - name: Find the Latest Image
-      id: find_latest_image
-      run: |
-        # Parse the list of objects and extract the latest image file
-        latest_image=$(echo "${{ steps.list_objects.outputs.stdout }}" | grep -Eo '[^/]+\.img$' | sort -r | head -n 1)
-        echo "Latest image: $latest_image"
-        echo "::set-output name=latest_image::$latest_image"
-
-    - name: Download the Latest Image
-      uses: actions-hub/gcloud@master
-      env:
-        PROJECT_ID: devpi-310008
-        APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS }}
-      with:
-        args: cp gs://beamos_images/beamOS2/${{ steps.find_latest_image.outputs.latest_image }} repository/src/image/
-        cli: gsutil
-
-    - name: Extract the Latest Image
-      id: extract_latest_image
-      run: |
-        # Extract the latest image file
-        latest_image="${{ steps.find_latest_image.outputs.latest_image }}"
-        target_dir="repository/src/modules/beamos/filesystem/migration/home/pi/image"
-        target_name="beamos2.wic"
-        echo "Latest image: ${latest_image}"
-        # Extract bz2 file into repository/src/modules/beamos/filesystem/migration/home/pi/image
-        tar -xjf repository/src/image/${latest_image} -C $target_dir
-        # Rename the extracted image to beamos2.wic[bz2, bmap] and remove other files
-        mv ${target_dir}/mrbeam-image-*.wic.bz2 ${target_dir}/${target_name}.bz2
-        mv ${target_dir}/mrbeam-image-*.wic.bmap ${target_dir}/${target_name}.bmap
-        rm ${target_dir}/mrbeam-*
-        echo "Placed the image in ${target_dir}/${target_name}.bz2 with bmap file"
-
     - name: Build Image (MrBeam Variant)
       run: |
         sudo modprobe loop
