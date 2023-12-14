@@ -1,0 +1,10 @@
+[Unit]
+Description=Migration Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /usr/bin/migrationos_to_beamos2.sh
+
+[Install]
+WantedBy=multi-user.target

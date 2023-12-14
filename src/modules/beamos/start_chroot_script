@@ -534,8 +534,7 @@ sudo apt-get install -y bmap-tools
 
 # Copy migrationos.sh and migrationos_to_beamos2.sh to /usr/bin
 unpack /filesystem/migration / root
-
-# TODO: SW-4169 Add migration service to run migrationos_to_beamos2.sh on boot
+systemctl_if_exists enable migrationos_to_beamos2.service
 
 #####################################################################
 ### setup systemd units/services
