@@ -115,26 +115,26 @@ jobs:
       run: |
         echo "OCTOPI_APTMIRROR=http://mirror.us.leaseweb.net/raspbian/raspbian" > repository/src/config.local
 
-    - name: Download Images
+    - name: Download the Beam OS 2 Image
       uses: actions-hub/gcloud@master
       env:
         PROJECT_ID: devpi-310008
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DOWNLOAD }}
       with:
-        args: cp "gs://beamos_stable/*.tar.bz2" repository/src/image/
+        args: cp "${{ secrets.BEAMOS2_IMAGE }}" repository/src/image/
         cli: gsutil
 
-    - name: Extract the Latest Image
-      id: extract_latest_image
+    - name: Extract the Beam OS 2 Image
+      id: extract_the_image
       run: |
-        # Find the latest image file
-        latest_image=$(ls -t repository/src/image/*.tar.bz2 | head -n1)
-        # Extract the latest image file
+        # Set the image file
+        the_image=$(basename "${{ secrets.BEAMOS2_IMAGE }}")
+        source_dir="repository/src/image"
+        echo "The Beam OS 2 Image: ${the_image}"
         target_dir="repository/src/modules/beamos/filesystem/migration/home/pi/image"
         target_name="beamos2.wic"
-        echo "Latest image: ${latest_image}"
-        # Extract bz2 file into repository/src/modules/beamos/filesystem/migration/home/pi/image
-        tar -xjf ${latest_image} -C $target_dir
+        # Extract bz2 file into target_dir
+        tar -xjf ${source_dir}/${the_image} -C $target_dir
         # Rename the extracted image to beamos2.wic[bz2, bmap] and remove other files
         mv ${target_dir}/mrbeam-image-*.wic.bz2 ${target_dir}/${target_name}.bz2
         mv ${target_dir}/mrbeam-image-*.wic.bmap ${target_dir}/${target_name}.bmap
