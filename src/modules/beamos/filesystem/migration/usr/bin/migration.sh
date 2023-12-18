@@ -308,6 +308,40 @@ do_restore_data () {
     fi
   done
 
+  # Give admin permission to all users in the users.yaml file
+  # This is default in our implementation of OctoPrint access control
+  usersyamlfilelist=(
+  "${SDCARD_HOME_PATH}/pi/.octoprint/users.yaml"
+  "${SDCARD_HOME_PATH}/pi/.octoprint/users-dev.yaml"
+  )
+
+  for usersyamlfile in "${usersyamlfilelist[@]}"; do
+    if [ ! -f "$usersyamlfile" ]; then
+      echo "$(timestamp) $0: Restore data: Warning - File '${usersyamlfile}' not found. Skipping."
+      continue
+    fi
+    # Extract email addresses with a trailing colon
+    email_list=$(grep -E -o '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b:' "$usersyamlfile" | sed 's/:$//')
+
+    for email in $email_list; do
+        # Check if 'admin' role already exists for the email
+        admin_exists=$(sudo yq eval ".\"$email\".roles | select(.[] == \"admin\")" "$usersyamlfile")
+
+        # If 'admin' role does not exist, append it
+        if [ -z "$admin_exists" ]; then
+            sudo yq eval -i ".\"$email\".roles += [\"admin\"]" "$usersyamlfile"
+        fi
+
+        # Check if 'groups' field exists for the email
+        groups_exists=$(yq eval ".\"$email\".groups" "$usersyamlfile")
+
+        # If 'groups' field does not exist, add it with specified values
+        if [ "$groups_exists" == "null" ]; then
+            sudo yq eval -i ".\"$email\".groups = [\"admins\", \"users\"]" "$usersyamlfile"
+        fi
+    done
+  done
+
   echo "$(timestamp) $0: Restore data: Restore process completed."
   exit 0
 }
@@ -406,7 +440,7 @@ DATA_TO_PRESERVE=(
   "/home/pi/.octoprint/analytics/usage.yaml"
   "/home/pi/.octoprint/users.yaml"
   "/home/pi/.octoprint/users-dev.yaml"
-  "/home/pi/.octoprint/material.yaml"
+  "/home/pi/.octoprint/materials.yaml"
   "/home/pi/.octoprint/laser_heads.yaml"
   "/home/pi/.octoprint/config.yaml"
   "/etc/mrbeam"
@@ -414,6 +448,7 @@ DATA_TO_PRESERVE=(
   "/etc/hostname"
   "/etc/hosts"
   "/etc/network/interfaces.d/wlan0-netconnectd_wifi"
+  "/var/log/mount_manager.log"
   # Add more file paths as needed
 )
 
@@ -422,7 +457,7 @@ DATA_TO_RESTORE=(
   ".octoprint/analytics/usage.yaml"
   ".octoprint/users.yaml"
   ".octoprint/users-dev.yaml"
-  ".octoprint/material.yaml"
+  ".octoprint/materials.yaml"
   # Other files are required manual intervention to restore
 )
 
