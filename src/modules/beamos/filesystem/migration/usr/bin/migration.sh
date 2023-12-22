@@ -289,9 +289,9 @@ do_restore_data () {
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
 
   #We now set a field to identify this as a first boot after upgrade
-  #server.firstBootAfterUpgrade
-  echo "$(timestamp) $0: Set server.firstBootAfterUpgrade for $configfile"
-  sudo yq eval -i '.server.firstBootAfterUpgrade = true' $applyfile
+  #plugins.mrbeam.firstBootAfterUpgrade
+  echo "$(timestamp) $0: Set plugins.mrbeam.firstBootAfterUpgrade for $configfile"
+  sudo yq eval -i '.plugins.mrbeam.firstBootAfterUpgrade = true' $applyfile
 
   # Loop through the rest of the files and folders in the array and copy backed up files
   echo "$(timestamp) $0: Restoring the rest of the files to Home"
