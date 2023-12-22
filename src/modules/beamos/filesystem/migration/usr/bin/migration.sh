@@ -41,11 +41,10 @@ do_precondition_checks () {
 
   local MIN_REQ_MRBEAM_PLUGIN_VERSION="0.15.1"
   #Check the MrBeamPlugin version
-  mrbeam_plugin_version=$(sed -n 's/^[[:space:]]*version:[[:space:]]*\(.*\)/\1/p' $configfile || \
-                          sudo yq eval '.plugins.mrbeam.version' $configfile)
+  mrbeam_plugin_version=$(/home/pi/oprint/bin/pip list | grep Mr-Beam | awk '{gsub(/[()]/,""); print $2}')
 
   if $(dpkg --compare-versions "$mrbeam_plugin_version" "lt" $MIN_REQ_MRBEAM_PLUGIN_VERSION); then
-    echo "$(timestamp) $0: MrBeamPlugin version must be greater than $MIN_REQ_MRBEAM_PLUGIN_VERSION for Migration."
+    echo "$(timestamp) $0: MrBeamPlugin version - $mrbeam_plugin_version must be greater than $MIN_REQ_MRBEAM_PLUGIN_VERSION for Migration."
     exit 1
   fi
   echo "$(timestamp) $0: MrBeamPlugin version is $mrbeam_plugin_version. Migration can be done."
@@ -59,6 +58,29 @@ do_precondition_checks () {
     echo "$(timestamp) $0: Salt is not present in config.yaml. Files will be skipped in preserve-data."
     sed -i -e '$a\' -e '/home\/pi\/.octoprint\/users.yaml' -e '$a\' -e '/home\/pi\/.octoprint\/users-dev.yaml' ${SKIP_FILE_NAME}
   fi
+
+  # Verify integrity of /etc/mrbeam file. Fail if any field is empty or file doesnt exist.
+  # Check if the file exists
+  if [ ! -f "/etc/mrbeam" ]; then
+    echo "$(timestamp) $0: /etc/mrbeam file not found."
+    exit 1
+  fi
+   # Read each line from the file
+  while IFS= read -r line; do
+      # Check if the line is not empty
+      if [ -n "$line" ]; then
+          # Split the line into key and value
+          key=$(echo "$line" | cut -d'=' -f1)
+          value=$(echo "$line" | cut -d'=' -f2-)
+
+          # Check if the value is empty
+          if [ -z "$value" ]; then
+              echo "$(timestamp) $0: File /etc/mrbeam is corrupt. Empty value for key: $key"
+              exit 1
+          fi
+      fi
+  done < "/etc/mrbeam"
+  echo "$(timestamp) $0: /etc/mrbeam is valid. No empty fields found."
 
   # Get the list of USB block devices with sizes in bytes
   USB_DRIVES=$(lsblk -o NAME,SIZE,TYPE,TRAN -dn --bytes | grep 'usb' | awk '{print $1,$2}')
