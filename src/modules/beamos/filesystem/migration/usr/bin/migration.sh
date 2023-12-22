@@ -18,8 +18,7 @@ usage () {
     echo "                            - <device> can be \"sd-card\" or device path like \"/dev/sda\".       "
     echo "  mount <device>          Mounts the partitions of <device>.                                      "
     echo "                            - <device> can be \"sd-card\" or device path like \"/dev/sda\".       "
-    echo "  preserve-data <path>    Preserves sensitive data into USB with <path>.                          "
-    echo "                            - <path> is the path of usb device mounted like \"/mnt/usb\".         "
+    echo "  preserve-data           Preserves sensitive data into USB at path \"/mnt/usb\".                 "
     echo "  restore-data            Restores sensitive data into SD-Card.                                   "
     echo "  set-status <status>     Sets the <status> of LED. <status> can be one of the following:         "
     echo "                            - success                                                             "
@@ -37,6 +36,29 @@ timestamp()
 
 do_precondition_checks () {
   echo "$(timestamp) $0: precondition-checks"
+
+  configfile="/home/pi/.octoprint/config.yaml"
+
+  local MIN_REQ_MRBEAM_PLUGIN_VERSION="0.15.1"
+  #Check the MrBeamPlugin version
+  mrbeam_plugin_version=$(sed -n 's/^[[:space:]]*version:[[:space:]]*\(.*\)/\1/p' $configfile || \
+                          sudo yq eval '.plugins.mrbeam.version' $configfile)
+
+  if $(dpkg --compare-versions "$mrbeam_plugin_version" "lt" $MIN_REQ_MRBEAM_PLUGIN_VERSION); then
+    echo "$(timestamp) $0: MrBeamPlugin version must be greater than $MIN_REQ_MRBEAM_PLUGIN_VERSION for Migration."
+    exit 1
+  fi
+  echo "$(timestamp) $0: MrBeamPlugin version is $mrbeam_plugin_version. Migration can be done."
+
+  # Create a file to store the list of files to skip backing up
+  sudo touch ${SKIP_FILE_NAME} || true
+  echo "" > ${SKIP_FILE_NAME}
+  # Check if salt is present in config.yaml and decide if users.yaml, users-dev.yaml should be preserved or not
+  is_salt_in_config=$(( $(sed -n 's/^[[:space:]]*salt:[[:space:]]*\(.*\)/\1/p' "$configfile" | wc -c) > 0 ))
+  if [ $is_salt_in_config -eq 0 ]; then
+    echo "$(timestamp) $0: Salt is not present in config.yaml. Files will be skipped in preserve-data."
+    sed -i -e '$a\' -e '/home\/pi\/.octoprint\/users.yaml' -e '$a\' -e '/home\/pi\/.octoprint\/users-dev.yaml' ${SKIP_FILE_NAME}
+  fi
 
   # Get the list of USB block devices with sizes in bytes
   USB_DRIVES=$(lsblk -o NAME,SIZE,TYPE,TRAN -dn --bytes | grep 'usb' | awk '{print $1,$2}')
@@ -65,7 +87,7 @@ do_precondition_checks () {
 
 
 find_current_booted_os_version () {
-  if [ -f /etc/beamos_version ]; then
+  if [ -f /etc/beamos_version ] || [ -f /etc/octopi_version ] ; then
     echo "beamos1"
   elif [ -f /etc/migrationos_version ]; then
     echo "migrationos"
@@ -99,7 +121,7 @@ do_flash () {
     fi
     echo "$(timestamp) $0: Flashing USB with migrationos"
     sudo umount ${DEVICE_TO_BE_FLASHED}* || true
-    sudo dd if=${IMAGE_FILE} of=${DEVICE_TO_BE_FLASHED} bs=4M status=progress conv=fsync
+    sudo dd if=${IMAGE_FILE} of=${DEVICE_TO_BE_FLASHED} bs=4M conv=fsync
     STATUS=$?
   else
     echo "$(timestamp) $0: Check inputs to the function flash"
@@ -140,14 +162,13 @@ do_mount () {
     # Mounting the USB with migrationos
     # There are 2 partitions on the USB. The first one is the boot partition and the second one is the rootfs.
     DEVICE_PARTITION=${DEVICE_TO_BE_MOUNTED}2
-    MOUNT_DIR="/mnt/usb"
 
     DEVICE_PARTITIONS=(
       ${DEVICE_PARTITION}
     )
 
     MOUNT_DIRS=(
-      ${MOUNT_DIR}
+      ${USB_MOUNT_PATH}
     )
   else
     echo "$(timestamp) $0: Check inputs to the function mount"
@@ -173,7 +194,6 @@ do_mount () {
 
 
 do_preserve_data () {
-  local USB_MOUNT_PATH="$1"
   echo "$(timestamp) $0: preserve-data $USB_MOUNT_PATH" # path like "/mnt/usb"
   if [ -z "${USB_MOUNT_PATH}" ]; then
       echo "$(timestamp) $0: No suitable backup partition found. Exiting..."
@@ -200,11 +220,18 @@ do_preserve_data () {
 
   mkdir -p "$BACKUP_BASE"
 
+  mapfile -t LIST_TO_SKIP < ${SKIP_FILE_NAME}
+
   SKIPPED=0
 
   # Loop through each file in the array and create a backup copy
   for FILE in "${DATA_TO_PRESERVE[@]}"; do
     if [ -f "${FILE}" ] || [ -d "${FILE}" ]; then
+        if [[ " ${LIST_TO_SKIP[@]} " =~ " $FILE " ]]; then
+          echo "$(timestamp) $0: Warning - File ${FILE} skipped as salt is not present in config.yaml"
+          ((SKIPPED++))
+          continue
+        fi
       TARGET_DIR="${BACKUP_BASE}/$(dirname "${FILE}")"
       mkdir -p ${TARGET_DIR}
       TARGET="${TARGET_DIR}/$(basename "${FILE}")"
@@ -421,6 +448,7 @@ MIGRATION_IMAGE="${IMAGE_DIR}/migrationos.img"
 BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
 MIN_USB_SIZE_IN_GB=4
 BACKUP_PATH="/mrbeam/preserve-data"
+SKIP_FILE_NAME="./files_to_skip_preserve_data"
 
 # There are 8 partitions on the SD-Card.
 # Root filesystems are on partition 2 and 3.
@@ -433,6 +461,8 @@ SDCARD_HOME="${SD_CARD_DEVICE}p8"
 SDCARD_ROOTFS_A_PATH="/mnt/sd-card/rootfs_a"
 SDCARD_ROOTFS_B_PATH="/mnt/sd-card/rootfs_b"
 SDCARD_HOME_PATH="/mnt/sd-card/home"
+
+USB_MOUNT_PATH="/mnt/usb"
 
 # list of files treated by preserve-data and restore-data
 DATA_TO_PRESERVE=(
@@ -507,8 +537,7 @@ while true ; do
             break
             ;;
         preserve-data)
-            do_preserve_data "$2"
-            shift
+            do_preserve_data
             shift
             break
             ;;
