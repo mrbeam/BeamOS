@@ -488,7 +488,7 @@ USB_MOUNT_PATH="/mnt/usb"
 
 # list of files treated by preserve-data and restore-data
 DATA_TO_PRESERVE=(
-  "/home/pi/.octoprint/cam" # is a folder
+#  "/home/pi/.octoprint/cam" # is a folder
   "/home/pi/.octoprint/analytics/usage.yaml"
   "/home/pi/.octoprint/users.yaml"
   "/home/pi/.octoprint/users-dev.yaml"
@@ -505,7 +505,7 @@ DATA_TO_PRESERVE=(
 )
 
 DATA_TO_RESTORE=(
-  ".octoprint/cam" # is a folder
+#  ".octoprint/cam" # is a folder
   ".octoprint/analytics/usage.yaml"
   ".octoprint/users.yaml"
   ".octoprint/users-dev.yaml"
