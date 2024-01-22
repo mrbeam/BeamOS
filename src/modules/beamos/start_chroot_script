@@ -530,6 +530,8 @@ fi
 # Install bmap-tools for flashing the beamos2 image
 sudo apt-get install -y bmap-tools
 
+pip3 install numpy
+
 # Copy migrationos.sh and migrationos_to_beamos2.sh to /usr/bin
 unpack /filesystem/migration / root
 systemctl_if_exists enable migrationos_to_beamos2.service
