@@ -121,14 +121,14 @@ jobs:
         PROJECT_ID: devpi-310008
         APPLICATION_CREDENTIALS: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_DOWNLOAD }}
       with:
-        args: cp "${{ secrets.BEAMOS2_IMAGE }}" repository/src/image/
+        args: cp "${{ vars.BEAMOS2_IMAGE }}" repository/src/image/
         cli: gsutil
 
     - name: Extract the Beam OS 2 Image
       id: extract_the_image
       run: |
         # Set the image file
-        the_image=$(basename "${{ secrets.BEAMOS2_IMAGE }}")
+        the_image=$(basename "${{ vars.BEAMOS2_IMAGE }}")
         source_dir="repository/src/image"
         echo "The Beam OS 2 Image: ${the_image}"
         target_dir="repository/src/modules/beamos/filesystem/migration/home/pi/image"
