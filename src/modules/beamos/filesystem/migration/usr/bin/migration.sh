@@ -509,9 +509,7 @@ DATA_TO_PRESERVE=(
 )
 
 DATA_TO_RESTORE=(
-#  ".octoprint/cam" # is a folder
-  ".octoprint/cam/last_session.yaml"
-  ".octoprint/cam/pic_settings.yaml"
+  ".octoprint/cam" # is a folder
   ".octoprint/analytics/usage.yaml"
   ".octoprint/users.yaml"
   ".octoprint/users-dev.yaml"

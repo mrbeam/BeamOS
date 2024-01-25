@@ -17,11 +17,11 @@ def sanitize_npz(npz_file) -> int:
     """Sanitize npz files to be compatible with python 3.x"""
     print("Sanitizing: " + npz_file)
     try:
-        data = np.load(npz_file, encoding='latin1')
+        data = np.load(npz_file, encoding='latin1', allow_pickle=True)
     except Exception as e:
         print("Error loading file: " + str(e))
         return 1
-    np.savez_compressed(npz_file+".modified", **data)
+    np.savez_compressed(npz_file, **data)
     return 0
 
 
@@ -30,6 +30,8 @@ def sanitize_npz_files() -> None:
     for f in LENS_CALIBRATTION_FILES:
         npz_file = os.path.join(PRESERVE_DATA_CAM_DIRECTORY, f)
         if os.path.isfile(npz_file):
+            # create backup retain the original file
+            os.rename(npz_file, npz_file+".original")
             sanitize_npz(npz_file)
         else:
             print("File not found: " + npz_file)
