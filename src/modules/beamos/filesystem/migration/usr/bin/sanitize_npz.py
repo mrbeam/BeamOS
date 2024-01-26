@@ -16,8 +16,17 @@ LENS_CALIBRATTION_FILES=[
 
 
 def sanitize_npz(npz_file: str) -> None:
-    """Sanitize npz files to be compatible with python 3.x
-    npz_file: path to the npz file to be sanitized"""
+    """Sanitize npz files to be compatible with python 3.x.
+
+    Args:
+        * npz_file (str) : path to the npz file to be sanitized
+
+    Returns:
+        * None
+
+    Raises:
+        * np.lib.format.FormatError: if the file is not a valid npz file
+    """
     print("Sanitizing: " + npz_file)
     try:
         data = np.load(npz_file, encoding='latin1', allow_pickle=True)
