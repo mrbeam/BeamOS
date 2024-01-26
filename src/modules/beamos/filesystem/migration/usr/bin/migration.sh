@@ -342,6 +342,10 @@ do_restore_data () {
   echo "$(timestamp) $0: Set plugins.mrbeam.firstBootAfterUpgrade for $configfile"
   sudo yq eval -i '.plugins.mrbeam.firstBootAfterUpgrade = true' $applyfile
 
+  # Run python script to sanitize lens calibration files
+  echo "$(timestamp) $0: Sanitizing lens calibration files"
+  sanitize_npz.py
+
   # Loop through the rest of the files and folders in the array and copy backed up files
   echo "$(timestamp) $0: Restoring the rest of the files to Home"
   for FILE in "${DATA_TO_RESTORE[@]}"; do
@@ -505,9 +509,7 @@ DATA_TO_PRESERVE=(
 )
 
 DATA_TO_RESTORE=(
-#  ".octoprint/cam" # is a folder
-  ".octoprint/cam/last_session.yaml"
-  ".octoprint/cam/pic_settings.yaml"
+  ".octoprint/cam" # is a folder
   ".octoprint/analytics/usage.yaml"
   ".octoprint/users.yaml"
   ".octoprint/users-dev.yaml"
