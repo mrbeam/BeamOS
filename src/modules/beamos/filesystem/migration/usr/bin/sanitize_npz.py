@@ -5,14 +5,17 @@ import shutil
 import numpy as np
 
 
-PRESERVE_DATA_CAM_DIRECTORY="/mrbeam/preserve-data/home/pi/.octoprint/cam/"
+PRESERVE_DATA_CAM_DIRECTORY = "/mrbeam/preserve-data/home/pi/.octoprint/cam/"
 
-BUSTER_FACTORY_LENS_CALIBRATION="factory_lens_correction.npz"
-LEGACY_FACTORY_LENS_CALIBRATION="lens_correction_2048x1536.npz"
-USER_LENS_CALIBRATION="lens_correction.npz"
+BUSTER_FACTORY_LENS_CALIBRATION = "factory_lens_correction.npz"
+LEGACY_FACTORY_LENS_CALIBRATION = "lens_correction_2048x1536.npz"
+USER_LENS_CALIBRATION = "lens_correction.npz"
 
-LENS_CALIBRATTION_FILES=[
-    BUSTER_FACTORY_LENS_CALIBRATION, LEGACY_FACTORY_LENS_CALIBRATION, USER_LENS_CALIBRATION]
+LENS_CALIBRATTION_FILES = [
+    BUSTER_FACTORY_LENS_CALIBRATION,
+    LEGACY_FACTORY_LENS_CALIBRATION,
+    USER_LENS_CALIBRATION,
+]
 
 
 def sanitize_npz(npz_file: str) -> None:
@@ -29,7 +32,7 @@ def sanitize_npz(npz_file: str) -> None:
     """
     print("Sanitizing: " + npz_file)
     try:
-        data = np.load(npz_file, encoding='latin1', allow_pickle=True)
+        data = np.load(npz_file, encoding="latin1", allow_pickle=True)
     except np.lib.format.FormatError as _e:
         print("Error loading file: " + str(_e))
     np.savez_compressed(npz_file, **data)
@@ -41,7 +44,7 @@ def sanitize_npz_files() -> None:
         npz_file = os.path.join(PRESERVE_DATA_CAM_DIRECTORY, _f)
         if os.path.isfile(npz_file):
             # create backup retain the original file
-            shutil.copy2(npz_file, npz_file+".original")
+            shutil.copy2(npz_file, npz_file + ".original")
             sanitize_npz(npz_file)
         else:
             print("File not found: " + npz_file)
