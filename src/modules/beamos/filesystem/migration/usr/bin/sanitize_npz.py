@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ Module to santitize npz files to be compatible with python 3.x """
 import os
+import shutil
 import numpy as np
 
 
@@ -30,7 +31,7 @@ def sanitize_npz_files() -> None:
         npz_file = os.path.join(PRESERVE_DATA_CAM_DIRECTORY, _f)
         if os.path.isfile(npz_file):
             # create backup retain the original file
-            os.rename(npz_file, npz_file+".original")
+            shutil.copy2(npz_file, npz_file+".original")
             sanitize_npz(npz_file)
         else:
             print("File not found: " + npz_file)
