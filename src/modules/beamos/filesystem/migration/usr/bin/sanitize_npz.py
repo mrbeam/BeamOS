@@ -15,8 +15,9 @@ LENS_CALIBRATTION_FILES=[
     BUSTER_FACTORY_LENS_CALIBRATION, LEGACY_FACTORY_LENS_CALIBRATION, USER_LENS_CALIBRATION]
 
 
-def sanitize_npz(npz_file) -> None:
-    """Sanitize npz files to be compatible with python 3.x"""
+def sanitize_npz(npz_file: str) -> None:
+    """Sanitize npz files to be compatible with python 3.x
+    npz_file: path to the npz file to be sanitized"""
     print("Sanitizing: " + npz_file)
     try:
         data = np.load(npz_file, encoding='latin1', allow_pickle=True)
