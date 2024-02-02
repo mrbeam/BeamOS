@@ -321,6 +321,7 @@ do_restore_data () {
   configfile="/home/pi/.octoprint/config.yaml"
   backupfile="${backupfolder}${configfile}"
   applyfile="${applyfolder}${configfile}"
+  migrationoperator="workshop"
   #accessControl needed for users.yaml
   echo "$(timestamp) $0: Restoring accessControl for $configfile"
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"accessControl":select(fileIndex==1).accessControl}' $applyfile -
@@ -336,6 +337,13 @@ do_restore_data () {
   #plugins.mrbeam.review
   echo "$(timestamp) $0: Restoring plugins.mrbeam.review for $configfile"
   sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
+
+  #plugins.swupdater.attributes.migration_operator
+  echo "$(timestamp) $0: Save plugins.swupdater.server_url and plugins.swupdater.server_port from $applyfile"
+  server_url=$(sudo yq eval '.plugins.swupdater.server_url' $applyfile)
+  server_port=$(sudo yq eval '.plugins.swupdater.server_port' $applyfile)
+  echo "$(timestamp) $0: Set plugins.swupdater.attributes.migration_operator as $migrationoperator for $configfile"
+  sudo yq e -i ".plugins.swupdater |= {\"server_url\": \"$server_url\", \"server_port\": $server_port, \"attributes\": {\"migration_operator\": \"$migrationoperator\"}}" $applyfile
 
   #We now set a field to identify this as a first boot after upgrade
   #plugins.mrbeam.firstBootAfterUpgrade
