@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.1.0                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.2.0                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -26,6 +26,7 @@ usage () {
     echo "                                          - success                                                          "
     echo "                                          - fail                                                             "
     echo "                                          - in-progress                                                      "
+    echo "                                          - warn                                                      "
     echo "                                        <color> can be one of the following:                                 "
     echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
@@ -44,14 +45,25 @@ do_precondition_checks () {
 
   configfile="/home/pi/.octoprint/config.yaml"
 
+  # Check the size of SD-Card
+  echo "$(timestamp) $0: Checking the size of SD-Card."
+  local SD_CARD_SIZE=$(lsblk -b -o SIZE /dev/mmcblk0 | tail -n 1)
+  SD_CARD_SIZE_GIGABYTES=$((SD_CARD_SIZE / 1024 / 1024 / 1024))
+  echo "$(timestamp) $0: SD-Card size - ${SD_CARD_SIZE_GIGABYTES}GB found"
+  if [ "$SD_CARD_SIZE" -gt $((MIN_SD_SIZE_IN_GB * 1024 * 1024 * 1024)) ]; then
+    echo "$(timestamp) $0: SD-Card size is greater than ${MIN_SD_SIZE_IN_GB}GB. Migration can be done."
+  else
+    echo "$(timestamp) $0: SD-Card size must be greater than ${MIN_SD_SIZE_IN_GB}GB for Migration."
+    exit 100
+  fi
+
   local MIN_REQ_MRBEAM_PLUGIN_VERSION="0.15.1"
   #Check the MrBeamPlugin version
   mrbeam_plugin_version=$(/home/pi/oprint/bin/pip list | grep Mr-Beam | awk '{gsub(/[()]/,""); print $2}')
 
   if $(dpkg --compare-versions "$mrbeam_plugin_version" "lt" $MIN_REQ_MRBEAM_PLUGIN_VERSION); then
     echo "$(timestamp) $0: MrBeamPlugin version - $mrbeam_plugin_version must be greater than $MIN_REQ_MRBEAM_PLUGIN_VERSION for Migration."
-    do_set_status fail ${FLASH_PURPLE}
-    exit 1
+    exit 101
   fi
   echo "$(timestamp) $0: MrBeamPlugin version is $mrbeam_plugin_version. Migration can be done."
 
@@ -69,8 +81,7 @@ do_precondition_checks () {
   # Check if the file exists
   if [ ! -f "/etc/mrbeam" ]; then
     echo "$(timestamp) $0: /etc/mrbeam file not found."
-    do_set_status fail ${FLASH_PURPLE}
-    exit 1
+    exit 101
   fi
    # Read each line from the file
   while IFS= read -r line; do
@@ -83,8 +94,7 @@ do_precondition_checks () {
           # Check if the value is empty
           if [ -z "$value" ]; then
               echo "$(timestamp) $0: File /etc/mrbeam is corrupt. Empty value for key: $key"
-              do_set_status fail ${FLASH_PURPLE}
-              exit 1
+              exit 101
           fi
       fi
   done < "/etc/mrbeam"
@@ -96,8 +106,7 @@ do_precondition_checks () {
   # Check if there are any USB drives
   if [ -z "$USB_DRIVES" ]; then
     echo "$(timestamp) $0: No USB drives found."
-    do_set_status fail ${FLASH_PURPLE}
-    exit 1
+    exit 101
   fi
 
   while read -r line; do
@@ -109,8 +118,7 @@ do_precondition_checks () {
       echo "$(timestamp) $0: USB drive of $DEVICE_SIZE_GIGABYTES GB present."
     else
       echo "$(timestamp) $0: No USB drive of size greater than ${MIN_USB_SIZE_IN_GB}GB found."
-      do_set_status fail ${FLASH_PURPLE}
-      exit 1
+      exit 101
     fi
 
   done <<< "$USB_DRIVES"
@@ -124,13 +132,11 @@ do_precondition_checks () {
       echo "$(timestamp) $0: GPG signature verified for ${MIGRATIONOS_ENC_PATH}"
     else
       echo "$(timestamp) $0: GPG signature verification failed for ${MIGRATIONOS_ENC_PATH}"
-      do_set_status fail ${FLASH_PURPLE}
-      exit 1
+      exit 101
     fi
   else
     echo "$(timestamp) $0: MigrationOS encrypted file ${MIGRATIONOS_ENC_PATH} not found"
-    do_set_status fail ${FLASH_PURPLE}
-    exit 1
+    exit 101
   fi
 
   # Decryption of migrationos.enc as migrationos.img onto /home/pi/usb_mount directory
@@ -138,8 +144,7 @@ do_precondition_checks () {
   gpg --output ${MIGRATION_IMAGE_BASEDIR} --decrypt ${MIGRATIONOS_ENC_PATH}
   if [ $? -ne 0 ]; then
     echo "$(timestamp) $0: Decryption failed for ${MIGRATIONOS_ENC_PATH}"
-    do_set_status fail ${FLASH_TEAL}
-    exit 1
+    exit 102
   fi
   echo "$(timestamp) $0: Decryption successful for ${MIGRATIONOS_ENC_PATH} to ${MIGRATION_IMAGE_BASEDIR}"
 
@@ -169,8 +174,7 @@ do_flash () {
     # check if the image is there
     if [ ! -f ${IMAGE_FILE} ]; then
       echo "$(timestamp) $0: Image not found: ${IMAGE_FILE}"
-      do_set_status fail orange
-      exit 1
+      exit 103
     fi
     sudo umount ${SD_CARD_DEVICE}* || true
     sudo bmaptool copy ${IMAGE_FILE} ${SD_CARD_DEVICE}
@@ -181,8 +185,7 @@ do_flash () {
     IMAGE_FILE="${MIGRATION_IMAGE}"
     if [ ! -f ${IMAGE_FILE} ]; then
       echo "$(timestamp) $0: Image not found: ${IMAGE_FILE}"
-      do_set_status fail blue
-      exit 1
+      exit 104
     fi
     echo "$(timestamp) $0: Flashing USB with migrationos"
     sudo umount ${DEVICE_TO_BE_FLASHED}* || true
@@ -191,15 +194,17 @@ do_flash () {
     FLASH_COLOR_ON_FAIL_TO_FLASH="blue"
   else
     echo "$(timestamp) $0: Check inputs to the function flash"
-    do_set_status fail red
-    exit 1
+    exit 105
   fi
 
   # check status of flashing
   if [ $STATUS -ne 0 ]; then
     echo "$(timestamp) $0: Flashing Failed - $OS_TO_BE_FLASHED on $DEVICE_TO_BE_FLASHED from $CURRENT_OS_VERSION"
-    do_set_status fail ${FLASH_COLOR_ON_FAIL_TO_FLASH}
-    exit 1
+    if [ $FLASH_COLOR_ON_FAIL_TO_FLASH="orange"]; then
+      exit 103
+    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH="blue"]; then
+      exit 104
+    fi
   fi
 
   sudo sync
@@ -242,8 +247,7 @@ do_mount () {
     FLASH_COLOR_ON_FAIL_TO_MOUNT="blue"
   else
     echo "$(timestamp) $0: Check inputs to the function mount"
-    do_set_status fail red
-    exit 1
+    exit 105
   fi
 
   for i in "${!DEVICE_PARTITIONS[@]}"; do
@@ -253,14 +257,15 @@ do_mount () {
     # Check if the mount is successful
     if [ $? -ne 0 ]; then
       echo "$(timestamp) $0: Can't mount ${DEVICE_PARTITIONS[$i]}"
-      do_set_status fail ${FLASH_COLOR_ON_FAIL_TO_MOUNT}
-      exit 1
+      if [ $FLASH_COLOR_ON_FAIL_TO_MOUNT="orange"]; then
+        exit 103
+      elif [ $FLASH_COLOR_ON_FAIL_TO_MOUNT="blue"]; then
+        exit 104
+      fi
     fi
   done
 
   echo "Mounting Successful - $DEVICE_TO_BE_MOUNTED"
-
-
   exit 0
 }
 
@@ -269,8 +274,7 @@ do_preserve_data () {
   echo "$(timestamp) $0: preserve-data $USB_MOUNT_PATH" # path like "/mnt/usb"
   if [ -z "${USB_MOUNT_PATH}" ]; then
       echo "$(timestamp) $0: No suitable backup partition found. Exiting..."
-      do_set_status fail blue
-      exit 1
+      exit 104
   fi
 
   # Create a backup directory (if it doesn't exist)
@@ -483,6 +487,11 @@ set_status_in_progress () {
   mrbeam_ledstrips_cli flash_$1:5
 }
 
+set_status_warn () {
+  echo "$(timestamp) $0: status_warn"
+  mrbeam_ledstrips_cli flash_$1:1;
+}
+
 do_set_status () {
   STATUS="$1"
   COLOR="$2"
@@ -496,6 +505,9 @@ do_set_status () {
   elif [ "${STATUS}" = "in-progress" ]; then
     echo "${STATUS}"
     set_status_in_progress "$COLOR"
+  elif [ "${STATUS}" = "warn" ]; then
+    echo "${STATUS}"
+    set_status_warn "$COLOR"
   else
     echo "$(timestamp) $0: Unknown status [${STATUS}]"
     set_status_fail red
@@ -521,11 +533,24 @@ do_shutdown () {
 do_exit () {
     RET_CODE="$?"
     echo "$0: Exitting. ${RET_CODE}"
+    echo $RET_CODE > /tmp/migration.sh.ret_code
     if [ "$RET_CODE" -eq 0 ]; then
         echo "$0: Normal exiting."
     else
         echo "$0: Exiting with error code [${RET_CODE}]"
-        set_status_fail
+        if [ "${RET_CODE}" -eq 100 ]; then
+            do_set_status warn ${FLASH_PURPLE}
+        elif [ "${RET_CODE}" -eq 101 ]; then
+            do_set_status fail ${FLASH_PURPLE}
+        elif [ "${RET_CODE}" -eq 102 ]; then
+            do_set_status fail ${FLASH_TEAL}
+        elif [ "${RET_CODE}" -eq 103 ]; then
+            do_set_status fail orange
+        elif [ "${RET_CODE}" -eq 104 ]; then
+            do_set_status fail blue
+        elif [ "${RET_CODE}" -eq 105 ]; then
+            do_set_status fail red
+        fi
     fi
 }
 
@@ -540,6 +565,7 @@ IMAGE_DIR="/home/pi/image"
 MIGRATION_IMAGE="${IMAGE_DIR}/migrationos.img"
 BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
 MIN_USB_SIZE_IN_GB=4
+MIN_SD_SIZE_IN_GB=12
 BACKUP_PATH="/mrbeam/preserve-data"
 SKIP_FILE_NAME="./files_to_skip_preserve_data"
 

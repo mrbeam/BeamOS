@@ -28,6 +28,7 @@ do_exit()
   echo "$(timestamp) $0: Exitting. ${RET_CODE}"
   if [ "$RET_CODE" -eq 0 ]; then
     echo "$0: Normal exiting."
+    sudo bash ${BASEDIR}/migration.sh set-status success
   else
     echo "$0: Exiting with error code [${RET_CODE}]"
     sudo bash ${BASEDIR}/migration.sh set-status fail orange
@@ -53,20 +54,36 @@ trap do_exit EXIT
 echo "$(timestamp) $0: Flashing the SD-Card"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh flash beamos2 sd-card
+if [ "$exit_code" -ne 0 ]; then
+  echo "$(timestamp) $0: Flashing the SD-Card failed"
+  exit 100
+fi
 
 #   Mount the SD-Card
 echo "$(timestamp) $0: Mounting the SD-Card"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh mount sd-cards
+if [ "$exit_code" -ne 0 ]; then
+  echo "$(timestamp) $0: Mounting the SD-Card failed"
+  exit 100
+fi
 
 #   Restore Sensitive Data
 echo "$(timestamp) $0: Restoring Sensitive Data"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh restore-data
+if [ "$exit_code" -ne 0 ]; then
+  echo "$(timestamp) $0: Restoring Sensitive Data failed"
+  exit 100
+fi
 
 # Shutdown the device
 echo "$(timestamp) $0: Shutdown the device"
 sudo bash ${BASEDIR}/migration.sh set-status success
 sudo bash ${BASEDIR}/migration.sh shutdown
+if [ "$exit_code" -ne 0 ]; then
+  echo "$(timestamp) $0: Shutdown the device failed"
+  exit 100
+fi
 
 exit 0
