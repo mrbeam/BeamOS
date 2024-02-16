@@ -61,7 +61,6 @@ jobs:
         echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
         echo "$SSH_KEY_MOUNTMANAGER" > ~/.ssh/mountmanager.key
         echo "$SSH_KEY_MRBCHECK" > ~/.ssh/mrbcheck.key
-        echo "$SSH_KEY_MRBCHECK" > ~/.ssh/ledstrips.key
         chmod 600 ~/.ssh/bitbucket.key
         chmod 600 ~/.ssh/mountmanager.key
         chmod 600 ~/.ssh/mrbcheck.key
@@ -83,7 +82,7 @@ jobs:
         Host github.com-mrb_check
           HostName github.com
           IdentityFile ~/.ssh/mrbcheck.key
-        Host github.com-ledstrips
+        Host github.com/mrbeam/mrb3-led-strips
           HostName github.com
           IdentityFile ~/.ssh/ledstrips.key
         END
