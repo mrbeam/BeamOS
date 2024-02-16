@@ -82,9 +82,6 @@ jobs:
         Host github.com-mrb_check
           HostName github.com
           IdentityFile ~/.ssh/mrbcheck.key
-        Host github.com/mrbeam/mrb3-led-strips
-          HostName github.com
-          IdentityFile ~/.ssh/ledstrips.key
         END
 
     - name: Checkout CustomPiOS
