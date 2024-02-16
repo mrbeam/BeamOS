@@ -55,7 +55,6 @@ jobs:
         SSH_KEY_MOUNTMANAGER: ${{ secrets.DEPLOY_KEY_MOUNTMANAGER }}
         SSH_KEY_MRBCHECK: ${{ secrets.DEPLOY_KEY_MRBCHECK }}
         SSH_KEY_BITBUCKET: ${{ secrets.BITBUCKET_ACCESS_KEY }}
-        SSH_KEY_LEDSTRIPS: ${{ secrets.DEPLOY_KEY_LEDSTRIPS }}
       run: |
         mkdir -p ~/.ssh/
         echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
@@ -64,7 +63,6 @@ jobs:
         chmod 600 ~/.ssh/bitbucket.key
         chmod 600 ~/.ssh/mountmanager.key
         chmod 600 ~/.ssh/mrbcheck.key
-        chmod 600 ~/.ssh/ledstrips.key
 
         touch ~/.ssh/known_hosts
         ssh-keygen -R bitbucket.org
