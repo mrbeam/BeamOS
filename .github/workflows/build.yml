@@ -55,7 +55,6 @@ jobs:
         SSH_KEY_MOUNTMANAGER: ${{ secrets.DEPLOY_KEY_MOUNTMANAGER }}
         SSH_KEY_MRBCHECK: ${{ secrets.DEPLOY_KEY_MRBCHECK }}
         SSH_KEY_BITBUCKET: ${{ secrets.BITBUCKET_ACCESS_KEY }}
-        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
         mkdir -p ~/.ssh/
         echo "$SSH_KEY_BITBUCKET" > ~/.ssh/bitbucket.key
@@ -143,6 +142,8 @@ jobs:
         echo "Placed the image in ${target_dir}/${target_name}.bz2 with bmap file"
 
     - name: Build Image (MrBeam Variant)
+      env:
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
         sudo modprobe loop
         cd repository/src
