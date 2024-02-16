@@ -22,7 +22,7 @@ usage () {
     echo "  preserve-data                      Preserves sensitive data into USB at path \"/mnt/usb\".                 "
     echo "  restore-data                       Restores sensitive data into SD-Card.                                   "
     echo "  set-status <status> <color>        Sets the <status> of LED in a <color>                                   "
-    echo"                                         <status> can be one of the following:                                "
+    echo "                                         <status> can be one of the following:                               "
     echo "                                          - success                                                          "
     echo "                                          - fail                                                             "
     echo "                                          - in-progress                                                      "
