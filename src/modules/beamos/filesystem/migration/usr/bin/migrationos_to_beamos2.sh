@@ -30,7 +30,7 @@ do_exit()
     echo "$0: Normal exiting."
   else
     echo "$0: Exiting with error code [${RET_CODE}]"
-    sudo bash ${BASEDIR}/migration.sh set-status fail
+    sudo bash ${BASEDIR}/migration.sh set-status fail orange
   fi
 }
 
@@ -51,17 +51,17 @@ trap do_exit EXIT
 
 #   Flash the SD-Card
 echo "$(timestamp) $0: Flashing the SD-Card"
-sudo bash ${BASEDIR}/migration.sh set-status in-progress
+sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh flash beamos2 sd-card
 
 #   Mount the SD-Card
 echo "$(timestamp) $0: Mounting the SD-Card"
-sudo bash ${BASEDIR}/migration.sh set-status in-progress
-sudo bash ${BASEDIR}/migration.sh mount sd-card
+sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
+sudo bash ${BASEDIR}/migration.sh mount sd-cards
 
 #   Restore Sensitive Data
 echo "$(timestamp) $0: Restoring Sensitive Data"
-sudo bash ${BASEDIR}/migration.sh set-status in-progress
+sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh restore-data
 
 # Shutdown the device
