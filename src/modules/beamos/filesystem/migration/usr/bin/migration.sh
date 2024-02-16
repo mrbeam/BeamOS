@@ -21,10 +21,13 @@ usage () {
     echo "                                       - <device> can be \"sd-card\" or device path like \"/dev/sda\".       "
     echo "  preserve-data                      Preserves sensitive data into USB at path \"/mnt/usb\".                 "
     echo "  restore-data                       Restores sensitive data into SD-Card.                                   "
-    echo "  set-status <status>                Sets the <status> of LED. <status> can be one of the following:         "
-    echo "                                       - success                                                             "
-    echo "                                       - fail                                                                "
-    echo "                                       - in-progress                                                         "
+    echo "  set-status <status> <color>        Sets the <status> of LED in a <color>                                   "
+    echo"                                         <status> can be one of the following:                                "
+    echo "                                          - success                                                          "
+    echo "                                          - fail                                                             "
+    echo "                                          - in-progress                                                      "
+    echo "                                        <color> can be one of the following:                                 "
+    echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
     echo "  shutdown                           Shutdown Mr Beam.                                                       "
 
@@ -166,7 +169,7 @@ do_flash () {
     # check if the image is there
     if [ ! -f ${IMAGE_FILE} ]; then
       echo "$(timestamp) $0: Image not found: ${IMAGE_FILE}"
-      do_set_status fail red
+      do_set_status fail orange
       exit 1
     fi
     sudo umount ${SD_CARD_DEVICE}* || true
@@ -178,7 +181,7 @@ do_flash () {
     IMAGE_FILE="${MIGRATION_IMAGE}"
     if [ ! -f ${IMAGE_FILE} ]; then
       echo "$(timestamp) $0: Image not found: ${IMAGE_FILE}"
-      do_set_status fail red
+      do_set_status fail blue
       exit 1
     fi
     echo "$(timestamp) $0: Flashing USB with migrationos"
