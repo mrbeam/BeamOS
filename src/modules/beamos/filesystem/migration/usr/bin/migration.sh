@@ -501,7 +501,7 @@ do_set_status () {
     set_status_success
   elif [ "${STATUS}" = "fail" ]; then
     echo "${STATUS}"
-    set_status_fail "$COLOR"
+    set_status_fail "$COLOR" &
   elif [ "${STATUS}" = "in-progress" ]; then
     echo "${STATUS}"
     set_status_in_progress "$COLOR"
@@ -510,7 +510,7 @@ do_set_status () {
     set_status_warn "$COLOR"
   else
     echo "$(timestamp) $0: Unknown status [${STATUS}]"
-    set_status_fail red
+    set_status_fail red &
   fi
 }
 
