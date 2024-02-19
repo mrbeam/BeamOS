@@ -38,7 +38,7 @@ do_exit()
 ###############################################
 IMAGE_DIR="/home/pi/image"
 BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
-MAX_TIME=30 # in seconds
+MAX_TIME=900 # 15 minutes in seconds
 PHASE_COLOR="ORANGE"
 
 

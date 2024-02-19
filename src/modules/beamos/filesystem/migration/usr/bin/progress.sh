@@ -24,7 +24,7 @@ while ps -p $pid > /dev/null; do
     runtime=$((current_time - start_time))
     percentage=$((runtime * 100 / total_time))
     if [ $percentage -ne $last_percentage ]; then
-        echo "Percentage of runtime: $percentage%"
+        echo "Percentage of runtime: $percentage % ($runtime s)"
         last_percentage=$percentage
         if [ "$color" == "BLUE" ]; then
             mrbeam_ledstrips_cli progress:$percentage
@@ -32,5 +32,5 @@ while ps -p $pid > /dev/null; do
             mrbeam_ledstrips_cli progress:$percentage:$color
         fi
     fi
-    sleep 1
+    sleep 5
 done
