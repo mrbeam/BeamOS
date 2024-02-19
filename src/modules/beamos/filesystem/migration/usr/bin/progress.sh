@@ -17,10 +17,10 @@ if ! ps -p $pid > /dev/null; then
 fi
 
 # Start tracking time
-start_time=$(date +"%T")
+start_time=$(ps -o etimes= -p $pid)
 last_percentage=0
 while ps -p $pid > /dev/null; do
-    current_time=$(date +"%T")
+    current_time=$(ps -o etimes= -p $pid)
     runtime=$((current_time - start_time))
     percentage=$((runtime * 100 / total_time))
     if [ $percentage -ne $last_percentage ]; then
