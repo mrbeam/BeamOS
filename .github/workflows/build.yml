@@ -142,10 +142,13 @@ jobs:
         echo "Placed the image in ${target_dir}/${target_name}.bz2 with bmap file"
 
     - name: Build Image (MrBeam Variant)
+      env:
+        PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       run: |
         sudo modprobe loop
         cd repository/src
         echo "export EXTRA_SSH_KEY='${{ secrets.SSH_BEAMOS01_RSA }}'" >> config
+        echo "export PERSONAL_ACCESS_TOKEN='${{ secrets.PERSONAL_ACCESS_TOKEN }}'" >> config
         sudo bash -x ./build_dist $VARIANT ${{ matrix.flavor }}
 
     - name: Copy output

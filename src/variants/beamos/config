@@ -3,7 +3,7 @@
 export DIST_NAME=MigrationOS
 export DIST_VERSION=0.1.0
 export BASE_OVERRIDE_HOSTNAME=MigrationOS
-export BASE_IMAGE_ENLARGEROOT=2250
+export BASE_IMAGE_ENLARGEROOT=3050
 
 export BEAMOS_DEV=no
 export MODULES="base(raspicam, network, disable-services(dev-libs(octopi, beamos)))"
