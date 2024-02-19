@@ -60,7 +60,7 @@ fi
 #   Mount the SD-Card
 echo "$(timestamp) $0: Mounting the SD-Card"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
-sudo bash ${BASEDIR}/migration.sh mount sd-cards
+sudo bash ${BASEDIR}/migration.sh mount sd-card
 exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
   echo "$(timestamp) $0: Mounting the SD-Card failed"
