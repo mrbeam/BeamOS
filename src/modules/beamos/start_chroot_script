@@ -460,7 +460,7 @@ pushd /home/pi
     # apt-install python3-pip
     # Install in a separate venv
     LED_VENV=/usr/local/mrbeam_ledstrips/venv
-    python3.10 -m venv -p python3 $LED_VENV
+    python3.10 -m venv $LED_VENV
     $LED_VENV/bin/pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
     # Link the executables to have mrbeam_ledstrips(_cli) in the $PATH
     ln -s $LED_VENV/bin/mrbeam_ledstrips /usr/bin/
