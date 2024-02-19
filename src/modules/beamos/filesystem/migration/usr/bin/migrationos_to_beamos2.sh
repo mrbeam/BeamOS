@@ -55,7 +55,6 @@ sudo bash ${BASEDIR}/progress.sh $current_pid $MAX_TIME $PHASE_COLOR &
 
 #   Flash the SD-Card
 echo "$(timestamp) $0: Flashing the SD-Card"
-sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh flash beamos2 sd-card
 exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
@@ -65,7 +64,6 @@ fi
 
 #   Mount the SD-Card
 echo "$(timestamp) $0: Mounting the SD-Card"
-sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh mount sd-card
 exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
@@ -75,7 +73,6 @@ fi
 
 #   Restore Sensitive Data
 echo "$(timestamp) $0: Restoring Sensitive Data"
-sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh restore-data
 exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
