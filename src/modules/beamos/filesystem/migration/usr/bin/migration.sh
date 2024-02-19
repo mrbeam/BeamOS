@@ -512,7 +512,6 @@ do_set_status () {
     echo "$(timestamp) $0: Unknown status [${STATUS}]"
     set_status_fail red
   fi
-  exit 0
 }
 
 do_config_boot_usb () {
@@ -533,7 +532,6 @@ do_shutdown () {
 do_exit () {
     RET_CODE="$?"
     echo "$0: Exitting. ${RET_CODE}"
-    echo $RET_CODE > /tmp/migration.sh.ret_code
     if [ "$RET_CODE" -eq 0 ]; then
         echo "$0: Normal exiting."
     else

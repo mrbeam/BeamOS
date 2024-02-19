@@ -14,9 +14,6 @@ BASEDIR="/usr/bin"
 #   Set LED Status Success/Fail
 #   Shutdown the device
 
-# Exit immediately if a command exits with a non-zero status.
-set -e
-
 timestamp()
 {
  date +"%Y-%m-%d %T"
@@ -54,6 +51,7 @@ trap do_exit EXIT
 echo "$(timestamp) $0: Flashing the SD-Card"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh flash beamos2 sd-card
+exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
   echo "$(timestamp) $0: Flashing the SD-Card failed"
   exit 100
@@ -63,6 +61,7 @@ fi
 echo "$(timestamp) $0: Mounting the SD-Card"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh mount sd-cards
+exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
   echo "$(timestamp) $0: Mounting the SD-Card failed"
   exit 100
@@ -72,6 +71,7 @@ fi
 echo "$(timestamp) $0: Restoring Sensitive Data"
 sudo bash ${BASEDIR}/migration.sh set-status in-progress orange
 sudo bash ${BASEDIR}/migration.sh restore-data
+exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
   echo "$(timestamp) $0: Restoring Sensitive Data failed"
   exit 100
@@ -81,6 +81,7 @@ fi
 echo "$(timestamp) $0: Shutdown the device"
 sudo bash ${BASEDIR}/migration.sh set-status success
 sudo bash ${BASEDIR}/migration.sh shutdown
+exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
   echo "$(timestamp) $0: Shutdown the device failed"
   exit 100
