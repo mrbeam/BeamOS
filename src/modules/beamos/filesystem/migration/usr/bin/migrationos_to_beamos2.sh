@@ -38,6 +38,8 @@ do_exit()
 ###############################################
 IMAGE_DIR="/home/pi/image"
 BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
+MAX_TIME=30 # in seconds
+PHASE_COLOR="ORANGE"
 
 
 ###############################################
@@ -46,6 +48,10 @@ BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
 
 # Set trap before EXIT
 trap do_exit EXIT
+
+# start progress leds
+current_pid=$$
+sudo bash ${BASEDIR}/progress.sh $current_pid $MAX_TIME $PHASE_COLOR &
 
 #   Flash the SD-Card
 echo "$(timestamp) $0: Flashing the SD-Card"
