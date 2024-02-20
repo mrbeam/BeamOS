@@ -12,7 +12,7 @@ BASEDIR="/usr/bin"
 #   Mount the SD-Card
 #   Restore Sensitive Data
 #   Set LED Status Success/Fail
-#   Shutdown the device
+#   Reboot the device
 
 timestamp()
 {
@@ -80,13 +80,13 @@ if [ "$exit_code" -ne 0 ]; then
   exit 100
 fi
 
-# Shutdown the device
-echo "$(timestamp) $0: Shutdown the device"
+# Reboot the device
+echo "$(timestamp) $0: Reboot the device"
 sudo bash ${BASEDIR}/migration.sh set-status success
-sudo bash ${BASEDIR}/migration.sh shutdown
+sudo bash ${BASEDIR}/migration.sh reboot
 exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
-  echo "$(timestamp) $0: Shutdown the device failed"
+  echo "$(timestamp) $0: Reboot the device failed"
   exit 100
 fi
 
