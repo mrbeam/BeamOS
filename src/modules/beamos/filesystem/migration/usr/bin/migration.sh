@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.2.0                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.3.0                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -25,8 +25,7 @@ usage () {
     echo "                                         <status> can be one of the following:                               "
     echo "                                          - success                                                          "
     echo "                                          - fail                                                             "
-    echo "                                          - in-progress                                                      "
-    echo "                                          - warn                                                      "
+    echo "                                          - warn                                                             "
     echo "                                        <color> can be one of the following:                                 "
     echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
@@ -480,13 +479,6 @@ set_status_fail () {
   done
 }
 
-set_status_in_progress () {
-  echo "$(timestamp) $0: status_in_progress"
-  mrbeam_ledstrips_cli flash_$1:4;
-  sleep 0.4 ;
-  mrbeam_ledstrips_cli flash_$1:5
-}
-
 set_status_warn () {
   echo "$(timestamp) $0: status_warn"
   mrbeam_ledstrips_cli flash_$1:1;
@@ -501,16 +493,13 @@ do_set_status () {
     set_status_success
   elif [ "${STATUS}" = "fail" ]; then
     echo "${STATUS}"
-    set_status_fail "$COLOR"
-  elif [ "${STATUS}" = "in-progress" ]; then
-    echo "${STATUS}"
-    set_status_in_progress "$COLOR"
+    set_status_fail "$COLOR" &
   elif [ "${STATUS}" = "warn" ]; then
     echo "${STATUS}"
     set_status_warn "$COLOR"
   else
     echo "$(timestamp) $0: Unknown status [${STATUS}]"
-    set_status_fail red
+    set_status_fail red &
   fi
 }
 
