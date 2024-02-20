@@ -553,6 +553,7 @@ update-rc.d beamos_first_boot defaults
 # fi
 
 # Dirty fix for reboot issue
-line_to_append="gpio=14=ip,pu"
+line_to_append="gpio=14=ip,pu
+dtoverlay=disable-bt"
 file_path="/boot/config.txt"
 sed -i "1i$line_to_append" "$file_path"
