@@ -512,8 +512,8 @@ do_config_boot_usb () {
 }
 
 do_shutdown () {
-  echo "$(timestamp) $0: shutdown"
-  sudo shutdown now
+  echo "$(timestamp) $0: reboot"
+  sudo reboot now
   exit 0
 }
 
