@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Check if PID and total time are provided
-if [ $# -ne 2 ]; then
+if [ $# -lt 2 ]; then
     echo "Usage: $0 <PID> <total_time> [color]"
     exit 1
 fi
