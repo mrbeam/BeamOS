@@ -435,6 +435,21 @@ do_restore_data () {
     # Extract email addresses with a trailing colon
     email_list=$(grep -E -o '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b:' "$usersyamlfile" | sed 's/:$//')
 
+    # Check if the email_list is empty
+    if [ -z "$email_list" ]; then
+      echo "$(timestamp) $0: Restore data: Warning - No email addresses found in '${usersyamlfile}'. Removing it."
+      sudo rm -f "$usersyamlfile"
+      continue
+    fi
+
+    # Check if there are any active users
+    active_user=$(sudo yq eval '.. | select(has("active")) | .active' "$usersyamlfile" | grep true)
+    if [ -z "$active_user" ]; then
+      echo "$(timestamp) $0: Restore data: Warning - No active user found in '${usersyamlfile}'. Removing it."
+      sudo rm -f "$usersyamlfile"
+      continue
+    fi
+
     for email in $email_list; do
         # Check if 'admin' role already exists for the email
         admin_exists=$(sudo yq eval ".\"$email\".roles | select(.[] == \"admin\")" "$usersyamlfile")
