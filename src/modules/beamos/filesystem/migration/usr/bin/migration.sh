@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.4.0                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.0                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -29,7 +29,7 @@ usage () {
     echo "                                        <color> can be one of the following:                                 "
     echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
-    echo "  reboot                             Reboot Mr Beam.                                                       "
+    echo "  reboot                             Reboot Mr Beam.                                                         "
 
 }
 
