@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.3.0                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.4.0                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -29,7 +29,7 @@ usage () {
     echo "                                        <color> can be one of the following:                                 "
     echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
-    echo "  shutdown                           Shutdown Mr Beam.                                                       "
+    echo "  reboot                             Reboot Mr Beam.                                                       "
 
 }
 
@@ -381,19 +381,46 @@ do_restore_data () {
   migrationoperator="workshop"
   #accessControl needed for users.yaml
   echo "$(timestamp) $0: Restoring accessControl for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"accessControl":select(fileIndex==1).accessControl}' $applyfile -
+  accessControl=$(sudo yq eval '.accessControl' $backupfile)
+  salt=$(sudo yq eval '.accessControl.salt' $backupfile)
+  # Check if the accessControl field is empty or salt is null
+  if [ -z "$accessControl" ] || [ "$salt" == "null" ]; then
+    echo "$(timestamp) $0: Warning - accessControl field is empty in $backupfile. Remove users.yaml files from to be restored file list."
+    DATA_TO_RESTORE=("${DATA_TO_RESTORE[@]/".octoprint/users.yaml"}")
+    DATA_TO_RESTORE=("${DATA_TO_RESTORE[@]/".octoprint/users-dev.yaml"}")
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"accessControl":select(fileIndex==1).accessControl}' $applyfile -
+  fi
 
   #plugins.findmymrbeam
   echo "$(timestamp) $0: Restoring plugins.findmymrbeam for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"findmymrbeam":select(fileIndex==1).plugins.findmymrbeam}}' $applyfile -
+  findmymrbeam=$(sudo yq eval '.plugins.findmymrbeam' $backupfile)
+  # Check if the findmymrbeam field is empty or null
+  if [ -z "$findmymrbeam" ] || [ "$findmymrbeam" == "null" ]; then
+    echo "$(timestamp) $0: Warning - findmymrbeam field is empty in $backupfile. Skipping."
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"findmymrbeam":select(fileIndex==1).plugins.findmymrbeam}}' $applyfile -
+  fi
 
   #plugins.mrbeam.analyticsEnabled
   echo "$(timestamp) $0: Restoring plugins.mrbeam.analyticsEnabled for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"analyticsEnabled":select(fileIndex==1).plugins.mrbeam.analyticsEnabled}}}' $applyfile -
+  analyticsEnabled=$(sudo yq eval '.plugins.mrbeam.analyticsEnabled' $backupfile)
+  # Check if the analyticsEnabled field is empty or null
+  if [ -z "$analyticsEnabled" ] || [ "$analyticsEnabled" == "null" ]; then
+    echo "$(timestamp) $0: Warning - analyticsEnabled field is empty in $backupfile. Skipping."
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"analyticsEnabled":select(fileIndex==1).plugins.mrbeam.analyticsEnabled}}}' $applyfile -
+  fi
 
   #plugins.mrbeam.review
   echo "$(timestamp) $0: Restoring plugins.mrbeam.review for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
+  review=$(sudo yq eval '.plugins.mrbeam.review' $backupfile)
+  # Check if the review field is empty or null
+  if [ -z "$review" ] || [ "$review" == "null" ]; then
+    echo "$(timestamp) $0: Warning - review field is empty in $backupfile. Skipping."
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
+  fi
 
   #plugins.swupdater.attributes.migration_operator
   echo "$(timestamp) $0: Set plugins.swupdater.attributes.migration_operator as $migrationoperator for $configfile"
@@ -437,6 +464,21 @@ do_restore_data () {
     fi
     # Extract email addresses with a trailing colon
     email_list=$(grep -E -o '\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b:' "$usersyamlfile" | sed 's/:$//')
+
+    # Check if the email_list is empty
+    if [ -z "$email_list" ]; then
+      echo "$(timestamp) $0: Restore data: Warning - No email addresses found in '${usersyamlfile}'. Removing it."
+      sudo rm -f "$usersyamlfile"
+      continue
+    fi
+
+    # Check if there are any active users
+    active_user=$(sudo yq eval '.. | select(has("active")) | .active' "$usersyamlfile" | grep true)
+    if [ -z "$active_user" ]; then
+      echo "$(timestamp) $0: Restore data: Warning - No active user found in '${usersyamlfile}'. Removing it."
+      sudo rm -f "$usersyamlfile"
+      continue
+    fi
 
     for email in $email_list; do
         # Check if 'admin' role already exists for the email
@@ -514,9 +556,9 @@ do_config_boot_usb () {
   exit 0
 }
 
-do_shutdown () {
-  echo "$(timestamp) $0: shutdown"
-  sudo shutdown now
+do_reboot () {
+  echo "$(timestamp) $0: reboot"
+  sudo reboot now
   exit 0
 }
 
@@ -668,8 +710,8 @@ while true ; do
             shift
             break
             ;;
-        shutdown)
-            do_shutdown
+        reboot)
+            do_reboot
             shift
             break
             ;;

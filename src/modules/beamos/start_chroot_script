@@ -551,3 +551,8 @@ update-rc.d beamos_first_boot defaults
   # let's remove the configs for system services we don't need
   # rm /etc/systemd/system/netconnectd.service
 # fi
+
+# Dirty fix for reboot issue
+line_to_append="gpio=14=ip,pu"
+file_path="/boot/config.txt"
+sed -i "1i$line_to_append" "$file_path"
