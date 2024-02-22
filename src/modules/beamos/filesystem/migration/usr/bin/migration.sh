@@ -378,19 +378,46 @@ do_restore_data () {
   migrationoperator="workshop"
   #accessControl needed for users.yaml
   echo "$(timestamp) $0: Restoring accessControl for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"accessControl":select(fileIndex==1).accessControl}' $applyfile -
+  accessControl=$(sudo yq eval '.accessControl' $backupfile)
+  salt=$(sudo yq eval '.accessControl.salt' $backupfile)
+  # Check if the accessControl field is empty or salt is null
+  if [ -z "$accessControl" ] || [ "$salt" == "null" ]; then
+    echo "$(timestamp) $0: Warning - accessControl field is empty in $backupfile. Remove users.yaml files from to be restored file list."
+    DATA_TO_RESTORE=("${DATA_TO_RESTORE[@]/".octoprint/users.yaml"}")
+    DATA_TO_RESTORE=("${DATA_TO_RESTORE[@]/".octoprint/users-dev.yaml"}")
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"accessControl":select(fileIndex==1).accessControl}' $applyfile -
+  fi
 
   #plugins.findmymrbeam
   echo "$(timestamp) $0: Restoring plugins.findmymrbeam for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"findmymrbeam":select(fileIndex==1).plugins.findmymrbeam}}' $applyfile -
+  findmymrbeam=$(sudo yq eval '.plugins.findmymrbeam' $backupfile)
+  # Check if the findmymrbeam field is empty or null
+  if [ -z "$findmymrbeam" ] || [ "$findmymrbeam" == "null" ]; then
+    echo "$(timestamp) $0: Warning - findmymrbeam field is empty in $backupfile. Skipping."
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"findmymrbeam":select(fileIndex==1).plugins.findmymrbeam}}' $applyfile -
+  fi
 
   #plugins.mrbeam.analyticsEnabled
   echo "$(timestamp) $0: Restoring plugins.mrbeam.analyticsEnabled for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"analyticsEnabled":select(fileIndex==1).plugins.mrbeam.analyticsEnabled}}}' $applyfile -
+  analyticsEnabled=$(sudo yq eval '.plugins.mrbeam.analyticsEnabled' $backupfile)
+  # Check if the analyticsEnabled field is empty or null
+  if [ -z "$analyticsEnabled" ] || [ "$analyticsEnabled" == "null" ]; then
+    echo "$(timestamp) $0: Warning - analyticsEnabled field is empty in $backupfile. Skipping."
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"analyticsEnabled":select(fileIndex==1).plugins.mrbeam.analyticsEnabled}}}' $applyfile -
+  fi
 
   #plugins.mrbeam.review
   echo "$(timestamp) $0: Restoring plugins.mrbeam.review for $configfile"
-  sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
+  review=$(sudo yq eval '.plugins.mrbeam.review' $backupfile)
+  # Check if the review field is empty or null
+  if [ -z "$review" ] || [ "$review" == "null" ]; then
+    echo "$(timestamp) $0: Warning - review field is empty in $backupfile. Skipping."
+  else
+    sudo cat $backupfile | sudo yq ea -i 'select(fileIndex==0) * {"plugins":{"mrbeam":{"review":select(fileIndex==1).plugins.mrbeam.review}}}' $applyfile -
+  fi
 
   #plugins.swupdater.attributes.migration_operator
   echo "$(timestamp) $0: Set plugins.swupdater.attributes.migration_operator as $migrationoperator for $configfile"
