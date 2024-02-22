@@ -199,9 +199,9 @@ do_flash () {
   # check status of flashing
   if [ $STATUS -ne 0 ]; then
     echo "$(timestamp) $0: Flashing Failed - $OS_TO_BE_FLASHED on $DEVICE_TO_BE_FLASHED from $CURRENT_OS_VERSION"
-    if [ $FLASH_COLOR_ON_FAIL_TO_FLASH="orange"]; then
+    if [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "orange" ]; then
       exit 103
-    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH="blue"]; then
+    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "blue" ]; then
       exit 104
     fi
   fi
@@ -233,15 +233,18 @@ do_mount () {
     FLASH_COLOR_ON_FAIL_TO_MOUNT="orange"
   elif [ "$DEVICE_TO_BE_MOUNTED" != "sd-card" ] && [ "$CURRENT_OS_VERSION" = "beamos1" ];then
     # Mounting the USB with migrationos
-    # There are 2 partitions on the USB. The first one is the boot partition and the second one is the rootfs.
-    DEVICE_PARTITION=${DEVICE_TO_BE_MOUNTED}2
+    # There are 3 partitions on the USB. The first one is the boot partition, the second one is the rootfs, third is log partition
+    DEVICE_ROOTFS_PARTITION=${DEVICE_TO_BE_MOUNTED}2
+    DEVICE_LOG_PARTITION=${DEVICE_TO_BE_MOUNTED}3
 
     DEVICE_PARTITIONS=(
-      ${DEVICE_PARTITION}
+      ${DEVICE_ROOTFS_PARTITION}
+      ${DEVICE_LOG_PARTITION}
     )
 
     MOUNT_DIRS=(
       ${USB_MOUNT_PATH}
+      ${USB_MOUNT_PATH}1
     )
     FLASH_COLOR_ON_FAIL_TO_MOUNT="blue"
   else
@@ -256,9 +259,9 @@ do_mount () {
     # Check if the mount is successful
     if [ $? -ne 0 ]; then
       echo "$(timestamp) $0: Can't mount ${DEVICE_PARTITIONS[$i]}"
-      if [ $FLASH_COLOR_ON_FAIL_TO_MOUNT="orange"]; then
+      if [ $FLASH_COLOR_ON_FAIL_TO_MOUNT = "orange" ]; then
         exit 103
-      elif [ $FLASH_COLOR_ON_FAIL_TO_MOUNT="blue"]; then
+      elif [ $FLASH_COLOR_ON_FAIL_TO_MOUNT = "blue" ]; then
         exit 104
       fi
     fi
