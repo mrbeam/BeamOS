@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.4.0                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.0                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -17,8 +17,10 @@ usage () {
     echo "  flash <os> <device>                Flashes the <device> with using <os>.                                   "
     echo "                                       - <os> can be \"beamos2\" or \"migrationos\".                         "
     echo "                                       - <device> can be \"sd-card\" or device path like \"/dev/sda\".       "
-    echo "  mount <device>                     Mounts the partitions of <device>.                                      "
+    echo "  mount <device> <num_part>          Mounts the partitions of <device>.                                      "
     echo "                                       - <device> can be \"sd-card\" or device path like \"/dev/sda\".       "
+    echo "                                       - <num_part> is the number of partitions to be mounted.               "
+    echo "                                          will be used in Phase 1 only.                                      "
     echo "  preserve-data                      Preserves sensitive data into USB at path \"/mnt/usb\".                 "
     echo "  restore-data                       Restores sensitive data into SD-Card.                                   "
     echo "  set-status <status> <color>        Sets the <status> of LED in a <color>                                   "
@@ -29,7 +31,7 @@ usage () {
     echo "                                        <color> can be one of the following:                                 "
     echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
-    echo "  reboot                             Reboot Mr Beam.                                                       "
+    echo "  reboot                             Reboot Mr Beam.                                                         "
 
 }
 
@@ -53,6 +55,7 @@ do_precondition_checks () {
     echo "$(timestamp) $0: SD-Card size is greater than ${MIN_SD_SIZE_IN_GB}GB. Migration can be done."
   else
     echo "$(timestamp) $0: SD-Card size must be greater than ${MIN_SD_SIZE_IN_GB}GB for Migration."
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 100
   fi
 
@@ -62,6 +65,7 @@ do_precondition_checks () {
 
   if $(dpkg --compare-versions "$mrbeam_plugin_version" "lt" $MIN_REQ_MRBEAM_PLUGIN_VERSION); then
     echo "$(timestamp) $0: MrBeamPlugin version - $mrbeam_plugin_version must be greater than $MIN_REQ_MRBEAM_PLUGIN_VERSION for Migration."
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 101
   fi
   echo "$(timestamp) $0: MrBeamPlugin version is $mrbeam_plugin_version. Migration can be done."
@@ -80,6 +84,7 @@ do_precondition_checks () {
   # Check if the file exists
   if [ ! -f "/etc/mrbeam" ]; then
     echo "$(timestamp) $0: /etc/mrbeam file not found."
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 101
   fi
    # Read each line from the file
@@ -93,6 +98,7 @@ do_precondition_checks () {
           # Check if the value is empty
           if [ -z "$value" ]; then
               echo "$(timestamp) $0: File /etc/mrbeam is corrupt. Empty value for key: $key"
+              sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
               exit 101
           fi
       fi
@@ -105,6 +111,7 @@ do_precondition_checks () {
   # Check if there are any USB drives
   if [ -z "$USB_DRIVES" ]; then
     echo "$(timestamp) $0: No USB drives found."
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 101
   fi
 
@@ -117,6 +124,7 @@ do_precondition_checks () {
       echo "$(timestamp) $0: USB drive of $DEVICE_SIZE_GIGABYTES GB present."
     else
       echo "$(timestamp) $0: No USB drive of size greater than ${MIN_USB_SIZE_IN_GB}GB found."
+      sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
       exit 101
     fi
 
@@ -131,10 +139,12 @@ do_precondition_checks () {
       echo "$(timestamp) $0: GPG signature verified for ${MIGRATIONOS_ENC_PATH}"
     else
       echo "$(timestamp) $0: GPG signature verification failed for ${MIGRATIONOS_ENC_PATH}"
+      sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
       exit 101
     fi
   else
     echo "$(timestamp) $0: MigrationOS encrypted file ${MIGRATIONOS_ENC_PATH} not found"
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 101
   fi
 
@@ -143,6 +153,7 @@ do_precondition_checks () {
   gpg --output ${MIGRATION_IMAGE_BASEDIR} --decrypt ${MIGRATIONOS_ENC_PATH}
   if [ $? -ne 0 ]; then
     echo "$(timestamp) $0: Decryption failed for ${MIGRATIONOS_ENC_PATH}"
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 102
   fi
   echo "$(timestamp) $0: Decryption successful for ${MIGRATIONOS_ENC_PATH} to ${MIGRATION_IMAGE_BASEDIR}"
@@ -199,9 +210,9 @@ do_flash () {
   # check status of flashing
   if [ $STATUS -ne 0 ]; then
     echo "$(timestamp) $0: Flashing Failed - $OS_TO_BE_FLASHED on $DEVICE_TO_BE_FLASHED from $CURRENT_OS_VERSION"
-    if [ $FLASH_COLOR_ON_FAIL_TO_FLASH="orange"]; then
+    if [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "orange" ]; then
       exit 103
-    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH="blue"]; then
+    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "blue" ]; then
       exit 104
     fi
   fi
@@ -214,6 +225,7 @@ do_flash () {
 
 do_mount () {
   DEVICE_TO_BE_MOUNTED="$1"
+  NUMPART="$2"
   echo "$(timestamp) $0: mount $DEVICE_TO_BE_MOUNTED" # "sd-card" or usb path like "/dev/sda"
   CURRENT_OS_VERSION=$(find_current_booted_os_version)
 
@@ -233,16 +245,29 @@ do_mount () {
     FLASH_COLOR_ON_FAIL_TO_MOUNT="orange"
   elif [ "$DEVICE_TO_BE_MOUNTED" != "sd-card" ] && [ "$CURRENT_OS_VERSION" = "beamos1" ];then
     # Mounting the USB with migrationos
-    # There are 2 partitions on the USB. The first one is the boot partition and the second one is the rootfs.
-    DEVICE_PARTITION=${DEVICE_TO_BE_MOUNTED}2
+    # There are 3 partitions on the USB. The first one is the boot partition, the second one is the rootfs, third is log partition
+    DEVICE_ROOTFS_PARTITION=${DEVICE_TO_BE_MOUNTED}2
+    DEVICE_LOG_PARTITION=${DEVICE_TO_BE_MOUNTED}3
 
     DEVICE_PARTITIONS=(
-      ${DEVICE_PARTITION}
+      ${DEVICE_ROOTFS_PARTITION}
+      ${DEVICE_LOG_PARTITION}
     )
 
     MOUNT_DIRS=(
       ${USB_MOUNT_PATH}
+      ${USB_MOUNT_PATH}1
     )
+
+    if [ ${NUMPART} -eq 1 ]; then
+      echo "$(timestamp) $0: Unsetting the extra partitions so that there is no severe errors."
+      unset DEVICE_PARTITIONS[1]
+      unset MOUNT_DIRS[1]
+    fi
+    # Re-index the arrays
+    DEVICE_PARTITIONS=("${DEVICE_PARTITIONS[@]}")
+    MOUNT_DIRS=("${MOUNT_DIRS[@]}")
+
     FLASH_COLOR_ON_FAIL_TO_MOUNT="blue"
   else
     echo "$(timestamp) $0: Check inputs to the function mount"
@@ -256,9 +281,9 @@ do_mount () {
     # Check if the mount is successful
     if [ $? -ne 0 ]; then
       echo "$(timestamp) $0: Can't mount ${DEVICE_PARTITIONS[$i]}"
-      if [ $FLASH_COLOR_ON_FAIL_TO_MOUNT="orange"]; then
+      if [ $FLASH_COLOR_ON_FAIL_TO_MOUNT = "orange" ]; then
         exit 103
-      elif [ $FLASH_COLOR_ON_FAIL_TO_MOUNT="blue"]; then
+      elif [ $FLASH_COLOR_ON_FAIL_TO_MOUNT = "blue" ]; then
         exit 104
       fi
     fi
@@ -271,11 +296,11 @@ do_mount () {
 
 do_preserve_data () {
   echo "$(timestamp) $0: preserve-data $USB_MOUNT_PATH" # path like "/mnt/usb"
-  if [ -z "${USB_MOUNT_PATH}" ]; then
+  if ! grep -qs "${USB_MOUNT_PATH}" /proc/mounts; then
       echo "$(timestamp) $0: No suitable backup partition found. Exiting..."
       exit 104
   fi
-
+  echo "$(timestamp) $0: Backing up data to ${USB_MOUNT_PATH}"
   # Create a backup directory (if it doesn't exist)
   BACKUP_BASE="${USB_MOUNT_PATH}${BACKUP_PATH}"
 
@@ -597,6 +622,7 @@ MIN_USB_SIZE_IN_GB=4
 MIN_SD_SIZE_IN_GB=12
 BACKUP_PATH="/mrbeam/preserve-data"
 SKIP_FILE_NAME="./files_to_skip_preserve_data"
+LOG_FILE="/var/log/mount_manager.log"
 
 # There are 8 partitions on the SD-Card.
 # Root filesystems are on partition 2 and 3.
@@ -680,7 +706,8 @@ while true ; do
             break
             ;;
         mount)
-            do_mount "$2"
+            do_mount "$2" "$3"
+            shift
             shift
             shift
             break
