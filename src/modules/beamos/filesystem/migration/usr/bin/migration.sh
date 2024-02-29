@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.0                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.1                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -27,9 +27,8 @@ usage () {
     echo "                                         <status> can be one of the following:                               "
     echo "                                          - success                                                          "
     echo "                                          - fail                                                             "
-    echo "                                          - warn                                                             "
     echo "                                        <color> can be one of the following:                                 "
-    echo "                                          - red,blue,green,orange,(purple,teal-only in specific error cases) "
+    echo "                                          - red,blue,green,orange,yellow,purple,teal(in specific error case) "
     echo "  config-boot-usb                    Configures Mr Beam to be able to boot from USB.                         "
     echo "  reboot                             Reboot Mr Beam.                                                         "
 
@@ -56,7 +55,7 @@ do_precondition_checks () {
   else
     echo "$(timestamp) $0: SD-Card size must be greater than ${MIN_SD_SIZE_IN_GB}GB for Migration."
     sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
-    exit 100
+    exit 101
   fi
 
   local MIN_REQ_MRBEAM_PLUGIN_VERSION="0.15.1"
@@ -201,7 +200,7 @@ do_flash () {
     sudo umount ${DEVICE_TO_BE_FLASHED}* || true
     sudo dd if=${IMAGE_FILE} of=${DEVICE_TO_BE_FLASHED} bs=4M conv=fsync
     STATUS=$?
-    FLASH_COLOR_ON_FAIL_TO_FLASH="blue"
+    FLASH_COLOR_ON_FAIL_TO_FLASH="yellow"
   else
     echo "$(timestamp) $0: Check inputs to the function flash"
     exit 105
@@ -212,8 +211,8 @@ do_flash () {
     echo "$(timestamp) $0: Flashing Failed - $OS_TO_BE_FLASHED on $DEVICE_TO_BE_FLASHED from $CURRENT_OS_VERSION"
     if [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "orange" ]; then
       exit 103
-    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "blue" ]; then
-      exit 104
+    elif [ $FLASH_COLOR_ON_FAIL_TO_FLASH = "yellow" ]; then
+      exit 106
     fi
   fi
 
@@ -561,9 +560,6 @@ do_set_status () {
   elif [ "${STATUS}" = "fail" ]; then
     echo "${STATUS}"
     set_status_fail "$COLOR" &
-  elif [ "${STATUS}" = "warn" ]; then
-    echo "${STATUS}"
-    set_status_warn "$COLOR"
   else
     echo "$(timestamp) $0: Unknown status [${STATUS}]"
     set_status_fail red &
@@ -592,9 +588,7 @@ do_exit () {
         echo "$0: Normal exiting."
     else
         echo "$0: Exiting with error code [${RET_CODE}]"
-        if [ "${RET_CODE}" -eq 100 ]; then
-            do_set_status warn ${FLASH_PURPLE}
-        elif [ "${RET_CODE}" -eq 101 ]; then
+        if [ "${RET_CODE}" -eq 101 ]; then
             do_set_status fail ${FLASH_PURPLE}
         elif [ "${RET_CODE}" -eq 102 ]; then
             do_set_status fail ${FLASH_TEAL}
@@ -604,6 +598,8 @@ do_exit () {
             do_set_status fail blue
         elif [ "${RET_CODE}" -eq 105 ]; then
             do_set_status fail red
+        elif [ "${RET_CODE}" -eq 106 ]; then
+            do_set_status fail yellow
         fi
     fi
 }
