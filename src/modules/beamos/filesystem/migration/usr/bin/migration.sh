@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.1                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.2                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -54,6 +54,19 @@ do_precondition_checks () {
     echo "$(timestamp) $0: SD-Card size is greater than ${MIN_SD_SIZE_IN_GB}GB. Migration can be done."
   else
     echo "$(timestamp) $0: SD-Card size must be greater than ${MIN_SD_SIZE_IN_GB}GB for Migration."
+    sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
+    exit 101
+  fi
+
+  # Check for free available space on SD-Card 4GB
+  echo "$(timestamp) $0: Checking the free available space on SD-Card."
+  local FREE_SD_CARD_SPACE=$(df -B 1k / | awk 'NR==2 {print $4}')
+  SD_CARD_FREE_SPACE_GIGABYTES=$((FREE_SD_CARD_SPACE / 1024 / 1024))
+  echo "$(timestamp) $0: Free space on SD-Card - ${SD_CARD_FREE_SPACE_GIGABYTES}GB found"
+  if [ "$FREE_SD_CARD_SPACE" -gt $((MIN_SD_FREE_SPACE_IN_GB * 1024 * 1024)) ]; then
+    echo "$(timestamp) $0: Free space on SD-Card is greater than ${MIN_SD_FREE_SPACE_IN_GB}GB. Migration can be done."
+  else
+    echo "$(timestamp) $0: Free space on SD-Card must be greater than ${MIN_SD_FREE_SPACE_IN_GB}GB for Migration."
     sudo cp ${LOG_FILE} ${MNT_PATH}/beamos1_to_migrationos.log
     exit 101
   fi
@@ -616,6 +629,7 @@ MIGRATION_IMAGE="${IMAGE_DIR}/migrationos.img"
 BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
 MIN_USB_SIZE_IN_GB=4
 MIN_SD_SIZE_IN_GB=12
+MIN_SD_FREE_SPACE_IN_GB=4
 BACKUP_PATH="/mrbeam/preserve-data"
 SKIP_FILE_NAME="./files_to_skip_preserve_data"
 LOG_FILE="/var/log/mount_manager.log"
