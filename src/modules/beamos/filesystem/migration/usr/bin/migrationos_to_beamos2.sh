@@ -35,7 +35,7 @@ do_exit()
   log "$(timestamp) $0: Exitting. ${RET_CODE}"
   if [ "$RET_CODE" -eq 0 ]; then
     log "$0: Normal exiting."
-    sudo bash ${BASEDIR}/migration.sh set-status success
+    sudo bash ${BASEDIR}/migration.sh set-status success orange
   else
     log "$0: Exiting with error code [${RET_CODE}]"
     sudo bash ${BASEDIR}/migration.sh set-status fail orange
@@ -140,7 +140,7 @@ fi
 
 # Reboot the device
 echo "$(timestamp) $0: Reboot the device"
-sudo bash ${BASEDIR}/migration.sh set-status success
+sudo bash ${BASEDIR}/migration.sh set-status success orange
 sudo bash ${BASEDIR}/migration.sh reboot
 exit_code=$?
 if [ "$exit_code" -ne 0 ]; then
