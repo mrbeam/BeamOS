@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.2                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.3                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -541,10 +541,14 @@ FLASH_PURPLE="color:128:0:128"
 FLASH_TEAL="color:10:100:100"
 
 set_status_success() {
-  echo "$(timestamp) $0: status_success"
-  mrbeam_ledstrips_cli flash_green
-  sleep 1
-  mrbeam_ledstrips_cli green
+  echo "$(timestamp) $0: status_success $1"
+  STAGE_COLOR="$1"
+  for ((i=0; i<3; i++)); do
+    mrbeam_ledstrips_cli flash_$STAGE_COLOR
+    sleep 0.5
+    mrbeam_ledstrips_cli flash_green
+    sleep 0.5
+  done
 }
 
 set_status_fail () {
@@ -569,7 +573,7 @@ do_set_status () {
   echo "$(timestamp) $0: set-status ${STATUS}"
   if [ "${STATUS}" = "success" ]; then
     echo "${STATUS}"
-    set_status_success
+    set_status_success "$COLOR"
   elif [ "${STATUS}" = "fail" ]; then
     echo "${STATUS}"
     set_status_fail "$COLOR" &
