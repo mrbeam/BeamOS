@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.3                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.4                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -412,7 +412,7 @@ do_restore_data () {
   configfile="/home/pi/.octoprint/config.yaml"
   backupfile="${backupfolder}${configfile}"
   applyfile="${applyfolder}${configfile}"
-  migrationoperator="workshop"
+  migrationoperator=$(sudo cat ${MIGRATION_OPERATOR_FILE})
   #accessControl needed for users.yaml
   echo "$(timestamp) $0: Restoring accessControl for $configfile"
   accessControl=$(sudo yq eval '.accessControl' $backupfile)
@@ -631,6 +631,7 @@ MIGRATION_IMAGE_BASEDIR=${BASEDIR}/migrationos.img
 IMAGE_DIR="/home/pi/image"
 MIGRATION_IMAGE="${IMAGE_DIR}/migrationos.img"
 BEAMOS2_IMAGE="${IMAGE_DIR}/beamos2.wic.bz2"
+MIGRATION_OPERATOR_FILE="${IMAGE_DIR}/migrationoperator"
 MIN_USB_SIZE_IN_GB=4
 MIN_SD_SIZE_IN_GB=12
 MIN_SD_FREE_SPACE_IN_GB=4
