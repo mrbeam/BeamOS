@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.4                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.5                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -355,6 +355,9 @@ do_preserve_data () {
       ((SKIPPED++))
     fi
   done
+
+  echo "$(timestamp) $0:Copying ${MIGRATION_OPERATOR_FILE} to ${USB_MOUNT_PATH}/${MIGRATION_OPERATOR_FILE}"
+  sudo cp ${MIGRATION_OPERATOR_FILE} ${USB_MOUNT_PATH}/${MIGRATION_OPERATOR_FILE}
 
   echo "$(timestamp) $0: Backup process completed. Backup copies are stored in '$BACKUP_BASE'."
   if [ "${SKIPPED}" -gt 0 ]; then
