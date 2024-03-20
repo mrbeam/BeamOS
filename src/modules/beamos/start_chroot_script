@@ -61,7 +61,7 @@ add_mrb3() {
   apt-get -y install python3 python3-venv python3-dev
   # create mrb virtual environments
   # TODO create mrb2 and mrb3 (python 2 and 3 versions)
-  sudo -u pi python3.7 -m venv /home/pi/mrb3
+  sudo -u pi python3.10 -m venv /home/pi/mrb3
 }
 
 OPRINT=/home/pi/oprint/bin
@@ -196,7 +196,6 @@ set_plugin_update_conf_remote() {
 }
 
 # Unpack the regular files
-unpack /filesystem/home /home/ pi
 unpack /filesystem/root / root
 
 # Install a more feature-fool alternative to nano : micro
@@ -461,7 +460,7 @@ pushd /home/pi
     # apt-install python3-pip
     # Install in a separate venv
     LED_VENV=/usr/local/mrbeam_ledstrips/venv
-    python3 -m virtualenv -p python3 $LED_VENV
+    python3.10 -m venv $LED_VENV
     $LED_VENV/bin/pip install $BEAMOS_RPI_WS281X_ARCHIVE $BEAMOS_MRBEAMLED_ARCHIVE
     # Link the executables to have mrbeam_ledstrips(_cli) in the $PATH
     ln -s $LED_VENV/bin/mrbeam_ledstrips /usr/bin/
@@ -527,6 +526,15 @@ if [ -n "$BEAMOS_DEVICE_MODEL" ]; then
   set_field device_type "MrBeam$BEAMOS_DEVICE_MODEL" /etc/mrbeam
 fi
 
+######Migration OS stuff#####
+# Install bmap-tools for flashing the beamos2 image
+sudo apt-get install -y bmap-tools
+
+pip3 install numpy
+
+# Copy migrationos.sh and migrationos_to_beamos2.sh to /usr/bin
+unpack /filesystem/migration / root
+systemctl_if_exists enable migrationos_to_beamos2.service
 
 #####################################################################
 ### setup systemd units/services
@@ -543,3 +551,8 @@ update-rc.d beamos_first_boot defaults
   # let's remove the configs for system services we don't need
   # rm /etc/systemd/system/netconnectd.service
 # fi
+
+# Dirty fix for reboot issue
+line_to_append="gpio=14=ip,pu"
+file_path="/boot/config.txt"
+sed -i "1i$line_to_append" "$file_path"
