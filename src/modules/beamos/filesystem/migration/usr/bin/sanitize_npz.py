@@ -3,13 +3,20 @@
 import os
 import shutil
 import numpy as np
+# import sys
 
+# DIR = sys.argv[1]
+DIR = "/mrbeam/preserve-data/home"
 
-PRESERVE_DATA_CAM_DIRECTORY = "/mrbeam/preserve-data/home/pi/.octoprint/cam/"
+PRESERVE_DATA_CAM_DIRECTORY = DIR + "/pi/.octoprint/cam/"
 
-BUSTER_FACTORY_LENS_CALIBRATION = "factory_lens_correction.npz"
-LEGACY_FACTORY_LENS_CALIBRATION = "lens_correction_2048x1536.npz"
-USER_LENS_CALIBRATION = "lens_correction.npz"
+BUSTER_FACTORY_LENS_CALIBRATION = (
+    PRESERVE_DATA_CAM_DIRECTORY + "factory_lens_correction.npz"
+)
+LEGACY_FACTORY_LENS_CALIBRATION = (
+    PRESERVE_DATA_CAM_DIRECTORY + "lens_correction_2048x1536.npz"
+)
+USER_LENS_CALIBRATION = PRESERVE_DATA_CAM_DIRECTORY + "lens_correction.npz"
 
 LENS_CALIBRATTION_FILES = [
     BUSTER_FACTORY_LENS_CALIBRATION,
@@ -41,13 +48,20 @@ def sanitize_npz(npz_file: str) -> None:
 def sanitize_npz_files() -> None:
     """Sanitize all npz files in the cam directory"""
     for _f in LENS_CALIBRATTION_FILES:
-        npz_file = os.path.join(PRESERVE_DATA_CAM_DIRECTORY, _f)
+        npz_file = _f
         if os.path.isfile(npz_file):
             # create backup retain the original file
             shutil.copy2(npz_file, npz_file + ".original")
             sanitize_npz(npz_file)
         else:
             print("File not found: " + npz_file)
+            if npz_file == USER_LENS_CALIBRATION:
+                if os.path.isfile(BUSTER_FACTORY_LENS_CALIBRATION):
+                    shutil.copy2(BUSTER_FACTORY_LENS_CALIBRATION, npz_file)
+                    print("Copying factory lens calibration as user lens calibration")
+                elif os.path.isfile(LEGACY_FACTORY_LENS_CALIBRATION):
+                    shutil.copy2(LEGACY_FACTORY_LENS_CALIBRATION, npz_file)
+                    print("Copying legacy lens calibration as user lens calibration")
 
 
 if __name__ == "__main__":
