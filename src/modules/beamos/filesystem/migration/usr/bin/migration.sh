@@ -5,7 +5,7 @@
 echo "Beam OS1 to Beam OS2 Migration Script"
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.5                                                  "
+    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.6                                                  "
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
@@ -471,6 +471,10 @@ do_restore_data () {
   # Run python script to sanitize lens calibration files
   echo "$(timestamp) $0: Sanitizing lens calibration files"
   sanitize_npz.py
+
+  # Run python script to migrate pink circle corner calibration file
+  echo "$(timestamp) $0: Migrating pink circle corner calibration file"
+  corner_calibration_model.py ${SDCARD_ROOTFS_A_PATH}
 
   # Loop through the rest of the files and folders in the array and copy backed up files
   echo "$(timestamp) $0: Restoring the rest of the files to Home"

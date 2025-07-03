@@ -530,7 +530,8 @@ fi
 # Install bmap-tools for flashing the beamos2 image
 sudo apt-get install -y bmap-tools
 
-pip3 install numpy
+# Install python packages that are needed for the migration script and its depedancies
+pip3 install numpy packaging==25.0 PyYaml==6.0.2
 
 # Copy migrationos.sh and migrationos_to_beamos2.sh to /usr/bin
 unpack /filesystem/migration / root
