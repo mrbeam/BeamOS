@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3.10
 """Data model for the corner calibration."""
 from dataclasses import dataclass
 from enum import Enum
