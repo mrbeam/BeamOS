@@ -2,14 +2,24 @@
 # bash required for array syntax support.
 # This is a copy of the migration.sh script from the mrb3-usb-stick-builder repo.
 
-echo "Beam OS1 to Beam OS2 Migration Script"
+VERSION="v1.6.0"
+
+timestamp()
+{
+ date +"%Y-%m-%d %T"
+}
+
+print_version () {
+  echo "Beam OS1 to Beam OS2 Migration Script     ${VERSION}"
+}
 
 usage () {
-    echo "Beam OS1 to Beam OS2 Migration Script     v1.5.6                                                  "
+    print_version
     echo "                                                                                                  "
     echo "OPTIONS:                                                                                          "
     echo "                                                                                                  "
-    echo "  --help                  Print this help message and exit.                                       "
+    echo "  -h                      Print this help message and exit.                                       "
+    echo "  -v                      Print the version of this script and exit.                              "
     echo "                                                                                                  "
     echo "COMMANDS:                                                                                         "
     echo "  precondition-checks <mnt_path>     Checks the sw and hw components so that Mr Beam can be upgrade or not.  "
@@ -34,12 +44,9 @@ usage () {
 
 }
 
-timestamp()
-{
- date +"%Y-%m-%d %T"
-}
 
 do_precondition_checks () {
+  print_version
   MNT_PATH="$1"
   echo "$(timestamp) $0: precondition-checks $MNT_PATH."
 
@@ -699,10 +706,14 @@ if [ $# -eq 0 ]; then
     exit 0
 fi
 
-while getopts ":h?:" opt; do
+while getopts ":h?:v?" opt; do
     case "$opt" in
     h|\?)
         usage
+        exit 0
+        ;;
+    v|\?)
+        print_version
         exit 0
         ;;
     esac
