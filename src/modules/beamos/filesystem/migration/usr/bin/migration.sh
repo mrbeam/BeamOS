@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # bash required for array syntax support.
 # This is a copy of the migration.sh script from the mrb3-usb-stick-builder repo.
 
-VERSION="v1.6.0"
+VERSION="v1.6.1"
 
 timestamp()
 {
@@ -487,11 +487,14 @@ do_restore_data () {
   echo "$(timestamp) $0: Restoring the rest of the files to Home"
   for FILE in "${DATA_TO_RESTORE[@]}"; do
     BACKUP_FILE="${BACKUP_PATH}/home/pi/${FILE}"
-    if [ -f "${BACKUP_FILE}" ] || [ -d "${BACKUP_FILE}" ]; then
-      TARGET_DIR="${SDCARD_HOME_PATH}/pi/$(dirname "${FILE}")"
-      sudo mkdir -p ${TARGET_DIR}
-      TARGET="${TARGET_DIR}/$(basename "${FILE}")"
-      echo "$(timestamp) $0: Restoring ${BACKUP_FILE} to ${TARGET}"
+    TARGET_DIR="${SDCARD_HOME_PATH}/pi/$(dirname "${FILE}")"
+    sudo mkdir -p ${TARGET_DIR}
+    TARGET="${TARGET_DIR}/$(basename "${FILE}")"
+    if [ -d "${BACKUP_FILE}" ]; then
+      echo "$(timestamp) $0: Restoring directory ${BACKUP_FILE} to ${TARGET}"
+      sudo cp -r "${BACKUP_FILE}/." "${TARGET}/"
+    elif [ -f "${BACKUP_FILE}" ]; then
+      echo "$(timestamp) $0: Restoring file ${BACKUP_FILE} to ${TARGET}"
       sudo cp -r "${BACKUP_FILE}" "${TARGET}"
     else
       echo "$(timestamp) $0: Restore data: Warning - File '${FILE}' not found. Skipping."
@@ -546,6 +549,9 @@ do_restore_data () {
         fi
     done
   done
+
+  echo "$(timestamp) $0: Giving pi user permission at the end for .octoprint directory."
+  sudo chown -R pi:pi /home/pi/.octoprint/
 
   echo "$(timestamp) $0: Restore data: Restore process completed."
   exit 0
