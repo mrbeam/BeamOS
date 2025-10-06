@@ -19,34 +19,6 @@ do_start () {
     REBOOT=false
     logfile=/var/log/beamos_first_boot.log
 
-    BEAMOS_HOSTNAME_BIN=/usr/bin/beamos_hostname
-    #load current saved vars
-    SERIAL=$(crudini --get /etc/mrbeam 'Mr Beam' serial 2>/dev/null )
-    HOSTNAME=$(crudini --get /etc/mrbeam 'Mr Beam' hostname 2>/dev/null )
-    if [ -x $BEAMOS_HOSTNAME_BIN ] && [ -z "$HOSTNAME" ]; then
-        echo "$(timestamp) Setting the device hostname..." >> $logfile
-        $BEAMOS_HOSTNAME_BIN >> $logfile
-        REBOOT=true
-    fi
-    BEAMOS_SERIAL_BIN=/usr/bin/beamos_serial
-    if [ -x $BEAMOS_SERIAL_BIN ] && [ -z "$SERIAL" ]; then
-        echo "$(timestamp) Setting the Device Serial name..." >> $logfile
-        $BEAMOS_SERIAL_BIN >> $logfile
-    fi
-
-    # enable the usb mount manager udev rules
-    # rm /etc/udev/rules.d/00-mount_manager.rules
-
-    # enable the i2c bus
-    # Disabled for now - activated during image creation
-    #sudo raspi-config nonint do_i2c 0
-    # enable the uart / hw serial port
-    # Disabled for now - activated during image creation
-    #sudo raspi-config nonint do_serial 2
-    if $REBOOT; then
-      echo "$(timestamp) Reboot device to apply changes" >> $logfile
-      /sbin/reboot
-    fi
 }
 
 case "$1" in

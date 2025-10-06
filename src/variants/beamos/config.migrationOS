@@ -1,0 +1,3 @@
+#!/bin/sh
+export BEAMOS_DEVICE_MODEL="NONE"
+export BEAMOS_MODEL="NONE"

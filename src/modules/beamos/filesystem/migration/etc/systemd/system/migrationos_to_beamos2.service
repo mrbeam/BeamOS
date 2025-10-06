@@ -1,0 +1,12 @@
+[Unit]
+Description=Migration Service
+After=mrbeam_ledstrips.service socket.service
+
+[Service]
+Type=simple
+# add a delay to make sure ledstrips are up and running
+ExecStartPre=/bin/sleep 10
+ExecStart=/usr/bin/migrationos_to_beamos2.sh
+
+[Install]
+WantedBy=multi-user.target
