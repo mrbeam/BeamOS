@@ -491,8 +491,8 @@ do_restore_data () {
     sudo mkdir -p ${TARGET_DIR}
     TARGET="${TARGET_DIR}/$(basename "${FILE}")"
     if [ -d "${BACKUP_FILE}" ]; then
-      echo "$(timestamp) $0: Restoring directory ${BACKUP_FILE} to ${TARGET_DIR}"
-      sudo cp -r "${BACKUP_FILE}/." "${TARGET_DIR}/"
+      echo "$(timestamp) $0: Restoring directory ${BACKUP_FILE} to ${TARGET}"
+      sudo cp -r "${BACKUP_FILE}/." "${TARGET}/"
     elif [ -f "${BACKUP_FILE}" ]; then
       echo "$(timestamp) $0: Restoring file ${BACKUP_FILE} to ${TARGET}"
       sudo cp -r "${BACKUP_FILE}" "${TARGET}"
